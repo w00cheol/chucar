@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "axios": "^0.25.0",
     "dotenv": "^15.0.0",
     "express": "^4.17.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.15"
   },
   "name": "vs",
   "version": "1.0.0",

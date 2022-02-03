@@ -27,7 +27,7 @@ exports.find = (req, res) =>{
         res.json(rows);
     })
 }
-exports.delete = (req, res) => { //검색함수
+exports.delete = (req, res) => { 
     const id = parseInt(req.params.id, 10);
     console.log('delete');
     if(!id){
@@ -58,7 +58,7 @@ exports.create = (req, res) => {
         if(!!rows[0]) return res.status(404).json({err: 'the id already exist'});
         else con.query('insert into users set ?', req.body, (error, rows, fields) => {
             if(error) return res.status(404).json({err: 'Undefined error!'});
-            res.status(201).end();
+            res.status(201).json(rows);
             //REST API 규약에 맞게 Created code 전송
         })
     })

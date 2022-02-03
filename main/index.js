@@ -1,7 +1,7 @@
 //express 모듈 불러오기
 const httpPort = 3000;
-const app = express();
 const express = require('express');
+const app = express();
 //const { resolve } = require('path/posix');
 //express 사용
 
@@ -14,16 +14,16 @@ mod.open(con);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
-app.get("/", crud.home);
+app.get("/", crud.home); // / : home 화면
 
-app.get("/users", crud.show);
+app.get("/users", crud.show); // /users : 전체 출력
 
-app.get("/users/:id", crud.find);
+app.get("/users/:id", crud.find); // /users/숫자 : id로 검색
 
-app.delete("/users/:id", crud.delete);
+app.delete("/users/:id", crud.delete); // /usrs/숫자 : id로 삭제
 
-app.post('/users', crud.create);
+app.post('/users', crud.create); // /users 로 전송하고 data로 id, name 값 전송해줘야함, 생성
 
-app.put('/users/:id', crud.update);
+app.put('/users/:id', crud.update); // /users/숫자 로 전송하고 data로 name 값 전송해줘야함 , 해당 id 의 name 변경
 
 app.listen(httpPort, () => console.log('server has been running...'));
