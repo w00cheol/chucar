@@ -14,6 +14,9 @@ mod.open(con);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+//jsonwebtoken 모듈
+//const jwt = require('jsonwebtoken');
+
 app.get("/", crud.home); // / : home 화면
 
 app.get("/users", crud.show); // /users : 전체 출력
@@ -25,5 +28,9 @@ app.delete("/users/:id", crud.delete); // /usrs/숫자 : id로 삭제
 app.post('/users', crud.create); // /users 로 전송하고 data로 id, name 값 전송해줘야함, 생성
 
 app.put('/users/:id', crud.update); // /users/숫자 로 전송하고 data로 name 값 전송해줘야함 , 해당 id 의 name 변경
+
+app.post('/login', crud.login); //data로 사용자가입력했던 id, pw 보내서 로그인되면 token값 발급 되는데 이거 저장해서 항상 들고다녀야함. (글올리기, 계정변경 등등)
+
+app.post('/signup', crud.signup);
 
 app.listen(httpPort, () => console.log('server has been running...'));
