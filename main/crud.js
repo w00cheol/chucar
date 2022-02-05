@@ -118,8 +118,12 @@ exports.signup = (req, res) => {
     }
     console.log("REST API Post Method - Member Login And JWT Sign");
     con.query(`CALL REG_USER('${member.id}','${member.password}','${member.nickname}','${member.email}','${member.phone}',${member.prv1},${member.prv2},${member.prv3},@err)`, (error, rows, fields) => {
+        console.log('1');
         if(error) res.status(404).json(error);
+        console.log('2');
         con.query('select @err as err' , (error, rows, fields) => {
+
+        console.log('3');
             if(error) res.status(404).json(error);
             if(rows[0].err){
                     const secret = process.env.jwtcode;

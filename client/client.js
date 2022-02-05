@@ -40,7 +40,7 @@ exports.find = (table, id) => {
     });
 }
 exports.signup = (id, password, nickname, email, phone, prv1, prv2, prv3) => {
-    axios.post(`http://localhost:3000/signup`, {
+    axios.post(`http://34.64.207.117:3000/signup`, {
         id:id,
         password:password,
         nickname:nickname,
