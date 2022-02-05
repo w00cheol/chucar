@@ -85,43 +85,66 @@ exports.update = (req, res) =>{
         })
     })
 }
-exports.login = (req, res) => {
+exports.signup = (req, res) => {
+    /*
 	const memberId = req.body.id || '';
 	const memberPassword = req.body.password || '';
-    if(!memberId){
+    const mamberNickname = req.body.nickname || '';
+    const memberEmail = req.body.email || '';
+    const memberPhone = req.body.phone || '';
+    const prv1 = parseInt(req.body.prv1);
+    const prv2 = parseInt(req.body.prv2);
+    const prv3 = parseInt(req.body.prv3);
+    */
+    const member = {
+        id: req.body.id,
+        password: req.body.password,
+        nickname: req.body.nickname,
+        email: req.body.email,
+        phone: req.body.phone,
+        prv1: parseInt(req.body.prv1),
+        prv2: parseInt(req.body.prv2),
+        prv3: parseInt(req.body.prv3),
+    }
+
+    if(!member.id){
         return res.status(401).json({err: 'id must be required'});
     }
-    else if(!memberPassword){
+    else if(!member.password){
         return res.status(401).json({err: 'password must be required'});
     }
+    else if(!member.nickname){
+        return res.status(401).json({err: 'nickname must be required'});
+    }
     console.log("REST API Post Method - Member Login And JWT Sign");
-    con.query('select name, password from users where id = ?', memberId, (error, rows, fields) => {
-        if(error) res.status(404).json({err: 'undefined error'});
-        if (!!rows[0]) {
-            if (rows[0].password == memberPassword) {
-                const secret = process.env.jwtcode;
-                jwt.sign({
-                    memberId : rows[0].name,
-                    memberName : rows[0].password
-                },
-                secret,
-                {
-                    expiresIn : '300'
-                },
-                (err, token) => {
-                    if (err) {
-                        res.status(401).json({err:'token sign fail'});
-                    }
-                    res.json({token:token});
-                });
-            } else {
-                res.status(401).json({success:false, errormessage:'wrong password'});
+    con.query(`CALL REG_USER('${member.id}','${member.password}','${member.nickname}','${member.email}','${member.phone}',${member.prv1},${member.prv2},${member.prv3},@err)`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        con.query('select @err as err' , (error, rows, fields) => {
+            if(error) res.status(404).json(error);
+            if(rows[0].err){
+                    const secret = process.env.jwtcode;
+                    jwt.sign({
+                            memberId : rows[0].name,
+                            memberName : rows[0].password
+                    },
+                    secret,
+                    {
+                        expiresIn : '300'
+                    },
+                    (err, token) => {
+                        if (err) {
+                            res.status(401).json({err:'token sign fail'});
+                        }
+                        res.json({token:token});
+                    });
+            }else {
+                res.status(401).json({success:false, errormessage:'wrong id or password'});
             }
-        } else {
-            res.status(401).json({success:false, errormessage:'wrong id'});
-        }
+        })
     })
 }
+
+/*
 exports.signup = (req, res) => {
     const signupId = req.body.id;
     const signupPassword = req.body.password;
@@ -151,4 +174,4 @@ exports.signup = (req, res) => {
                 })
         })
     })
-}
+}*/

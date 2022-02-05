@@ -39,10 +39,16 @@ exports.find = (table, id) => {
         console.log('영웅소프트 화이팅!');
     });
 }
-exports.login = (id, password) => {
-    axios.post(`http://localhost:3000/login`, {
+exports.signup = (id, password, nickname, email, phone, prv1, prv2, prv3) => {
+    axios.post(`http://localhost:3000/signup`, {
         id:id,
-        password:password
+        password:password,
+        nickname:nickname,
+        email:email,
+        phone:phone,
+        prv1:prv1,
+        prv2:prv2,
+        prv3:prv3
     })
     .then(function (res) {
         console.log(res.data);
@@ -54,6 +60,7 @@ exports.login = (id, password) => {
         console.log('영웅소프트 화이팅!');
     });
 }
+/*
 exports.signup = (id, password, name) => {
     axios.post(`http://localhost:3000/signup`, {
         id:id,
@@ -69,4 +76,4 @@ exports.signup = (id, password, name) => {
     .then(function () {
         console.log('영웅소프트 화이팅!');
     });
-}
+}*/

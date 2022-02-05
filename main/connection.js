@@ -3,11 +3,11 @@ require('dotenv').config({path : '../.env' });
 const connect = {
   init: function(){
     return mysql.createConnection({
-          host     : process.env.host, //아이피
-          user     : process.env.user, //계정이름
-          password : process.env.password, //비밀번호
-          port     : process.env.port, //포트
-          database : process.env.database //DB 이름
+          host     : 'dev.rgb.kr', //아이피
+          user     : 'root', //계정이름
+          password : '+jZ2g8UgjW2bCw@6', //비밀번호
+          port     : 3306, //포트
+          database : 'want_car' //DB 이름
     });
   },
 
