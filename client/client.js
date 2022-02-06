@@ -60,6 +60,7 @@ exports.signup = (id, password, nickname, email, phone, prv1, prv2, prv3) => {
         console.log('영웅소프트 화이팅!');
     });
 }
+
 /*
 exports.signup = (id, password, name) => {
     axios.post(`http://localhost:3000/signup`, {

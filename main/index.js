@@ -19,11 +19,6 @@ app.use(express.urlencoded({ extended: true}));
 //const jwt = require('jsonwebtoken');
 
 
-const kakao = { //나중에 import로 유출방지
-    clientID: '9e7627ff0adc857af4fd5e69de0222e6',
-    clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
-    redirectUri: 'http://34.64.207.117:3000/oauth'
-}
 
 app.get("/", crud.home); // / : home 화면
 
