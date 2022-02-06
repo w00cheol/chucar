@@ -215,7 +215,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
 
     try{
         console.log(token.data.access_token);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
-        user =  axios({
+        user =  await axios({
             method:'get',
             url:'https://kapi.kakao.com/v2/user/me',
             headers:{
