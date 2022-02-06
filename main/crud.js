@@ -148,6 +148,84 @@ exports.signup = (req, res) => {
     })
 }
 
+exports.loginPage = (req,res)=>{ //인가코드요청
+    const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
+    res.redirect(kakaoAuthURL);
+}
+
+//인가코드 이용해서 토큰 요청
+exports.reqToken = (req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
+    token = axios.post('https://kauth.kakao.com/oauth/token', {
+        grant_type: 'authorization_code',//특정 스트링
+        client_id:kakao.clientID,
+        client_secret:kakao.clientSecret,
+        redirectUri:kakao.redirectUri,
+        code:req.query.code
+    },{
+        headers:{
+            'content-type':'application/x-www-form-urlencoded' //utf-8 넣을건지 나중에
+        }
+    })
+    .then(function (res) {
+        console.log(res);
+    })
+    .catch(function (err) {
+        console.log(err);
+    })
+    .then(function () {
+        console.log('영웅소프트 화이팅!');
+    });
+    console.log(token);
+        /*
+    token = axios({
+        method: 'POST',
+        url: 'https://kauth.kakao.com/oauth/token',
+        headers:{
+            'content-type':'application/x-www-form-urlencoded'
+        },
+        data:qs.stringify({//객체를 string 으로 변환
+            grant_type: 'authorization_code',//특정 스트링
+            client_id:kakao.clientID,
+            client_secret:kakao.clientSecret,
+            redirectUri:kakao.redirectUri,
+            code:req.query.code,
+        })
+    })*/
+ 
+    let user;
+    console.log(user);
+    axios.get('https://kapi.kakao.com/v2/user/me', {}, {
+        headers:{
+            Authorization: `Bearer ${token.data.access_token}`,
+            'content-type':'application/x-www-form-urlencoded'
+        }
+    })
+    .then(function (res) {
+        console.log(res);
+    })
+    .catch(function (err) {
+        console.log(err);
+    })
+    .then(function () {
+        console.log('영웅소프트 화이팅!');
+    });
+    // try{
+    //     console.log(token);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
+    //     user =  axios({
+    //         method:'get',
+    //         url:'https://kapi.kakao.com/v2/user/me',
+    //         headers:{
+    //             Authorization: `Bearer ${token.data.access_token}`
+    //         }
+    //     })
+    // }catch(e){
+    //     res.json(e.data);
+    // }
+ 
+    // req.session.kakao = user.data;    
+    res.send('success');
+}
+
 /*
 exports.signup = (req, res) => {
     const signupId = req.body.id;

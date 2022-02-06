@@ -1,5 +1,6 @@
 //express 모듈 불러오기
 const httpPort = 3000;
+const { default: axios } = require('axios');
 const express = require('express');
 const app = express();
 //const { resolve } = require('path/posix');
@@ -17,6 +18,13 @@ app.use(express.urlencoded({ extended: true}));
 //jsonwebtoken 모듈
 //const jwt = require('jsonwebtoken');
 
+
+const kakao = { //나중에 import로 유출방지
+    clientID: '9e7627ff0adc857af4fd5e69de0222e6',
+    clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
+    redirectUri: 'http://34.64.207.117:3000/oauth'
+}
+
 app.get("/", crud.home); // / : home 화면
 
 app.get("/users", crud.show); // /users : 전체 출력
@@ -32,5 +40,7 @@ app.put('/users/:id', crud.update); // /users/숫자 로 전송하고 data로 na
 //app.post('/login', crud.login); //data로 사용자가입력했던 id, pw 보내서 로그인되면 token값 발급 되는데 이거 저장해서 항상 들고다녀야함. (글올리기, 계정변경 등등)
 
 app.post('/signup', crud.signup);
+app.get('/auth/kakao', crud.loginPage) //카카오로그인 페이지 연결
+app.get('/oauth', crud.reqToken);
 
 app.listen(httpPort,'10.178.0.3', () => console.log('server has been running...'));
