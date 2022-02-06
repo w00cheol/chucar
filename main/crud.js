@@ -197,7 +197,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     // })
 
     try{
-        await axios.get('https://kapi.kakao.com/v2/user/me', {}, {
+        await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{
                 Authorization: `Bearer ${token.data.access_token}`,
                 'content-type':'application/x-www-form-urlencoded'
