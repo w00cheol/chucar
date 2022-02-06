@@ -6,6 +6,11 @@ const jwt = require('jsonwebtoken');
 const mod = require('./connection');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
+const kakao = { //나중에 import로 유출방지
+    clientID: '9e7627ff0adc857af4fd5e69de0222e6',
+    clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
+    redirectUri: 'http://34.64.207.117:3000/oauth'
+}
 
 exports.home = (req, res) =>{
     console.log('home');
@@ -150,80 +155,56 @@ exports.signup = (req, res) => {
 }
 
 exports.loginPage = (req,res)=>{ //인가코드요청
-
-    const kakao = { //나중에 import로 유출방지
-        clientID: '9e7627ff0adc857af4fd5e69de0222e6',
-        clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
-        redirectUri: 'http://34.64.207.117:3000/oauth'
-    }
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
     res.redirect(kakaoAuthURL);
 }
 
 //인가코드 이용해서 토큰 요청
-exports.reqToken = (req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
-    const kakao = { //나중에 import로 유출방지
-        clientID: '9e7627ff0adc857af4fd5e69de0222e6',
-        clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
-        redirectUri: 'http://34.64.207.117:3000/oauth'
-    }
-    const token = axios.post('https://kauth.kakao.com/oauth/token', {
-        grant_type: 'authorization_code',//특정 스트링
-        client_id:kakao.clientID,
-        client_secret:kakao.clientSecret,
-        redirectUri:kakao.redirectUri,
-        code:req.query.code
-    },{
-        headers:{
-            'content-type':'application/x-www-form-urlencoded' //utf-8 넣을건지 나중에
-        }
-    })
-    .then(function (res) {
-        console.log(res);
-        console.log(res);
-        console.log(res);
-    })
-    .catch(function (err) {
-        console.log(err);
-    })
-    .then(function () {
-        console.log('영웅소프트 화이팅!');
-    });
-    console.log(token);
-    console.log(token);
-        /*
-    token = axios({
-        method: 'POST',
-        url: 'https://kauth.kakao.com/oauth/token',
-        headers:{
-            'content-type':'application/x-www-form-urlencoded'
-        },
-        data:qs.stringify({//객체를 string 으로 변환
+exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
+    try{
+        const token = await axios.post('https://kauth.kakao.com/oauth/token', {
             grant_type: 'authorization_code',//특정 스트링
             client_id:kakao.clientID,
             client_secret:kakao.clientSecret,
             redirectUri:kakao.redirectUri,
-            code:req.query.code,
+            code:req.query.code
+        },{
+            headers:{
+                'content-type':'application/x-www-form-urlencoded' //utf-8 넣을건지 나중에
+            }
         })
-    })*/
- 
-    let user;
-    console.log(user);
-    axios.get('https://kapi.kakao.com/v2/user/me', {}, {
-        headers:{
-            Authorization: `Bearer ${token.data.access_token}`,
-            'content-type':'application/x-www-form-urlencoded'
-        }
-    })
-    .then(function (res) {
-        console.log(res);
-    })
-    .catch(function (err) {
-        console.log(err);
-    })
-    .then(function () {
-        console.log('영웅소프트 화이팅!');
-    });
+    }catch(err){
+        res.json(err);
+    }
+    console.log(token);
+    console.log('영웅소프트 화이팅!');
+
+    // token = axios({
+    //     method: 'POST',
+    //     url: 'https://kauth.kakao.com/oauth/token',
+    //     headers:{
+    //         'content-type':'application/x-www-form-urlencoded'
+    //     },
+    //     data:qs.stringify({//객체를 string 으로 변환
+    //         grant_type: 'authorization_code',//특정 스트링
+    //         client_id:kakao.clientID,
+    //         client_secret:kakao.clientSecret,
+    //         redirectUri:kakao.redirectUri,
+    //         code:req.query.code,
+    //     })
+    // })
+
+    try{
+        await axios.get('https://kapi.kakao.com/v2/user/me', {}, {
+            headers:{
+                Authorization: `Bearer ${token.data.access_token}`,
+                'content-type':'application/x-www-form-urlencoded'
+            }
+        })
+    }catch(err){
+        res.json(err);
+    }
+    res.send('success');
     // try{
     //     console.log(token);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
     //     user =  axios({
@@ -238,7 +219,6 @@ exports.reqToken = (req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     // }
  
     // req.session.kakao = user.data;    
-    res.send('success');
 }
 
 /*
