@@ -6,11 +6,6 @@ const jwt = require('jsonwebtoken');
 const mod = require('./connection');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-const kakao = { //나중에 import로 유출방지
-    clientID: '9e7627ff0adc857af4fd5e69de0222e6',
-    clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
-    redirectUri: 'http://34.64.207.117:3000/oauth'
-}
 
 exports.home = (req, res) =>{
     console.log('home');
@@ -163,6 +158,11 @@ exports.loginPage = (req,res)=>{ //인가코드요청
 exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     const token = '';
     try{
+        const kakao = { //나중에 import로 유출방지
+            clientID: '9e7627ff0adc857af4fd5e69de0222e6',
+            clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
+            redirectUri: 'http://34.64.207.117:3000/oauth'
+        }
         token = await axios.post('https://kauth.kakao.com/oauth/token', {
             grant_type: 'authorization_code',//특정 스트링
             client_id:kakao.clientID,
@@ -178,8 +178,6 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     }catch(err){
         console.log(err);
     }
-    console.log(token);
-    console.log(kakao.access_token);
     console.log('영웅소프트 화이팅!');
 
     // token = axios({
