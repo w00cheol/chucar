@@ -34,7 +34,7 @@ app.put('/users/:id', controller.update); // /users/숫자 로 전송하고 data
 //app.post('/login', controller.login); //data로 사용자가입력했던 id, pw 보내서 로그인되면 token값 발급 되는데 이거 저장해서 항상 들고다녀야함. (글올리기, 계정변경 등등)
 
 app.post('/signup', controller.signup);
-app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결
+//app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결
 app.get('/oauth', controller.reqToken);
 
 app.post('/contract/send', controller.contractSend);

@@ -46,67 +46,50 @@ exports.signup = (id, password, nickname, email, phone, prv1, prv2, prv3) => {
         nickname:nickname,
         email:email,
         phone:phone,
-        prv1:prv1,
+        prv1:prv1, //개인정보수집동의서 1, 2, 3
         prv2:prv2,
         prv3:prv3
     })
-    .then(function (res) {
+    .then(function (res) { //성공시
         console.log(res.data);
     })
-    .catch(function (err) {
+    .catch(function (err) { //실패시
         console.log(err);
     })
-    .then(function () {
+    .then(function () { //항상
         console.log('영웅소프트 화이팅!');
     });
 }
 
 exports.contractSend = (kind, brand, model, detail, price, mnpay, distance, option, protosay, procode, usrid) => {
     axios.post(`http://34.64.207.117:3000/contract/send`, {
-        kind:kind,
-        brand:brand,
-        model:model,
-        detail:detail,
-        price:price,
-        mnpay:mnpay,
-        distance:distance,
-        option:option,
-        protosay:protosay,
-        procode:procode,
-        usrid:usrid
+        kind:kind, //1할부, 2렌트, 3리스, 4현금.
+        brand:brand, //제조사
+        model:model, //모델
+        detail:detail, //세부모덷
+        price:price, //가격
+        mnpay:mnpay, //월납입금액
+        distance:distance, //최대주행거리 희망
+        option:option, //희망옵션 ex)선루프,,
+        protosay:protosay, //딜러에게할말
+        procode:procode, //추천인코드
+        usrid:usrid //고객의 아이디 -> 추후에 로그인 개발하면 해당 사용자 id 추출 후 넣을 것
     })
-    .then(function (res) {
+    .then(function (res) { //성공
         console.log(res.data);
     })
-    .catch(function (err) {
+    .catch(function (err) { //실패
         console.log(err.data);
     })
-    .then(function () {
+    .then(function () { //항상
         console.log('영웅소프트 견적서');
     });
 } 
 
-exports.kakaoLogin = async() => {
+exports.kakaoLogin = async() => { //카카오로그인
     try{
         await axios.get('http://34.64.207.117:3000/auth/kakao');
     }catch(err){
         console.log(err); //로그인에러났을때임 나중에 추가할것 TODO
     }
 }
-/*
-exports.signup = (id, password, name) => {
-    axios.post(`http://localhost:3000/signup`, {
-        id:id,
-        password:password,
-        name:name
-    })
-    .then(function (res) {
-        console.log(res);
-    })
-    .catch(function (err) {
-        console.log(err);
-    })
-    .then(function () {
-        console.log('영웅소프트 화이팅!');
-    });
-}*/

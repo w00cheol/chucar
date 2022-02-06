@@ -146,31 +146,13 @@ exports.signup = (req, res) => {
     })
 }
 
-exports.loginPage = (req,res)=>{ //인가코드요청
-    const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
-    res.redirect(kakaoAuthURL);
-}
+// exports.loginPage = (req,res)=>{ //인가코드요청
+//     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
+//     res.redirect(kakaoAuthURL);
+// }
 
 //인가코드 이용해서 토큰 요청
 exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
-    // const token = '';
-    // try{
-    //     token = await axios.post('https://kauth.kakao.com/oauth/token', {
-    //         grant_type: 'authorization_code',//특정 스트링
-    //         client_id:kakao.clientID,
-    //         redirectUri:kakao.redirectUri,
-    //         code:req.query.code,
-    //         client_secret:kakao.clientSecret
-    //     },{
-    //         headers:{
-    //             'content-type':'application/x-www-form-urlencoded;charset=utf-8' //utf-8 넣을건지 나중에
-    //         }
-    //     })
-    //     console.log(token);
-    // }catch(err){
-    //     console.log(err);
-    // }
-    // console.log('영웅소프트 화이팅!');
     try{//access토큰을 받기 위한 코드
         token = await axios({//token
             method: 'POST',
@@ -187,7 +169,9 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
             })//객체를 string 으로 변환
         })
     }catch(err){
+        console.log('로그인에 실패했습니다.');
         res.json(err.data);
+        //여기다가 로그인 전 화면으로 돌아가게 홈 화면 ㄲㄲ
     }
 
     // try{
