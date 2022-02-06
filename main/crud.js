@@ -161,8 +161,9 @@ exports.loginPage = (req,res)=>{ //인가코드요청
 
 //인가코드 이용해서 토큰 요청
 exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
+    const token;
     try{
-        const token = await axios.post('https://kauth.kakao.com/oauth/token', {
+        token = await axios.post('https://kauth.kakao.com/oauth/token', {
             grant_type: 'authorization_code',//특정 스트링
             client_id:kakao.clientID,
             client_secret:kakao.clientSecret,
