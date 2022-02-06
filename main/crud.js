@@ -4,6 +4,7 @@ require('dotenv').config({path : '../.env' });
 const jwt = require('jsonwebtoken');
 //const { resolve } = require('path/posix');
 const mod = require('./connection');
+const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
 
@@ -192,7 +193,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
                 client_id:kakao.clientID,
                 client_secret:kakao.clientSecret,
                 redirectUri:kakao.redirectUri,
-                code:req.query.code,//결과값을 반환했다. 안됐다.
+                code:req.query.code//결과값을 반환했다. 안됐다.
             })//객체를 string 으로 변환
         })
     }catch(err){
