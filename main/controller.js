@@ -205,6 +205,10 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     // req.session.kakao = user.data;    
 }
 
+exports.logout = (req,res) => {
+    console.log(res.data);
+}
+
 exports.contractSend = (req,res) => { //견적서 전송
     const contract = {
         kind: parseInt(req.body.kind),

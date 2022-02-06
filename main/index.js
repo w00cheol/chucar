@@ -39,4 +39,6 @@ app.get('/oauth', controller.reqToken);
 
 app.post('/contract/send', controller.contractSend);
 
+app.get('/logout', controller.logout);
+
 app.listen(httpPort,'10.178.0.3', () => console.log('server has been running...'));
