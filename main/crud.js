@@ -167,7 +167,7 @@ exports.reqToken = (req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
         clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
         redirectUri: 'http://34.64.207.117:3000/oauth'
     }
-    token = axios.post('https://kauth.kakao.com/oauth/token', {
+    const token = axios.post('https://kauth.kakao.com/oauth/token', {
         grant_type: 'authorization_code',//특정 스트링
         client_id:kakao.clientID,
         client_secret:kakao.clientSecret,
@@ -180,6 +180,8 @@ exports.reqToken = (req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     })
     .then(function (res) {
         console.log(res);
+        console.log(res);
+        console.log(res);
     })
     .catch(function (err) {
         console.log(err);
@@ -187,6 +189,7 @@ exports.reqToken = (req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     .then(function () {
         console.log('영웅소프트 화이팅!');
     });
+    console.log(token);
     console.log(token);
         /*
     token = axios({
