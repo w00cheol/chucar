@@ -174,6 +174,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
                 'content-type':'application/x-www-form-urlencoded' //utf-8 넣을건지 나중에
             }
         })
+        console.log(token);
     }catch(err){
         res.json(err);
     }
@@ -205,7 +206,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     }catch(err){
         res.json(err);
     }
-    res.send('success');
+    //res.send('success');
     // try{
     //     console.log(token);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
     //     user =  axios({
