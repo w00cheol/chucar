@@ -150,6 +150,11 @@ exports.signup = (req, res) => {
 }
 
 exports.loginPage = (req,res)=>{ //인가코드요청
+    const kakao = { //나중에 import로 유출방지
+        clientID: '9e7627ff0adc857af4fd5e69de0222e6',
+        clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
+        redirectUri: 'http://34.64.207.117:3000/oauth'
+    }
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
     res.redirect(kakaoAuthURL);
 }
