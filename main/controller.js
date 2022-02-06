@@ -172,7 +172,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
         console.log(req);
         console.log('로그인에 실패했습니다.');
         console.log(err.data);
-        res.json(err.data);
+        res.json(err);
         //여기다가 로그인 전 화면으로 돌아가게 홈 화면 ㄲㄲ
     }
 
@@ -189,18 +189,18 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     //res.send('success');
 
     ///////////////////이거는 사용자 정보 빼올때 쓰는 함수임 나중에 따로 빼낼 예정 TODO
-    try{
-        console.log(token.data);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
-        user =  await axios({
-            method:'get',
-            url:'https://kapi.kakao.com/v2/user/me',
-            headers:{
-                Authorization: `Bearer ${token.data.access_token}`
-            }
-        })
-    }catch(err){
-        res.json(err.data);
-    }
+                                // try{
+                                //     console.log(token.data);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
+                                //     user =  await axios({
+                                //         method:'get',
+                                //         url:'https://kapi.kakao.com/v2/user/me',
+                                //         headers:{
+                                //             Authorization: `Bearer ${token.data.access_token}`
+                                //         }
+                                //     })
+                                // }catch(err){
+                                //     res.json(err.data);
+                                // }
  
     // req.session.kakao = user.data;    
 }
