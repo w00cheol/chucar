@@ -179,6 +179,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
         console.log(err);
     }
     console.log(token);
+    console.log(kakao.access_token);
     console.log('영웅소프트 화이팅!');
 
     // token = axios({
