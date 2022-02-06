@@ -166,9 +166,9 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
         token = await axios.post('https://kauth.kakao.com/oauth/token', {
             grant_type: 'authorization_code',//특정 스트링
             client_id:kakao.clientID,
-            client_secret:kakao.clientSecret,
             redirectUri:kakao.redirectUri,
-            code:req.query.code
+            code:req.query.code,
+            client_secret:kakao.clientSecret
         },{
             headers:{
                 'content-type':'application/x-www-form-urlencoded;charset=utf-8' //utf-8 넣을건지 나중에
