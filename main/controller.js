@@ -169,7 +169,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
             })//객체를 string 으로 변환
         })
     }catch(err){
-        console.log(req);
+        console.log(req.query);
         console.log('로그인에 실패했습니다.');
         console.log(err.data);
         res.json(err);
