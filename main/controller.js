@@ -94,16 +94,6 @@ exports.update = (req, res) =>{
     })
 }
 exports.signup = (req, res) => {
-    /*
-	const memberId = req.body.id || '';
-	const memberPassword = req.body.password || '';
-    const mamberNickname = req.body.nickname || '';
-    const memberEmail = req.body.email || '';
-    const memberPhone = req.body.phone || '';
-    const prv1 = parseInt(req.body.prv1);
-    const prv2 = parseInt(req.body.prv2);
-    const prv3 = parseInt(req.body.prv3);
-    */
     const member = {
         id: req.body.id,
         password: req.body.password,
@@ -212,7 +202,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     // }
     //res.send('success');
 
-
+    ///////////////////이거는 사용자 정보 빼올때 쓰는 함수임 나중에 따로 빼낼 예정 TODO
     try{
         console.log(token.data);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
         user =  await axios({
@@ -222,41 +212,31 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
                 Authorization: `Bearer ${token.data.access_token}`
             }
         })
-    }catch(e){
-        res.json(e.data);
+    }catch(err){
+        res.json(err.data);
     }
  
     // req.session.kakao = user.data;    
 }
 
-/*
-exports.signup = (req, res) => {
-    const signupId = req.body.id;
-    const signupPassword = req.body.password;
-    const signupName = req.body.name;
-    if(!signupId){
-        return res.status(401).json({err: 'id must be required'});
+exports.contractSend = (req,res) => { //견적서 전송
+    const contract = {
+        kind: parseInt(req.body.kind),
+        brand: req.body.brand,
+        model: req.body.model,
+        detail: req.body.detail,
+        price: parseInt(req.body.price),
+        mnpay: parseInt(req.body.mnpay),
+        distance: parseInt(req.body.distance),
+        option: req.body.option,
+        protosay: req.body.protosay,
+        procode: req.body.procode,
+        usrid: req.body.usrid
     }
-    if(!signupPassword){
-        return res.status(401).json({err: 'password must be required'});
-    }
-    if(!signupName){
-        return res.status(401).json({err: 'name must be required'});
-    }
-    con.query('select name from users where id = ?', signupId, (error, rows, fields) => {
-        if(error) return res.status(404).json({err: 'undefinsdged error'});
-        if (!!rows[0]) {
-            return res.status(400).json({err: 'this id already exists'});
-        }
-        con.query('select name from users where name = ?', signupName, (error, rows, fields) => {
-                if(error) return res.status(404).json({err: 'undefined error'});
-                if (!!rows[0]) {
-                    return res.status(400).json({err: 'this name already exists'});
-                }
-                con.query('insert into users set ?', req.body, (error, rows, fields) => {
-                    if(error) return res.status(404).json({err: 'undefined error'});
-                    return res.status(204).json({msg: 'welcome!'});
-                })
-        })
+    con.query(`CALL SND_CONTRACT('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
+                                 '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
+                                 '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        res.status(201).json({success:true});
     })
-}*/
+}
