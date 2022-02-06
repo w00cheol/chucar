@@ -170,6 +170,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
         })
     }catch(err){
         console.log('로그인에 실패했습니다.');
+        console.log(err.data);
         res.json(err.data);
         //여기다가 로그인 전 화면으로 돌아가게 홈 화면 ㄲㄲ
     }
