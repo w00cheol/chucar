@@ -175,7 +175,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
             refresh_token:token.data.refresh_token
         }
         console.log(sendToken);
-        res.send(sendToken);
+        res.json(sendToken);
     }catch(err){
         console.log('로그인에 실패했습니다.');
     }

@@ -35,8 +35,8 @@ app.put('/users/:id', controller.update); // /users/숫자 로 전송하고 data
 
 app.post('/signup', controller.signup);
 //app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결
-app.get('/oauth', controller.reqToken);
-app.post('/oauth', controller.reqToken);
+// app.get('/oauth', controller.reqToken);
+// app.post('/oauth', controller.reqToken);
 
 
 app.post('/contract/send', controller.contractSend);
