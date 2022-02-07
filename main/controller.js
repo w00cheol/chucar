@@ -174,10 +174,10 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
             access_token:token.data.access_token,
             refresh_token:token.data.refresh_token
         }
-        res.json(sendToken);
+        console.log(sendToken);
+        res.send(sendToken);
     }catch(err){
         console.log('로그인에 실패했습니다.');
-        console.log(err.data);
     }
 
     // try{
