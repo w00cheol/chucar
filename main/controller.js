@@ -154,6 +154,7 @@ exports.signup = (req, res) => {
 //인가코드 이용해서 토큰 요청
 exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     try{//access토큰을 받기 위한 코드
+        console.log(req);
         token = await axios({//token
             method: 'POST',
             url: 'https://kauth.kakao.com/oauth/token',
