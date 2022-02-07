@@ -170,13 +170,14 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
                 client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
             })//객체를 string 으로 변환
         })
-        console.log(token.data.access_token);
-        console.log(token.data.refresh_token);
+        var sendToken = {
+            access_token:token.data.access_token,
+            refresh_token:token.data.refresh_token
+        }
+        res.json(sendToken);
     }catch(err){
-        console.log(req.query);
         console.log('로그인에 실패했습니다.');
         console.log(err.data);
-        //여기다가 로그인 전 화면으로 돌아가게 홈 화면 ㄲㄲ
     }
 
     // try{
