@@ -154,7 +154,7 @@ exports.signup = (req, res) => {
 //인가코드 이용해서 토큰 요청
 exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     try{//access토큰을 받기 위한 코드
-        console.log(req);
+        console.log(req.query);
         token = await axios({//token
             method: 'POST',
             url: 'https://kauth.kakao.com/oauth/token',
@@ -166,7 +166,7 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
                 client_id:kakao.clientID,
                 client_secret:kakao.clientSecret,
                 redirectUri:kakao.redirectUri,
-                code:req.query.code,//결과값을 반환했다. 안됐다.
+                code:req.query.code,
                 client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
             })//객체를 string 으로 변환
         })
