@@ -154,7 +154,7 @@ exports.signup = (req, res) => {
 //인가코드 이용해서 토큰 요청
 exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
     try{//access토큰을 받기 위한 코드
-        console.log(req.query);
+        console.log('reqtoken');
         token = await axios({//token
             method: 'POST',
             url: 'https://kauth.kakao.com/oauth/token',
@@ -170,12 +170,10 @@ exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
                 client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
             })//객체를 string 으로 변환
         })
-        console.log(token);
     }catch(err){
         console.log(req.query);
         console.log('로그인에 실패했습니다.');
         console.log(err.data);
-        res.json(err);
         //여기다가 로그인 전 화면으로 돌아가게 홈 화면 ㄲㄲ
     }
 
