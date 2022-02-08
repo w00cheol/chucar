@@ -192,8 +192,8 @@ exports.checkToken = async(req, res) => {
             }
         })
         const properties = {
-            nickname: tokenInfo.data.id,
-            id: tokenInfo.data.target_id
+            id: tokenInfo.data.id,
+            nickname: tokenInfo.data.properties.nickname
         }
         console.log(tokenInfo.data.id);
         console.log(tokenInfo.data.target_id);
