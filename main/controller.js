@@ -157,7 +157,7 @@ exports.signup = (req, res) => {
 exports.refreshToken = async(req,res) => {
         try{
             const token = req.headers.authorization;
-            const refresh_token = req.headers.refresh;
+            const refresh_token = req.headers.refresh_token;
             console.log(refresh_token);
             newToken = await axios.get('https://kauth.kakao.com/oauth/token', {
                 headers:{
