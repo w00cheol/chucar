@@ -159,7 +159,7 @@ exports.refreshToken = async(req,res) => {
             const token = req.headers.authorization;
             const refresh_token = req.headers.refresh_token;
             console.log(refresh_token);
-            newToken = await axios.post('https://kauth.kakao.com/oauth/token', {
+            const newToken = await axios.post('https://kauth.kakao.com/oauth/token', {
                 headers:{
                     'Content-type':'application/x-www-form-urlencoded;charset=utf-8'
                 },
@@ -170,7 +170,7 @@ exports.refreshToken = async(req,res) => {
                     client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
                 })//객체를 string 으로 변환
             })
-            console.log(newToken);
+            console.log(newToken.data.access_token);
             res.json(newToken);
         }catch(err){
             console.log(err.data);
