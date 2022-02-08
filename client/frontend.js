@@ -100,7 +100,7 @@ exports.refreshToken = async(data) => {
             headers:{
                 Authorization: data.access_token,
                 refresh_token: data.refresh_token,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
+                'Content-type':'application/x-www-form-urlencoded;charset=utf-8'
             }
         })
         console.log(tokenInfo.data);

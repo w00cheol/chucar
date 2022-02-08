@@ -155,7 +155,6 @@ exports.signup = (req, res) => {
 // }
 
 exports.refreshToken = async(req,res) => {
-    newtoken = null;
         try{
             const token = req.headers.authorization;
             const refresh_token = req.headers.refresh_token;
@@ -175,8 +174,6 @@ exports.refreshToken = async(req,res) => {
             console.log(err.data);
             res.json(0);
         }
-        console.log(newToken.data.access_token);
-        res.json(newToken);
 }
 //프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
 // exports.checkToken = async(req, res) => {
