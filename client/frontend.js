@@ -93,3 +93,16 @@ exports.kakaoLogin = async() => { //카카오로그인
         console.log(err); //로그인에러났을때임 나중에 추가할것 TODO
     }
 }
+
+exports.checkToken = async(data) => {
+    try{
+        tokenInfo = await axios.get('http://34.64.207.117:3000/token', {
+            headers:{
+                Authorization: `${data}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+    }catch(err){
+        console.log(err.data);
+    }
+}

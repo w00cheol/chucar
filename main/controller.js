@@ -159,19 +159,15 @@ exports.checkToken = async(req, res) => {
     try{
         const token = req.headers.authorization;
         console.log(token);
-        try{
-            tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
-                headers:{
-                    Authorization: `Bearer ${token}`,
-                    'Content-type':'application/x-www-form-urlencoded;utf-8'
-                }
-            })
-            console.log(tokenInfo["properties.nickname"]);
-            res.json(tokenInfo["properties.nickname"]);
-        }catch(err){
-            console.log(err.data);
-            res.json(0);
-        }
+        tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
+            headers:{
+                Authorization: `Bearer ${token}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        console.log(tokenInfo);
+        console.log(tokenInfo["nickname"]);
+        res.json(tokenInfo["properties.nickname"]);
     }catch(err){
         console.log(err.data);
         res.json(0);
