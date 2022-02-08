@@ -173,7 +173,7 @@ exports.refreshToken = async(req,res) => {
             })
             console(1);
         }catch(err){
-            console.log(err.response.data);
+            console.log(err);
             res.json(0);
         }
 }
