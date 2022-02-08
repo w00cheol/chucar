@@ -159,7 +159,7 @@ exports.refreshToken = async(req,res) => {
             const token = req.headers.authorization;
             const refresh_token = req.headers.refresh;
             console.log(token);
-            newToken = await axios.get('https://kapi.kakao.com/v2/user/me', {
+            newToken = await axios.get('https://kapi.kakao.com/oauth/token', {
                 headers:{
                     'Content-type':'application/x-www-form-urlencoded;utf-8'
                 },
@@ -170,7 +170,7 @@ exports.refreshToken = async(req,res) => {
                     client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
                 })//객체를 string 으로 변환
             })
-            console.log(newToken.data.access_token);
+            console.log(newToken.data.aess_token);
             res.json(newToken.data.access_token);
         }catch(err){
             console.log(err.data);
