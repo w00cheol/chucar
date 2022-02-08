@@ -159,7 +159,7 @@ exports.refreshToken = async(req,res) => {
             const token = req.headers.authorization;
             const refresh_token = req.headers.refresh;
             console.log(token);
-            newToken = await axios.get('https://kapi.kakao.com/oauth/token', {
+            newToken = await axios.get('https://kauth.kakao.com/oauth/token', {
                 headers:{
                     'Content-type':'application/x-www-form-urlencoded;utf-8'
                 },
