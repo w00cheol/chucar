@@ -157,7 +157,7 @@ exports.signup = (req, res) => {
 exports.refreshToken = async(req,res) => {
         try{
             const refresh_token = req.headers.refresh_token;
-            console.log(refresh_token);
+            console.log('refreshing...');
             newToken = await axios({
                 method: 'POST',
                 url: 'https://kauth.kakao.com/oauth/token',
@@ -171,30 +171,33 @@ exports.refreshToken = async(req,res) => {
                     client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
                 })//객체를 string 으로 변환
             })
-            console.log(newToken);
+            console.log(newToken.data);
+            res.json(newToken.data);
         }catch(err){
             console.log(err);
             res.json(0);
         }
 }
-//프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
-// exports.checkToken = async(req, res) => {
-//     try{
-//         const token = req.headers.authorization;
-//         console.log(token);
-//         tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
-//             headers:{
-//                 Authorization: `Bearer ${token}`,
-//                 'Content-type':'application/x-www-form-urlencoded;utf-8'
-//             }
-//         })
-//         console.log(tokenInfo.data.properties.nickname);
-//         res.json(tokenInfo.data.properties.nickname);
-//     }catch(err){
-//         console.log(err.data);
-//         res.json(0);
-//     }
-// }
+
+
+// 프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
+exports.checkToken = async(req, res) => {
+    try{
+        const token = req.headers.authorization;
+        console.log(token);
+        tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
+            headers:{
+                Authorization: `Bearer ${token}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        console.log(tokenInfo.data.properties.nickname);
+        res.json(tokenInfo.data.properties.nickname);
+    }catch(err){
+        console.log(err.data);
+        res.json(0);
+    }
+}
 
 exports.logout = (req,res) => {
     console.log(res.data);

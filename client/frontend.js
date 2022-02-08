@@ -1,4 +1,5 @@
 const axios = require('axios');
+const res = require('express/lib/response');
 
 // exports.show = (table) => {
 //     axios.get(`http://localhost:3000/${table}`) // 전체 차 목록 출력할때 쓰셈
@@ -102,10 +103,11 @@ exports.refreshToken = async(data) => {
                 'Content-type':'application/x-www-form-urlencoded'
             }
         })
-        console.log(1)
         console.log(tokenInfo);
+        res.json(tokenInfo);
     }catch(err){
         console.log(err);
+        err.json(err);
     }
 }
 
