@@ -9,6 +9,7 @@ const con = mod.init(); //con => 연결객체
 const axios = require('axios');
 const e = require('express');
 const res = require('express/lib/response');
+const express = require('express');
 
 const kakao = { //나중에 import로 유출방지
     clientID: '9e7627ff0adc857af4fd5e69de0222e6',
@@ -153,83 +154,47 @@ exports.signup = (req, res) => {
 //     res.redirect(kakaoAuthURL);
 // }
 
-
-//프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
-exports.checkToken = async(req, res) => {
-    try{
-        const token = req.headers.authorization;
-        console.log(token);
-        tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
-            headers:{
-                Authorization: `Bearer ${token}`,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
-            }
-        })
-        console.log(tokenInfo.data.properties.nickname);
-        res.json(tokenInfo.data.properties.nickname);
-    }catch(err){
-        console.log(err.data);
-        res.json(0);
-    }
-}
-
-//인가코드 이용해서 토큰 요청
-exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민
-    try{//access토큰을 받기 위한 코드
-        console.log('reqtoken');
-        token = await axios({//token
-            method: 'POST',
-            url: 'https://kauth.kakao.com/oauth/token',
-            headers:{
-                'content-type':'application/x-www-form-urlencoded'
-            },
-            data:qs.stringify({
-                grant_type: 'authorization_code',//특정 스트링
-                client_id:kakao.clientID,
-                client_secret:kakao.clientSecret,
-                redirectUri:kakao.redirectUri,
-                code:req.query.code,
-                client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
-            })//객체를 string 으로 변환
-        })
-        var sendToken = {
-            access_token:token.data.access_token,
-            refresh_token:token.data.refresh_token
+exports.refreshToken = async(req,res) => {
+        try{
+            const token = req.headers.authorization;
+            const refresh_token = req.headers.refresh;
+            console.log(token);
+            newToken = await axios.get('https://kapi.kakao.com/v2/user/me', {
+                headers:{
+                    'Content-type':'application/x-www-form-urlencoded;utf-8'
+                },
+                data:qs.stringify({
+                    grant_type: 'refresh_token',//특정 스트링
+                    client_id:'9e7627ff0adc857af4fd5e69de0222e6',
+                    refresh_token:refresh_token,
+                    client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
+                })//객체를 string 으로 변환
+            })
+            console.log(newToken.data.access_token);
+            res.json(newToken.data.access_token);
+        }catch(err){
+            console.log(err.data);
+            res.json(0);
         }
-        console.log(sendToken);
-        res.json(sendToken);
-    }catch(err){
-        console.log('로그인에 실패했습니다.');
-    }
-
-    // try{
-    //     await axios.get('https://kapi.kakao.com/v2/user/me', {
-    //         headers:{
-    //             Authorization: `Bearer ${token.data}`,
-    //             'content-type':'application/x-www-form-urlencoded'
-    //         }
-    //     })
-    // }catch(err){
-    //     console.log(err);
-    // }
-    //res.send('success');
-
-    ///////////////////이거는 사용자 정보 빼올때 쓰는 함수임 나중에 따로 빼낼 예정 TODO
-                                // try{
-                                //     console.log(token.data);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
-                                //     user =  await axios({
-                                //         method:'get',
-                                //         url:'https://kapi.kakao.com/v2/user/me',
-                                //         headers:{
-                                //             Authorization: `Bearer ${token.data.access_token}`
-                                //         }
-                                //     })
-                                // }catch(err){
-                                //     res.json(err.data);
-                                // }
- 
-    // req.session.kakao = user.data;    
 }
+//프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
+// exports.checkToken = async(req, res) => {
+//     try{
+//         const token = req.headers.authorization;
+//         console.log(token);
+//         tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
+//             headers:{
+//                 Authorization: `Bearer ${token}`,
+//                 'Content-type':'application/x-www-form-urlencoded;utf-8'
+//             }
+//         })
+//         console.log(tokenInfo.data.properties.nickname);
+//         res.json(tokenInfo.data.properties.nickname);
+//     }catch(err){
+//         console.log(err.data);
+//         res.json(0);
+//     }
+// }
 
 exports.logout = (req,res) => {
     console.log(res.data);

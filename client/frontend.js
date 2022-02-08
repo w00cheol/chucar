@@ -94,6 +94,21 @@ exports.kakaoLogin = async() => { //카카오로그인
     }
 }
 
+exports.refreshToken = async(data) => {
+    try{
+        tokenInfo = await axios.get('http://34.64.207.117:3000/refresh', {
+            headers:{
+                Authorization: data.access_token,
+                refresh_token: data.refresh_token,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        console.log(tokenInfo.data);
+    }catch(err){
+        console.log(err.data);
+    }
+}
+
 exports.checkToken = async(data) => {
     try{
         tokenInfo = await axios.get('http://34.64.207.117:3000/token', {
@@ -102,6 +117,7 @@ exports.checkToken = async(data) => {
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
+        return console.log(tokenInfo.data);
     }catch(err){
         console.log(err.data);
     }

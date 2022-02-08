@@ -6,4 +6,9 @@ const qs = require('qs');
 //client.signup('sd', '1234', 'asd', 'asd', 'sad', 0,0,0);
 //client.kakaoLogin();
 
-client.checkToken('QNDO39dunk5RFtGBmy42cRT-CH6YcRQywDt3xwo9c5oAAAF-2MpB0Q');
+const a = {
+    access_token:'VfDC40snvSsW9IW7NbL0Ucs0lTxoGwld9LfcTgopb9UAAAF-2dGMDg',
+    refresh_token: 'gFoBPJnhlC6hgA1jNAG4szobG3sQhUqRHBvDLAopb9UAAAF-2dGMDQ'
+}
+
+client.refreshToken(a);
