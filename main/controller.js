@@ -158,7 +158,9 @@ exports.refreshToken = async(req,res) => {
         try{
             const refresh_token = req.headers.refresh_token;
             console.log(refresh_token);
-            await axios.post('https://kauth.kakao.com/oauth/token', {
+            await axios({
+                method: 'POST',
+                url: 'https://kauth.kakao.com/oauth/token',
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
                 },
