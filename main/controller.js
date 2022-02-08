@@ -171,7 +171,7 @@ exports.refreshToken = async(req,res) => {
                 })//객체를 string 으로 변환
             })
         }catch(err){
-            console.log(err.data);
+            console.log(err);
             res.json(0);
         }
 }
