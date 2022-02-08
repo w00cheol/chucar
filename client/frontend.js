@@ -98,14 +98,14 @@ exports.refreshToken = async(data) => {
     try{
         tokenInfo = await axios.get('http://34.64.207.117:3000/refresh', {
             headers:{
-                Authorization: data.access_token,
-                refresh_token: data.refresh_token,
-                'Content-type':'application/x-www-form-urlencoded;charset=utf-8'
+                refresh_token: data,
+                'Content-type':'application/x-www-form-urlencoded'
             }
         })
-        console.log(tokenInfo.data);
+        console.log(1)
+        console.log(tokenInfo);
     }catch(err){
-        console.log(err.data);
+        console.log(err);
     }
 }
 

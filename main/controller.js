@@ -156,12 +156,11 @@ exports.signup = (req, res) => {
 
 exports.refreshToken = async(req,res) => {
         try{
-            const token = req.headers.authorization;
             const refresh_token = req.headers.refresh_token;
             console.log(refresh_token);
             await axios.post('https://kauth.kakao.com/oauth/token', {
                 headers:{
-                    'Content-type':'application/x-www-form-urlencoded;charset=utf-8'
+                    'Content-type':'application/x-www-form-urlencoded'
                 },
                 data:qs.stringify({
                     grant_type: 'refresh_token',//특정 스트링
