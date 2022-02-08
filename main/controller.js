@@ -7,6 +7,8 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
+const e = require('express');
+const res = require('express/lib/response');
 
 const kakao = { //나중에 import로 유출방지
     clientID: '9e7627ff0adc857af4fd5e69de0222e6',
@@ -150,6 +152,31 @@ exports.signup = (req, res) => {
 //     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
 //     res.redirect(kakaoAuthURL);
 // }
+
+
+//프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
+exports.checkToken = async(req, res) => {
+    try{
+        const token = req.headers.authorization;
+        console.log(token);
+        try{
+            tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                    'Content-type':'application/x-www-form-urlencoded;utf-8'
+                }
+            })
+            console.log(tokenInfo["properties.nickname"]);
+            res.json(tokenInfo["properties.nickname"]);
+        }catch(err){
+            console.log(err.data);
+            res.json(0);
+        }
+    }catch(err){
+        console.log(err.data);
+        res.json(0);
+    }
+}
 
 //인가코드 이용해서 토큰 요청
 exports.reqToken = async(req,res)=>{ // 비동기 랑 어웨잇 쓸지 고민

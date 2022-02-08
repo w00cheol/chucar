@@ -31,13 +31,16 @@ app.post('/users', controller.create); // /users 로 전송하고 data로 id, na
 
 app.put('/users/:id', controller.update); // /users/숫자 로 전송하고 data로 name 값 전송해줘야함 , 해당 id 의 name 변경
 
+app.
+
 //app.post('/login', controller.login); //data로 사용자가입력했던 id, pw 보내서 로그인되면 token값 발급 되는데 이거 저장해서 항상 들고다녀야함. (글올리기, 계정변경 등등)
 
 app.post('/signup', controller.signup);
 //app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결
-// app.get('/oauth', controller.reqToken);
+//getapp.get('/oauth', controller.reqToken);
 // app.post('/oauth', controller.reqToken);
 
+app.get('/token', controller.checkToken);
 
 app.post('/contract/send', controller.contractSend);
 
