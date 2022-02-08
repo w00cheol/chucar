@@ -171,7 +171,7 @@ exports.refreshToken = async(req,res) => {
             })
             console(1);
         }catch(err){
-            console.log(err.data);
+            console.log(err.response.data);
             res.json(0);
         }
 }
