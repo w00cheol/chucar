@@ -159,7 +159,7 @@ exports.refreshToken = async(req,res) => {
             const token = req.headers.authorization;
             const refresh_token = req.headers.refresh_token;
             console.log(refresh_token);
-            const newToken = await axios.post('https://kauth.kakao.com/oauth/token', {
+            newToken = await axios.post('https://kauth.kakao.com/oauth/token', {
                 headers:{
                     'Content-type':'application/x-www-form-urlencoded;charset=utf-8'
                 },
@@ -169,15 +169,13 @@ exports.refreshToken = async(req,res) => {
                     refresh_token:refresh_token,
                     client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
                 })//객체를 string 으로 변환
-            }, (a) => {
-                console.log(a);
             })
-            console.log(newToken.data.access_token);
-            res.json(newToken);
         }catch(err){
             console.log(err.data);
             res.json(0);
         }
+        console.log(newToken.data.access_token);
+        res.json(newToken);
 }
 //프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
 // exports.checkToken = async(req, res) => {
