@@ -192,10 +192,10 @@ exports.checkToken = async(req, res) => {
             }
         })
         const properties = {
-            nickname: tokenInfo.data.properties.nickname,
-            id: tokenInfo.data.properties.target_id
+            nickname: tokenInfo.data.id,
+            id: tokenInfo.data.target_id
         }
-        console.log(tokenInfo.data);
+        console.log(tokenInfo.data.id);
         console.log(tokenInfo.data.target_id);
         res.json(properties);
     }catch(err){
