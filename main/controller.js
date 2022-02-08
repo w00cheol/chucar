@@ -155,6 +155,7 @@ exports.signup = (req, res) => {
 // }
 
 exports.refreshToken = async(req,res) => {
+    newtoken = null;
         try{
             const token = req.headers.authorization;
             const refresh_token = req.headers.refresh_token;
