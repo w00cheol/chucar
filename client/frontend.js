@@ -103,8 +103,7 @@ exports.refreshToken = async(data) => {
                 'Content-type':'application/x-www-form-urlencoded'
             }
         })
-        console.log(tokenInfo);
-        res.json(tokenInfo);
+        console.log(tokenInfo.data);
     }catch(err){
         console.log(err);
         err.json(err);

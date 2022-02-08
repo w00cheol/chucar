@@ -7,4 +7,5 @@ const qs = require('qs');
 //client.kakaoLogin();
 
 
-client.refreshToken('yytTHkERaLxMTI2kCIv1F2DPHinw30HrCnZq-QopyWAAAAF-2fVmSA');
+// client.refreshToken('yytTHkERaLxMTI2kCIv1F2DPHinw30HrCnZq-QopyWAAAAF-2fVmSA');
+client.checkToken('zw3PFqR5JXSkM1UqfJhwzJ1bjEqqZcbU5TM8Jwo9dZoAAAF-2rBaPg');

@@ -191,8 +191,13 @@ exports.checkToken = async(req, res) => {
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
+        const properties = {
+            nickname: tokenInfo.data.properties.nickname,
+            id: tokenInfo.data.properties.id
+        }
         console.log(tokenInfo.data.properties.nickname);
-        res.json(tokenInfo.data.properties.nickname);
+        console.log(tokenInfo.data.properties.id);
+        res.json(properties);
     }catch(err){
         console.log(err.data);
         res.json(0);
