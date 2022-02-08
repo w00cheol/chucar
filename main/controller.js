@@ -160,7 +160,7 @@ exports.refreshToken = async(req,res) => {
             console.log(refresh_token);
             await axios.post('https://kauth.kakao.com/oauth/token', {
                 headers:{
-                    'Content-type':'application/x-www-form-urlencoded'
+                    'content-type':'application/x-www-form-urlencoded'
                 },
                 data:qs.stringify({
                     grant_type: 'refresh_token',//특정 스트링
@@ -171,7 +171,7 @@ exports.refreshToken = async(req,res) => {
             })
             console(1);
         }catch(err){
-            console.log(err);
+            console.log(err.data);
             res.json(0);
         }
 }
