@@ -118,7 +118,7 @@ exports.checkToken = async(data) => {
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        return console.log(tokenInfo.data);
+        return console.log(tokenInfo);
     }catch(err){
         console.log(err.data);
     }
