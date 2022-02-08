@@ -169,6 +169,8 @@ exports.refreshToken = async(req,res) => {
                     refresh_token:refresh_token,
                     client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
                 })//객체를 string 으로 변환
+            }, (a) => {
+                console.log(a);
             })
             console.log(newToken.data.access_token);
             res.json(newToken);
