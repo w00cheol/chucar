@@ -165,7 +165,7 @@ exports.checkToken = async(req, res) => {
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        console.log(tokenInfo);
+        console.log(tokenInfo.data.properties.nickname);
         console.log(tokenInfo["nickname"]);
         res.json(tokenInfo["properties.nickname"]);
     }catch(err){
