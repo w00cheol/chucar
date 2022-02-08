@@ -170,7 +170,7 @@ exports.refreshToken = async(req,res) => {
                     client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
                 })//객체를 string 으로 변환
             })
-            console.log(newToken.data.aess_token);
+            console.log(newToken.data);
             res.json(newToken.data.access_token);
         }catch(err){
             console.log(err.data);
