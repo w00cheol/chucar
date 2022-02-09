@@ -302,7 +302,7 @@ exports.logout = (req,res) => {
 
 exports.contractSend = (req,res) => { //견적서 전송
     try{
-        getStatus = axios.get('http://34.64.207.117:3000/checkToken', {
+        getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
             headers:{
                 Authorization: `${req.headers.Authorization}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
