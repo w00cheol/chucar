@@ -28,19 +28,16 @@ exports.show = (req, res) =>{
         res.json(rows);
     })
 }
-exports.find_from_usrid = (req, res) =>{
-    console.log('find_contract_from_id');
+exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
+    console.log('find_contract_from_usrid');
     findId = req.params.usrid;
-    if(!findId){
-        return res.status(400).json({err: 'usrid must be required'});
-    }
     con.query('SELECT * from contract_send where ct_usrid = ?', findId, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
     })
 }
-exports.showReply = (req, res) =>{
+exports.showReply = (req, res) =>{ //댓글에 달 견적서들 모두 불러오기 params => 해당 견적요청서 번호
     console.log('showReply');
     cr_key = req.params.cr_key;
     con.query(`select * from contract_reply where cr_key = ${cr_key}`, (error, rows, fields) => {
@@ -49,7 +46,7 @@ exports.showReply = (req, res) =>{
         res.json(rows);
     })
 }
-exports.contractFinish = async (req, res) =>{
+exports.contractFinish = async (req, res) =>{ //견적요청 마감치기
     try{
         console.log('contractFinish');
         const getStatus = await this.checkToken(req.headers.authorization);
@@ -71,16 +68,13 @@ exports.contractFinish = async (req, res) =>{
 exports.contractInfo = (req, res) =>{ // 견적요청 상세보기
     console.log('contractInfo');
     ct_key = req.params.ct_key;
-    if(!findId){
-        return res.status(400).json({err: 'ct_key must be required'});
-    }
     con.query(`select * from contract_send where ct_key = ${ct_key}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
     })
 }
-exports.find_from_proid = async (req, res) =>{
+exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달린 요청글들 띄우기
     try{
         console.log('find_reply_from_id');
         const getStatus = await this.checkToken(req.headers.authorization);

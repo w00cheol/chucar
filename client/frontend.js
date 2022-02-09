@@ -143,16 +143,24 @@ exports.contractFinish = async(data) => {
     }
 }
 
+exports.findfromusrid = async(data) => {
+    try{
+        console.log(data)
+        getData = await axios({
+            method: 'get',
+            url: 'http://34.64.207.117:3000/contracts/woocheol'
+        })
+        console.log(getData.data);
+    }catch(err){
+        // return console.log(err);
+    }
+}
 exports.showReply = async(data) => {
     try{
         console.log(data)
         getData = await axios({
             method: 'get',
-            url: 'http://34.64.207.117:3000/reply/202202072',
-            headers:{
-                Authorization: `${data}`,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
-            }
+            url: 'http://34.64.207.117:3000/reply/202202072'
         })
         console.log(getData.data);
     }catch(err){
@@ -164,11 +172,7 @@ exports.contractInfo = async(data) => {
         console.log(data)
         getData = await axios({
             method: 'get',
-            url: 'http://34.64.207.117:3000/contracts/info/202202072',
-            headers:{
-                Authorization: `${data}`,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
-            }
+            url: 'http://34.64.207.117:3000/contracts/info/202202072'
         })
         console.log(getData.data);
     }catch(err){
