@@ -267,10 +267,10 @@ exports.checkToken = async(token) => {
             }
         })
         console.log(getStatus.status);
-        res.json(getStatus.status);
+        return res.json(getStatus.status);
     }catch(err){
         console.log(err);
-        res.json(0);
+        return res.json(0);
     }
 }
 // 프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
@@ -304,7 +304,7 @@ exports.logout = (req,res) => {
 exports.contractSend = async (req,res) => { //견적서 전송
     try{
         console.log('contractsend')
-        const getStatus = this.checkToken(req.headers.authorization);
+        const getStatus = await this.checkToken(req.headers.authorization);
         if(getStatus!=200){
             res.status(401).json({err: 'token fail'});
         }
