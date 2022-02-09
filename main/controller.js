@@ -255,9 +255,8 @@ exports.refreshToken = async(req,res) => {
 }
 
 //앱 사용자만 접근 가능하게함 +외부 공격 일부 차단
-exports.checkToken = async(req,res) => {
+exports.checkToken = async(token) => {
     try{
-        const token = req.headers.authorization;
         console.log(token);
         getStatus = await axios({
             method: 'get',
@@ -305,22 +304,12 @@ exports.logout = (req,res) => {
 exports.contractSend = async (req,res) => { //견적서 전송
     try{
         console.log('contractsend')
-        // console.log(req.headers.Authorization);
-        getStatus = await axios({
-            method: 'get',
-            url: 'http://34.64.207.117:3000/checkToken',
-            headers:{
-                Authorization: `${req.headers.authorization}`,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
-            }
-        })
-        if(getStatus.data!=200){
-            console.log('인증실패');
-            // console.log(getStatus.data);
-            res.status(401).json({err: '인증실패'});
+        const getStatus = this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            res.status(401).json({err: 'token fail'});
         }
     }catch(err){
-        res.json(err);
+        res.status(401).json({err: 'token fail'});
     }
     console.log('인증완료');
     const contract = {
