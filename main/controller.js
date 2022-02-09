@@ -65,9 +65,6 @@ exports.contractFinish = async (req, res) =>{
     }
     console.log('인증완료');
     ct_key = req.params.ct_key;
-    if(!findId){
-        return res.status(400).json({err: 'ct_key must be required'});
-    }
     con.query(`update contract_send set ct_stat = 2 where ct_key = ${ct_key}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});

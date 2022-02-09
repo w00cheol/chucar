@@ -126,11 +126,11 @@ exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
     }
 }
 
-exports.contractInfo = async(data) => {
+exports.contractFinish = async(data) => {
     try{
         console.log(data)
         getData = await axios({
-            method: 'get',
+            method: 'put',
             url: 'http://34.64.207.117:3000/contracts/finish/202202061',
             headers:{
                 Authorization: `${data}`,
