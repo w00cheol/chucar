@@ -305,38 +305,38 @@ exports.contractSend = async (req,res) => { //견적서 전송
         console.log('contractsend')
         const getStatus = await this.checkToken(req.headers.authorization);
         if(getStatus!=200){
-            res.status(401).json({err: 'token fail'});
+            return res.status(401).json({err: 'token fail'});
         }
     }catch(err){
-        res.status(401).json({err: 'token fail'});
+        return res.status(401).json({err: 'token fail'});
     }
     console.log('인증완료');
-    // const contract = {
-    //     kind: parseInt(req.body.kind), //결제종류
-    //     brand: req.body.brand, // 제조사
-    //     model: req.body.model, //모델
-    //     detail: req.body.detail, //세부모델
-    //     price: parseInt(req.body.price), //가격
-    //     mnpay: parseInt(req.body.mnpay), //월납입금
-    //     distance: parseInt(req.body.distance), //주행거리
-    //     option: req.body.option, //옵션
-    //     protosay: req.body.protosay, //프로에게ㅎㄹ말
-    //     procode: req.body.procode, //추천코드
-    //     usrid: req.body.usrid //작성자아이디
-    // }
     const contract = {
-        kind: 1, //결제종류
-        brand: '테슬라', // 제조사
-        model: 'modelS', //모델
-        detail: '아무거나', //세부모델
-        price: 300000, //가격
-        mnpay: 23233, //월납입금
-        distance: 2355, //주행거리
-        option: '선루프', //옵션
-        protosay: '삽니다~', //프로에게ㅎㄹ말
-        procode: '', //추천코드
-        usrid: '권우철' //작성자아이디
+        kind: parseInt(req.body.kind), //결제종류
+        brand: req.body.brand, // 제조사
+        model: req.body.model, //모델
+        detail: req.body.detail, //세부모델
+        price: parseInt(req.body.price), //가격
+        mnpay: parseInt(req.body.mnpay), //월납입금
+        distance: parseInt(req.body.distance), //주행거리
+        option: req.body.option, //옵션
+        protosay: req.body.protosay, //프로에게ㅎㄹ말
+        procode: req.body.procode, //추천코드
+        usrid: req.body.usrid //작성자아이디
     }
+    // const contract = {
+    //     kind: 1, //결제종류
+    //     brand: '테슬라', // 제조사
+    //     model: 'modelS', //모델
+    //     detail: '아무거나', //세부모델
+    //     price: 300000, //가격
+    //     mnpay: 23233, //월납입금
+    //     distance: 2355, //주행거리
+    //     option: '선루프', //옵션
+    //     protosay: '삽니다~', //프로에게ㅎㄹ말
+    //     procode: '', //추천코드
+    //     usrid: '권우철' //작성자아이디
+    // }
     con.query(`CALL SND_CONTRACT('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
                                  '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
                                  '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {
