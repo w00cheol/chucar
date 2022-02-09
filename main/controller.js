@@ -260,7 +260,7 @@ exports.checkToken = async(req,res) => {
         console.log(token);
         getStatus = await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{
-                Authorization: `${token}`,
+                Authorization: ` Bearer ${token}`,
                 'content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
