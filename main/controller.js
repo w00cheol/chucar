@@ -76,7 +76,7 @@ exports.contractInfo = (req, res) =>{
         res.json(rows);
     })
 }
-exports.find_from_proid = (req, res) =>{
+exports.find_from_proid = async (req, res) =>{
     try{
         console.log('find_reply_from_id');
         const getStatus = await this.checkToken(req.headers.authorization);
