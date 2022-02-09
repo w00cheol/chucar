@@ -256,7 +256,7 @@ exports.refreshToken = async(req,res) => {
 
 exports.checkToken = async(req,res) => {
     try{
-        const token = req.headers.authorization;
+        const token = req.headers.Authorization;
         console.log(token);
         getStatus = await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{
@@ -274,7 +274,7 @@ exports.checkToken = async(req,res) => {
 // 프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
 exports.showInfo = async(req, res) => {
     try{
-        const token = req.headers.authorization;
+        const token = req.headers.authorization; 
         console.log(token);
         tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{

@@ -128,7 +128,7 @@ exports.checkToken = async(data) => {
     try{
         getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
             headers:{
-                authorization: `${data}`,
+                Authorization: `${data}`,
                 'content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
