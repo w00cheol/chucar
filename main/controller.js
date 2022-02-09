@@ -42,11 +42,8 @@ exports.find_from_usrid = (req, res) =>{
 }
 exports.showReply = (req, res) =>{
     console.log('showReply');
-    ct_key = req.params.ct_key;
-    if(!findId){
-        return res.status(400).json({err: 'ct_key must be required'});
-    }
-    con.query(`select * from contract_reply where ct_key = ${ct_key}`, (error, rows, fields) => {
+    cr_key = req.params.cr_key;
+    con.query(`select * from contract_reply where cr_key = ${cr_key}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);

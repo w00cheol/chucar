@@ -142,7 +142,23 @@ exports.contractFinish = async(data) => {
         // return console.log(err);
     }
 }
-exports.findfrom
+
+exports.showReply = async(data) => {
+    try{
+        console.log(data)
+        getData = await axios({
+            method: 'get',
+            url: 'http://34.64.207.117:3000/reply/202202072',
+            headers:{
+                Authorization: `${data}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        console.log(getData.data);
+    }catch(err){
+        // return console.log(err);
+    }
+}
 exports.contractInfo = async(data) => {
     try{
         console.log(data)
