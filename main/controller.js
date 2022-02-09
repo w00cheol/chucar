@@ -320,23 +320,23 @@ exports.contractSend = async (req,res) => { //견적서 전송
         // res.json(err);
     }
     console.log('인증완료');
-    const contract = {
-        kind: parseInt(req.body.kind), //결제종류
-        brand: req.body.brand, // 제조사
-        model: req.body.model, //모델
-        detail: req.body.detail, //세부모델
-        price: parseInt(req.body.price), //가격
-        mnpay: parseInt(req.body.mnpay), //월납입금
-        distance: parseInt(req.body.distance), //주행거리
-        option: req.body.option, //옵션
-        protosay: req.body.protosay, //프로에게ㅎㄹ말
-        procode: req.body.procode, //추천코드
-        usrid: req.body.usrid //작성자아이디
-    }
-    con.query(`CALL SND_CONTRACT('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
-                                 '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
-                                 '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {
-        if(error) res.status(404).json(error);
-        res.status(201).json({success:true});
-    })
+    // const contract = {
+    //     kind: parseInt(req.body.kind), //결제종류
+    //     brand: req.body.brand, // 제조사
+    //     model: req.body.model, //모델
+    //     detail: req.body.detail, //세부모델
+    //     price: parseInt(req.body.price), //가격
+    //     mnpay: parseInt(req.body.mnpay), //월납입금
+    //     distance: parseInt(req.body.distance), //주행거리
+    //     option: req.body.option, //옵션
+    //     protosay: req.body.protosay, //프로에게ㅎㄹ말
+    //     procode: req.body.procode, //추천코드
+    //     usrid: req.body.usrid //작성자아이디
+    // }
+    // con.query(`CALL SND_CONTRACT('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
+    //                              '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
+    //                              '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {
+    //     if(error) res.status(404).json(error);
+    //     res.status(201).json({success:true});
+    // })
 }
