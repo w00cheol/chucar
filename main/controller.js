@@ -300,7 +300,7 @@ exports.logout = (req,res) => {
     console.log(res.data);
 }
 
-exports.contractSend = (req,res) => { //견적서 전송
+exports.contractSend = async (req,res) => { //견적서 전송
     try{
         getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
             headers:{
