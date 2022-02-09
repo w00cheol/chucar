@@ -110,7 +110,7 @@ exports.refreshToken = async(data) => { // 토큰 갱신 함수
     }
 }
 
-exports.checkToken = async(data) => { // 사용자 정보 불러오는 함수
+exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
     try{
         tokenInfo = await axios.get('http://34.64.207.117:3000/token', {
             headers:{
@@ -121,5 +121,23 @@ exports.checkToken = async(data) => { // 사용자 정보 불러오는 함수
         return console.log(tokenInfo.data);
     }catch(err){
         console.log(err.data);
+    }
+}
+
+exports.checkToken = async(req,res) => {
+    try{
+        const token = req.headers.authorization;
+        console.log(token);
+        getStatus = await axios.get('https://kapi.kakao.com/v2/user/me', {
+            headers:{
+                Authorization: `Bearer ${token}`,
+                'content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        console.log(getStatus);
+        res.json(getStatus);
+    }catch(err){
+        console.log(err);
+        res.json(0);
     }
 }

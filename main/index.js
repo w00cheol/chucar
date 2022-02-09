@@ -2,6 +2,7 @@
 const httpPort = 3000;
 const { default: axios } = require('axios');
 const express = require('express');
+const { combineTransition } = require('react-native-reanimated');
 const app = express();
 //const { resolve } = require('path/posix');
 //express 사용
@@ -47,7 +48,9 @@ app.post('/reply', controller.sendReply); // 견적서 작성하고 백엔드 �
 app.post('/signup', controller.signup);
 //app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결
 
-app.get('/token', controller.checkToken);
+app.get('/token', controller.showInfo);
+
+app.get('/checkToken', controller.checkToken);
 
 app.get('/refresh', controller.refreshToken);
 

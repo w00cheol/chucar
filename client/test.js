@@ -7,5 +7,6 @@ const qs = require('qs');
 //client.kakaoLogin();
 
 
-// client.refreshToken('yytTHkERaLxMTI2kCIv1F2DPHinw30HrCnZq-QopyWAAAAF-2fVmSA');
-client.checkToken('zw3PFqR5JXSkM1UqfJhwzJ1bjEqqZcbU5TM8Jwo9dZoAAAF-2rBaPg');
+//  client.refreshToken('yytTHkERaLxMTI2kCIv1F2DPHinw30HrCnZq-QopyWAAAAF-2fVmSA');
+// client.show('gKVqV4mfIeVXse96WX7JyrP981TgpsUao5yokgo9cpgAAAF-3iGQqw');
+client.checkToken('gKVqV4mfIeVXse96WX7JyrP981TgpsUao5yokgo9cpgAAAF-3iGQqw');
