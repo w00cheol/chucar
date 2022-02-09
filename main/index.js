@@ -33,7 +33,7 @@ app.put("/contracts/finish/:ct_key", controller.contractFinish) // 마감 버튼
 
 app.get("/reply/:ct_key", controller.showReply) // 게시글 들어갈때 이 글에 대한 견적서 (댓글) 정보 다 보내줌
 
-app.delete("/users/:id", controller.delete); // /usrs/숫자 : id로 삭제
+// app.delete("/users/:id", controller.delete); // /usrs/숫자 : id로 삭제
 
 // app.post('/users', controller.create); // /users 로 전송하고 data로 id, name 값 전송해줘야함, 생성
 
