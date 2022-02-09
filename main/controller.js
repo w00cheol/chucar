@@ -265,7 +265,7 @@ exports.checkToken = async(req,res) => {
                 'content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        console.log(getStatus.status);
+        // console.log(getStatus.status);
         res.json(getStatus.status);
     }catch(err){
         console.log(err);
@@ -309,8 +309,8 @@ exports.contractSend = async (req,res) => { //견적서 전송
             }
         })
         if(getStatus.data!=200){
-            console.log('status');
-            res.status(401).json({err: 'wrong token'});
+            console.log('인증실패');
+            res.status(401).json({err: '인증실패'});
         }
     }catch(err){
         res.json(err);
