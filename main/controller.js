@@ -304,7 +304,7 @@ exports.logout = (req,res) => {
 
 exports.contractSend = async (req,res) => { //견적서 전송
     try{
-        console.log(req.headers.Authorization);
+        console.log(req.body);
         console.log('contractsend')
         // console.log(req.headers.Authorization);
         getStatus = await axios({
