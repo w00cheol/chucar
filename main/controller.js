@@ -327,7 +327,7 @@ exports.contractSend = async (req,res) => { //견적서 전송
     const contract = {
         kind: 1, //결제종류
         brand: '테슬라', // 제조사
-        model: 'model S', //모델
+        model: 'modelS', //모델
         detail: '아무거나', //세부모델
         price: 300000, //가격
         mnpay: 23233, //월납입금
