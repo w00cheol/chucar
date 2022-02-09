@@ -95,11 +95,11 @@ exports.kakaoLogin = async() => { //카카오로그인
     }
 }
 
-exports.refreshToken = async(data) => {
+exports.refreshToken = async(data) => { // 토큰 갱신 함수
     try{
         tokenInfo = await axios.get('http://34.64.207.117:3000/refresh', {
             headers:{
-                refresh_token: data,
+                refresh_token: data, // data에 refresh_token 값 스트링으로 넣어야함
                 'Content-type':'application/x-www-form-urlencoded'
             }
         })
@@ -110,15 +110,15 @@ exports.refreshToken = async(data) => {
     }
 }
 
-exports.checkToken = async(data) => {
+exports.checkToken = async(data) => { // 사용자 정보 불러오는 함수
     try{
         tokenInfo = await axios.get('http://34.64.207.117:3000/token', {
             headers:{
-                Authorization: `${data}`,
+                Authorization: `${data}`, //accesstoken 값 헤더로 보내기
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        return console.log(tokenInfo);
+        return console.log(tokenInfo.data);
     }catch(err){
         console.log(err.data);
     }

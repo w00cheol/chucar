@@ -23,21 +23,96 @@ exports.home = (req, res) =>{
 }
 exports.show = (req, res) =>{
     console.log('show');
-    con.query('SELECT * from users', (error, rows) => {
+    con.query('SELECT * from contract_send', (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         res.json(rows);
     })
 }
-exports.find = (req, res) =>{
-    console.log('find');
-    findId = req.params.id;
+exports.find_from_usrid = (req, res) =>{
+    console.log('find_contract_from_id');
+    findId = req.params.usrid;
     if(!findId){
-        return res.status(400).json({err: 'id must be required'});
+        return res.status(400).json({err: 'usrid must be required'});
     }
-    con.query('SELECT * from users where id = ?', findId, (error, rows, fields) => {
+    con.query('SELECT * from contract_send where ct_usrid = ?', findId, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
-        if(!rows[0]) return res.status(404).json({err: 'Unknown user'});
+        // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
+    })
+}
+exports.showReply = (req, res) =>{
+    console.log('showReply');
+    ct_key = req.params.ct_key;
+    if(!findId){
+        return res.status(400).json({err: 'ct_key must be required'});
+    }
+    con.query(`select * from contract_reply where ct_key = ${ct_key}`, (error, rows, fields) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
+        res.json(rows);
+    })
+}
+exports.contractFinish = (req, res) =>{
+    console.log('contractFinish');
+    ct_key = req.params.ct_key;
+    if(!findId){
+        return res.status(400).json({err: 'ct_key must be required'});
+    }
+    con.query(`update contract_send set ct_stat = 2 where ct_key = ${ct_key}`, (error, rows, fields) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
+        res.status(204).json(1);
+    })
+}
+exports.contractInfo = (req, res) =>{
+    console.log('contractInfo');
+    ct_key = req.params.ct_key;
+    if(!findId){
+        return res.status(400).json({err: 'ct_key must be required'});
+    }
+    con.query(`select * from contract_send where ct_key = ${ct_key}`, (error, rows, fields) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
+        res.json(rows);
+    })
+}
+exports.find_from_proid = (req, res) =>{
+    console.log('find_reply_from_id');
+    findId = req.params.proid;
+    if(!findId){
+        return res.status(400).json({err: 'proid must be required'});
+    }
+    con.query(`select * from contract_send where ct_key  in (
+        SELECT cr_key as num from contract_reply where cr_proid = '${findId}');`, (error, rows, fields) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
+        res.json(rows);
+    })
+}
+exports.sendReply = (req, res) =>{
+    console.log('sendReply');
+    const member = {
+        cr_key: req.body.cr_key,
+        cr_reply: req.body.cr_reply,
+        img1: req.body.img1,
+        img2: req.body.img2,
+        img3: req.body.img3,
+        img4: req.body.img4,
+        img5: req.body.img5,
+        img6: req.body.img6,
+        img7: req.body.img7,
+        img8: req.body.img8,
+        img9: req.body.img9,
+        img10: req.body.img10,
+        img11: req.body.img11,
+        img12: req.body.img12,
+        proid: req.body.proid
+    }
+    con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
+                                 '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}',
+                                 '${member.img9}', ${member.img10}), ${member.img11}), ${member.img12}, ${member.proid})`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        res.status(201).json({success:true});
     })
 }
 exports.delete = (req, res) => { 
@@ -196,7 +271,7 @@ exports.checkToken = async(req, res) => {
             nickname: tokenInfo.data.properties.nickname
         }
         console.log(tokenInfo.data.id);
-        console.log(tokenInfo.data.target_id);
+        console.log(tokenInfo);
         res.json(properties);
     }catch(err){
         console.log(err.data);
