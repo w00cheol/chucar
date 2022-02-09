@@ -97,7 +97,9 @@ exports.kakaoLogin = async() => { //카카오로그인
 
 exports.refreshToken = async(data) => { // 토큰 갱신 함수
     try{
-        tokenInfo = await axios.get('http://34.64.207.117:3000/refresh', {
+        tokenInfo = await axios({
+            method: 'get',
+            url: 'http://34.64.207.117:3000/refresh',
             headers:{
                 refresh_token: data, // data에 refresh_token 값 스트링으로 넣어야함
                 'Content-type':'application/x-www-form-urlencoded'
@@ -127,7 +129,9 @@ exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
 exports.checkToken = async(data) => {
     try{
         console.log(data)
-        getStatus = await axios.post('http://34.64.207.117:3000/contract/send','', {
+        getStatus = await axios({
+            method: 'post',
+            url: 'http://34.64.207.117:3000/contract/send',
             headers:{
                 Authorization: `${data}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'

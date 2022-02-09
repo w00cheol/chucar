@@ -257,18 +257,18 @@ exports.refreshToken = async(req,res) => {
 //앱 사용자만 접근 가능하게함 +외부 공격 일부 차단
 exports.checkToken = async(req,res) => {
     try{
-        const token = req.headers.Authorization;
+        const token = req.body.headers.Authorization;
         console.log(token);
-        getStatus = await axios({
-            method: 'get',
-            url: 'https://kapi.kakao.com/v2/user/me',
-            headers:{
-                Authorization: `Bearer ${token}`,
-                'content-type':'application/x-www-form-urlencoded;utf-8'
-            }
-        })
-        // console.log(getStatus.status);
-        res.json(getStatus.status);
+        // getStatus = await axios({
+        //     method: 'get',
+        //     url: 'https://kapi.kakao.com/v2/user/me',
+        //     headers:{
+        //         Authorization: `Bearer ${token}`,
+        //         'content-type':'application/x-www-form-urlencoded;utf-8'
+        //     }
+        // })
+        // // console.log(getStatus.status);
+        // res.json(getStatus.status);
     }catch(err){
         console.log(err);
         res.json(0);
