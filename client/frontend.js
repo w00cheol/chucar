@@ -126,13 +126,15 @@ exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
 
 exports.checkToken = async(data) => {
     try{
-        getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
+        getStatus = await axios.get('http://34.64.207.117:3000/contract/send', {
             headers:{
                 Authorization: `${data}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        return console.log(getStatus);
+        if(getStatus.data==200) console.log('인증완료');
+        else console.log(getStatus.data);
+        return getStatus.data;
     }catch(err){
         return console.log(err);
     }

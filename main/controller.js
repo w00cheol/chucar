@@ -254,9 +254,10 @@ exports.refreshToken = async(req,res) => {
         }
 }
 
+//앱 사용자만 접근 가능하게함 +외부 공격 일부 차단
 exports.checkToken = async(req,res) => {
     try{
-        const token = req.headers.authorization;
+        const token = req.headers.Authorization;
         console.log(token);
         getStatus = await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{
@@ -274,7 +275,7 @@ exports.checkToken = async(req,res) => {
 // 프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
 exports.showInfo = async(req, res) => {
     try{
-        const token = req.headers.authorization; 
+        const token = req.headers.Authorization; 
         console.log(token);
         tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{
@@ -300,18 +301,33 @@ exports.logout = (req,res) => {
 }
 
 exports.contractSend = (req,res) => { //견적서 전송
+    try{
+        getStatus = axios.get('http://34.64.207.117:3000/checkToken', {
+            headers:{
+                Authorization: `${req.headers.Authorization}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        if(getStatus.data!=200){
+            console.log('status');
+            res.status(401).json({err: 'wrong token'});
+        }
+    }catch(err){
+        res.json(err);
+    }
+    console.log('인증완료');
     const contract = {
-        kind: parseInt(req.body.kind),
-        brand: req.body.brand,
-        model: req.body.model,
-        detail: req.body.detail,
-        price: parseInt(req.body.price),
-        mnpay: parseInt(req.body.mnpay),
-        distance: parseInt(req.body.distance),
-        option: req.body.option,
-        protosay: req.body.protosay,
-        procode: req.body.procode,
-        usrid: req.body.usrid
+        kind: parseInt(req.body.kind), //결제종류
+        brand: req.body.brand, // 제조사
+        model: req.body.model, //모델
+        detail: req.body.detail, //세부모델
+        price: parseInt(req.body.price), //가격
+        mnpay: parseInt(req.body.mnpay), //월납입금
+        distance: parseInt(req.body.distance), //주행거리
+        option: req.body.option, //옵션
+        protosay: req.body.protosay, //프로에게ㅎㄹ말
+        procode: req.body.procode, //추천코드
+        usrid: req.body.usrid //작성자아이디
     }
     con.query(`CALL SND_CONTRACT('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
                                  '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
