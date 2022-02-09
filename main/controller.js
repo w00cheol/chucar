@@ -98,7 +98,7 @@ exports.find_from_proid = async (req, res) =>{
         return res.json(rows);
     })
 }
-exports.sendReply = (req, res) =>{
+exports.sendReply = async (req, res) =>{
     try{
         console.log('sendReply');
         const getStatus = await this.checkToken(req.headers.authorization);
