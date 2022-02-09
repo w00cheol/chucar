@@ -267,10 +267,9 @@ exports.checkToken = async(token) => {
             }
         })
         console.log(getStatus.status);
-        return res.json(getStatus.status);
+        return getStatus.status;
     }catch(err){
-        console.log(err);
-        return res.json(0);
+        return 0;
     }
 }
 // 프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
