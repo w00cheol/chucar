@@ -128,9 +128,9 @@ exports.checkToken = async(req,res) => {
     try{
         const token = req.headers.authorization;
         console.log(token);
-        getStatus = await axios.get('https://kapi.kakao.com/v2/user/me', {
+        getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
             headers:{
-                Authorization: `Bearer ${token}`,
+                authorization: `${token}`,
                 'content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
