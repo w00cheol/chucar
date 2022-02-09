@@ -77,7 +77,16 @@ exports.contractInfo = (req, res) =>{
     })
 }
 exports.find_from_proid = (req, res) =>{
-    console.log('find_reply_from_id');
+    try{
+        console.log('find_reply_from_id');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
     findId = req.params.proid;
     if(!findId){
         return res.status(400).json({err: 'proid must be required'});
@@ -86,11 +95,20 @@ exports.find_from_proid = (req, res) =>{
         SELECT cr_key as num from contract_reply where cr_proid = '${findId}');`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
-        res.json(rows);
+        return res.json(rows);
     })
 }
 exports.sendReply = (req, res) =>{
-    console.log('sendReply');
+    try{
+        console.log('sendReply');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
     const member = {
         cr_key: req.body.cr_key,
         cr_reply: req.body.cr_reply,
@@ -115,121 +133,121 @@ exports.sendReply = (req, res) =>{
         res.status(201).json({success:true});
     })
 }
-exports.delete = (req, res) => { 
-    console.log('delete');
-    deleteId = req.params.id;
-    if(!deleteId){
-        return res.status(400).json({err: 'id must be required'});
-    }
-    con.query('SELECT * from users where id = ?', deleteId, (error, rows, fields) => {
-        if(error) return res.status(404).json({err: 'Undefined error!'});
-        if(!rows[0]) return res.status(404).json({err: 'Unknown user'});
-        else con.query('DELETE from users where id = ?', id, (error, rows, fields) => {
-            if(error) return res.status(404).json({err: 'Undefined error!'});
-            res.status(204);
-        })
-    })
-    //REST API protocol에 의거 "no content" 전송
-}
-exports.create = (req, res) => {
-    console.log('create');
-    const newId = req.body.id;
-    const newName = req.body.name || '';
-    if(!newId){
-        return res.status(400).json({err: 'Incorrct id'});
-    }
-    if(!newName){
-        return res.status(400).json({err: 'Incorrect name'});
-    }
-    con.query('SELECT * from users where id = ?', newId, (error, rows, fields) => {
-        if(error) return res.status(404).json({err: 'Undefined error!'});
-        if(!!rows[0]) return res.status(404).json({err: 'the id already exist'});
-        else con.query('insert into users set ?', req.body, (error, rows, fields) => {
-            if(error) return res.status(404).json({err: 'Undefined error!'});
-            res.status(201).json(rows);
-            //REST API 규약에 맞게 Created code 전송
-        })
-    })
-}
-exports.update = (req, res) =>{
-    console.log('update');
-    const id = req.params.id;
-    const updateName = req.body.name || '';
-    if(!id){
-        return res.status(400).json({err: 'Incorrct id'});
-    }
-    if(!updateName.length){
-        return res.status(400).json({err: 'Incorrect name'});
-    }
-    var updateUser = [updateName, id];
-    con.query('SELECT * from users where id = ?', id, (error, rows, fields) => {
-        if(error) return res.status(404).json({err: 'Undefined error!'});
-        if(!rows[0]) return res.status(404).json({err: 'the id doesn\'t  exist'});
-        con.query('UPDATE users SET name = ? where id = ?', updateUser, (error, rows, fields) => {
-            if(error) return res.status(404).json(error);
-            res.status(204).end();
-        })
-    })
-}
-exports.signup = (req, res) => {
-    const member = {
-        id: req.body.id,
-        password: req.body.password,
-        nickname: req.body.nickname,
-        email: req.body.email,
-        phone: req.body.phone,
-        prv1: parseInt(req.body.prv1),
-        prv2: parseInt(req.body.prv2),
-        prv3: parseInt(req.body.prv3),
-    }
+// exports.delete = (req, res) => { 
+//     console.log('delete');
+//     deleteId = req.params.id;
+//     if(!deleteId){
+//         return res.status(400).json({err: 'id must be required'});
+//     }
+//     con.query('SELECT * from users where id = ?', deleteId, (error, rows, fields) => {
+//         if(error) return res.status(404).json({err: 'Undefined error!'});
+//         if(!rows[0]) return res.status(404).json({err: 'Unknown user'});
+//         else con.query('DELETE from users where id = ?', id, (error, rows, fields) => {
+//             if(error) return res.status(404).json({err: 'Undefined error!'});
+//             res.status(204);
+//         })
+//     })
+//     //REST API protocol에 의거 "no content" 전송
+// }
+// exports.create = (req, res) => {
+//     console.log('create');
+//     const newId = req.body.id;
+//     const newName = req.body.name || '';
+//     if(!newId){
+//         return res.status(400).json({err: 'Incorrct id'});
+//     }
+//     if(!newName){
+//         return res.status(400).json({err: 'Incorrect name'});
+//     }
+//     con.query('SELECT * from users where id = ?', newId, (error, rows, fields) => {
+//         if(error) return res.status(404).json({err: 'Undefined error!'});
+//         if(!!rows[0]) return res.status(404).json({err: 'the id already exist'});
+//         else con.query('insert into users set ?', req.body, (error, rows, fields) => {
+//             if(error) return res.status(404).json({err: 'Undefined error!'});
+//             res.status(201).json(rows);
+//             //REST API 규약에 맞게 Created code 전송
+//         })
+//     })
+// }
+// exports.update = (req, res) =>{
+//     console.log('update');
+//     const id = req.params.id;
+//     const updateName = req.body.name || '';
+//     if(!id){
+//         return res.status(400).json({err: 'Incorrct id'});
+//     }
+//     if(!updateName.length){
+//         return res.status(400).json({err: 'Incorrect name'});
+//     }
+//     var updateUser = [updateName, id];
+//     con.query('SELECT * from users where id = ?', id, (error, rows, fields) => {
+//         if(error) return res.status(404).json({err: 'Undefined error!'});
+//         if(!rows[0]) return res.status(404).json({err: 'the id doesn\'t  exist'});
+//         con.query('UPDATE users SET name = ? where id = ?', updateUser, (error, rows, fields) => {
+//             if(error) return res.status(404).json(error);
+//             res.status(204).end();
+//         })
+//     })
+// }
+// exports.signup = (req, res) => {
+//     const member = {
+//         id: req.body.id,
+//         password: req.body.password,
+//         nickname: req.body.nickname,
+//         email: req.body.email,
+//         phone: req.body.phone,
+//         prv1: parseInt(req.body.prv1),
+//         prv2: parseInt(req.body.prv2),
+//         prv3: parseInt(req.body.prv3),
+//     }
 
-    if(!member.id){
-        return res.status(401).json({err: 'id must be required'});
-    }
-    else if(!member.password){
-        return res.status(401).json({err: 'password must be required'});
-    }
-    else if(!member.nickname){
-        return res.status(401).json({err: 'nickname must be required'});
-    }
-    console.log("REST API Post Method - Member Login And JWT Sign");
-    con.query(`CALL REG_USER('${member.id}','${member.password}','${member.nickname}','${member.email}','${member.phone}',${member.prv1},${member.prv2},${member.prv3},@err)`, (error, rows, fields) => {
-        console.log('1');
-        if(error) res.status(404).json(error);
-        console.log('2');
-        con.query('select @err as err' , (error, rows, fields) => {
+//     if(!member.id){
+//         return res.status(401).json({err: 'id must be required'});
+//     }
+//     else if(!member.password){
+//         return res.status(401).json({err: 'password must be required'});
+//     }
+//     else if(!member.nickname){
+//         return res.status(401).json({err: 'nickname must be required'});
+//     }
+//     console.log("REST API Post Method - Member Login And JWT Sign");
+//     con.query(`CALL REG_USER('${member.id}','${member.password}','${member.nickname}','${member.email}','${member.phone}',${member.prv1},${member.prv2},${member.prv3},@err)`, (error, rows, fields) => {
+//         console.log('1');
+//         if(error) res.status(404).json(error);
+//         console.log('2');
+//         con.query('select @err as err' , (error, rows, fields) => {
 
-        console.log('3');
-            if(error) res.status(404).json(error);
-            if(rows[0].err){
-                    const secret = process.env.jwtcode;
-                    jwt.sign({
-                            memberId : rows[0].name,
-                            memberName : rows[0].password
-                    },
-                    secret,
-                    {
-                        expiresIn : '300'
-                    },
-                    (err, token) => {
-                        if (err) {
-                            res.status(401).json({err:'token sign fail'});
-                        }
-                        res.json({token:token});
-                    });
-            }else {
-                res.status(401).json({success:false, errormessage:'wrong id or password'});
-            }
-        })
-    })
-}
+//         console.log('3');
+//             if(error) res.status(404).json(error);
+//             if(rows[0].err){
+//                     const secret = process.env.jwtcode;
+//                     jwt.sign({
+//                             memberId : rows[0].name,
+//                             memberName : rows[0].password
+//                     },
+//                     secret,
+//                     {
+//                         expiresIn : '300'
+//                     },
+//                     (err, token) => {
+//                         if (err) {
+//                             res.status(401).json({err:'token sign fail'});
+//                         }
+//                         res.json({token:token});
+//                     });
+//             }else {
+//                 res.status(401).json({success:false, errormessage:'wrong id or password'});
+//             }
+//         })
+//     })
+// }
 
 // exports.loginPage = (req,res)=>{ //인가코드요청
 //     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
 //     res.redirect(kakaoAuthURL);
 // }
 
-exports.refreshToken = async(req,res) => {
+exports.refreshToken = async(req,res) => { //토큰 갱신
         try{
             const refresh_token = req.headers.refresh_token;
             console.log('refreshing...');
@@ -300,7 +318,7 @@ exports.logout = (req,res) => {
     console.log(res.data);
 }
 
-exports.contractSend = async (req,res) => { //견적서 전송
+exports.contractSend = async (req,res) => { //견적요청 전송
     try{
         console.log('contractsend')
         const getStatus = await this.checkToken(req.headers.authorization);
@@ -311,32 +329,32 @@ exports.contractSend = async (req,res) => { //견적서 전송
         return res.status(401).json({err: 'token fail'});
     }
     console.log('인증완료');
-    // const contract = {
-    //     kind: parseInt(req.body.kind), //결제종류
-    //     brand: req.body.brand, // 제조사
-    //     model: req.body.model, //모델
-    //     detail: req.body.detail, //세부모델
-    //     price: parseInt(req.body.price), //가격
-    //     mnpay: parseInt(req.body.mnpay), //월납입금
-    //     distance: parseInt(req.body.distance), //주행거리
-    //     option: req.body.option, //옵션
-    //     protosay: req.body.protosay, //프로에게ㅎㄹ말
-    //     procode: req.body.procode, //추천코드
-    //     usrid: req.body.usrid //작성자아이디
-    // }
-    const contract = {
-        kind: 1, //결제종류
-        brand: '테슬라', // 제조사
-        model: 'modesddslS', //모델
-        detail: '아무거나', //세부모델
-        price: 300000, //가격
-        mnpay: 23233, //월납입금
-        distance: 2355, //주행거리
-        option: '선루프', //옵션
-        protosay: '삽니다~', //프로에게ㅎㄹ말
-        procode: '', //추천코드
-        usrid: '권우철' //작성자아이디
+    const contract = { //글자수 제한 ㅍ론트에서 요청할것
+        kind: parseInt(req.body.kind), //결제종류
+        brand: req.body.brand, // 제조사
+        model: req.body.model, //모델
+        detail: req.body.detail, //세부모델
+        price: parseInt(req.body.price), //가격
+        mnpay: parseInt(req.body.mnpay), //월납입금
+        distance: parseInt(req.body.distance), //주행거리
+        option: req.body.option, //옵션
+        protosay: req.body.protosay, //프로에게ㅎㄹ말
+        procode: req.body.procode, //추천코드
+        usrid: req.body.usrid //작성자아이디
     }
+    // const contract = {
+    //     kind: 1, //결제종류
+    //     brand: '테슬라', // 제조사
+    //     model: 'modelS', //모델
+    //     detail: '아무거나', //세부모델
+    //     price: 300000, //가격
+    //     mnpay: 23233, //월납입금
+    //     distance: 2355, //주행거리
+    //     option: '선루프', //옵션
+    //     protosay: '삽니다~', //프로에게ㅎㄹ말
+    //     procode: '', //추천코드
+    //     usrid: '권우철' //작성자아이디
+    // }
     con.query(`CALL SND_CONTRACT('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
                                  '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
                                  '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {

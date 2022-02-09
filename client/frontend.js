@@ -126,6 +126,22 @@ exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
     }
 }
 
+exports.findfromproid = async(data) => {
+    try{
+        console.log(data)
+        getData = await axios({
+            method: 'get',
+            url: 'http://34.64.207.117:3000/contracts/pro/1234',
+            headers:{
+                Authorization: `${data}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        console.log(getData.data);
+    }catch(err){
+        // return console.log(err);
+    }
+}
 exports.checkToken = async(data) => {
     try{
         console.log(data)
@@ -137,9 +153,6 @@ exports.checkToken = async(data) => {
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        if(getStatus.data==200) console.log('인증완료');
-        else console.log(getStatus.data);
-        return getStatus.data;
     }catch(err){
         // return console.log(err);
     }
