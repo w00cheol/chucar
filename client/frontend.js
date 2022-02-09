@@ -126,6 +126,7 @@ exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
 
 exports.checkToken = async(data) => {
     try{
+        console.log(data)
         getStatus = await axios.post('http://34.64.207.117:3000/contract/send', {
             headers:{
                 Authorization: `${data}`,
@@ -136,6 +137,6 @@ exports.checkToken = async(data) => {
         else console.log(getStatus.data);
         return getStatus.data;
     }catch(err){
-        return console.log(err);
+        // return console.log(err);
     }
 }

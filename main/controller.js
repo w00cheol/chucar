@@ -302,7 +302,8 @@ exports.logout = (req,res) => {
 
 exports.contractSend = async (req,res) => { //견적서 전송
     try{
-        console.log(req.headers.Authorization);
+        console.log(req);
+        // console.log(req.headers.Authorization);
         getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
             headers:{
                 Authorization: `${req.headers.Authorization}`,
@@ -311,11 +312,11 @@ exports.contractSend = async (req,res) => { //견적서 전송
         })
         if(getStatus.data!=200){
             console.log('인증실패');
-            console.log(getStatus.data);
+            // console.log(getStatus.data);
             res.status(401).json({err: '인증실패'});
         }
     }catch(err){
-        res.json(err);
+        // res.json(err);
     }
     console.log('인증완료');
     const contract = {
