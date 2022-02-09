@@ -264,8 +264,8 @@ exports.checkToken = async(req,res) => {
                 'content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        console.log(getStatus.statusCode);
-        res.json(getStatus.statusCode);
+        console.log(getStatus.status);
+        res.json(getStatus.status);
     }catch(err){
         console.log(err);
         res.json(0);
