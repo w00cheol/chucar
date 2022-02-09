@@ -259,7 +259,9 @@ exports.checkToken = async(req,res) => {
     try{
         const token = req.headers.Authorization;
         console.log(token);
-        getStatus = await axios.get('https://kapi.kakao.com/v2/user/me', {
+        getStatus = await axios({
+            method: 'get',
+            url: 'https://kapi.kakao.com/v2/user/me',
             headers:{
                 Authorization: `Bearer ${token}`,
                 'content-type':'application/x-www-form-urlencoded;utf-8'
@@ -302,10 +304,12 @@ exports.logout = (req,res) => {
 
 exports.contractSend = async (req,res) => { //견적서 전송
     try{
-        console.log(req);
+        console.log(req.headers.Authorization);
         console.log('contractsend')
         // console.log(req.headers.Authorization);
-        getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
+        getStatus = await axios({
+            method: 'get',
+            url: 'http://34.64.207.117:3000/checkToken',
             headers:{
                 Authorization: `${req.headers.Authorization}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
