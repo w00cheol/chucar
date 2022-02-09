@@ -256,7 +256,7 @@ exports.refreshToken = async(req,res) => {
 
 exports.checkToken = async(req,res) => {
     try{
-        const token = req.headers.Authorization;
+        const token = req.headers.authorization;
         console.log(token);
         getStatus = await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{

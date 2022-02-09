@@ -120,7 +120,7 @@ exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
         })
         return console.log(tokenInfo.data);
     }catch(err){
-        console.log(err.data);
+        return console.log(err.data);
     }
 }
 
@@ -129,11 +129,11 @@ exports.checkToken = async(data) => {
         getStatus = await axios.get('http://34.64.207.117:3000/checkToken', {
             headers:{
                 Authorization: `${data}`,
-                'content-type':'application/x-www-form-urlencoded;utf-8'
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        console.log(getStatus);
+        return console.log(getStatus);
     }catch(err){
-        console.log(err);
+        return console.log(err);
     }
 }
