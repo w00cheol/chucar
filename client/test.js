@@ -8,5 +8,5 @@ const qs = require('qs');
 
 
 //  client.refreshToken('yytTHkERaLxMTI2kCIv1F2DPHinw30HrCnZq-QopyWAAAAF-2fVmSA');
-// client.show('wSsC-JoXlXB1pPPhhSblaFhQwueimgDYe3CD1wo9dGgAAAF-3k2rjg');
+// client.showInfo('wSsC-JoXlXB1pPPhhSblaFhQwueimgDYe3CD1wo9dGgAAAF-3k2rjg');
 client.checkToken('wSsC-JoXlXB1pPPhhSblaFhQwueimgDYe3CD1wo9dGgAAAF-3k2rjg');

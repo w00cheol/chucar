@@ -133,9 +133,7 @@ exports.checkToken = async(data) => {
             }
         })
         console.log(getStatus);
-        res.json(getStatus);
     }catch(err){
         console.log(err);
-        res.json(0);
     }
 }
