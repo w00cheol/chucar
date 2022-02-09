@@ -52,7 +52,7 @@ exports.showReply = (req, res) =>{
         res.json(rows);
     })
 }
-exports.contractFinish = (req, res) =>{
+exports.contractFinish = async (req, res) =>{
     try{
         console.log('contractFinish');
         const getStatus = await this.checkToken(req.headers.authorization);
