@@ -53,7 +53,17 @@ exports.showReply = (req, res) =>{
     })
 }
 exports.contractFinish = (req, res) =>{
-    console.log('contractFinish');
+    try{
+        console.log('contractFinish');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
     ct_key = req.params.ct_key;
     if(!findId){
         return res.status(400).json({err: 'ct_key must be required'});
@@ -61,10 +71,10 @@ exports.contractFinish = (req, res) =>{
     con.query(`update contract_send set ct_stat = 2 where ct_key = ${ct_key}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
-        res.status(204).json(1);
+        res.status(204).json({success:true});
     })
 }
-exports.contractInfo = (req, res) =>{
+exports.contractInfo = (req, res) =>{ // 견적요청 상세보기
     console.log('contractInfo');
     ct_key = req.params.ct_key;
     if(!findId){
@@ -103,6 +113,7 @@ exports.sendReply = async (req, res) =>{
         console.log('sendReply');
         const getStatus = await this.checkToken(req.headers.authorization);
         if(getStatus!=200){
+            console.log('token fail');
             return res.status(401).json({err: 'token fail'});
         }
     }catch(err){
@@ -323,6 +334,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
         console.log('contractsend')
         const getStatus = await this.checkToken(req.headers.authorization);
         if(getStatus!=200){
+            console.log('token fail');
             return res.status(401).json({err: 'token fail'});
         }
     }catch(err){
