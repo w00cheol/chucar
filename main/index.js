@@ -44,7 +44,7 @@ app.post('/reply', controller.sendReply); // 견적서 작성하고 백엔드 �
 
 //app.post('/login', controller.login); //data로 사용자가입력했던 id, pw 보내서 로그인되면 token값 발급 되는데 이거 저장해서 항상 들고다녀야함. (글올리기, 계정변경 등등)
 
-app.post('/signup', controller.signup);
+// app.post('/signup', controller.signup);
 //app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결
 
 app.get('/token', controller.showInfo);
