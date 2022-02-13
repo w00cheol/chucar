@@ -239,6 +239,21 @@ exports.get_usr = async(data) => {
             headers:{
                 Authorization: `${data}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
+        })
+        console.log(getData.data);
+    }catch(err){
+        return console.log(err);
+    }
+}
+exports.pro_signup = async(token) => {
+    try{
+        postData = await axios({
+            method: 'post',
+            url: 'http://34.64.207.117:3000/pro/signup',
+            headers:{
+                Authorization: `${token}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
             },
             data:{
                 id:'qwer1234',
@@ -253,21 +268,6 @@ exports.get_usr = async(data) => {
                 prv1:0,
                 prv2:1,
                 prv3:1
-            }
-        })
-        console.log(getData.data);
-    }catch(err){
-        return console.log(err);
-    }
-}
-exports.pro_signup = async(data) => {
-    try{
-        postData = await axios({
-            method: 'post',
-            url: 'http://34.64.207.117:3000/pro/signup',
-            headers:{
-                Authorization: `${data}`,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
         console.log(postData.data);
