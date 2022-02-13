@@ -23,6 +23,8 @@ app.get("/", controller.home); // / : home 화면
 
 app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
+app.get("/usr/:usr_id", controller.get_usr); // pro_id -> 회원번호, 딜러의 정보 전송
+
 app.get("/contracts", controller.show); // / => DB 견적요청서 전체 출력
 
 app.get("/contracts/:usrid", controller.find_from_usrid); // 회원번호로 검색하는 견적요청서

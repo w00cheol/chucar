@@ -16,4 +16,5 @@ const qs = require('qs');
 // client.showReply('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
 // client.findfromusrid('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
 // client.show('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
-client.get_pro('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
+// client.get_pro('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
+client.get_usr('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
