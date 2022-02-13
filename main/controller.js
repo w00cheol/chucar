@@ -312,6 +312,34 @@ exports.showInfo = async(req, res) => {
         res.json(0);
     }
 }
+// 딜러 정보 반환 해주는 함수(params : 회원번호)
+exports.get_pro = (req, res) => {
+    try{
+        console.log('get_pro')
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
+    pro_id = req.params.pro_id; //작성자아이디
+    con.query(`select * from promst where pro_id = ${pro_id}`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        res.json(rows);
+    })
+}
+exports.sssss = (req, res) => {
+    usrid = req.body.usrid //작성자아이디
+    con.query(`CALL REG_PRO('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
+                                 '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
+                                 '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        res.status(201).json({success:true});
+    })
+}
 
 exports.logout = (req,res) => {
     console.log(res.data);
