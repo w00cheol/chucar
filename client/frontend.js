@@ -235,13 +235,42 @@ exports.get_usr = async(data) => {
     try{
         getData = await axios({
             method: 'get',
-            url: 'http://34.64.207.117:3000/usr/권우철',
+            url: 'http://34.64.207.117:3000/usr/sd',
+            headers:{
+                Authorization: `${data}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            },
+            body:{
+                id:'qwer1234',
+                password:'',
+                name:'김영웅',
+                phone:'01033335555',
+                email:'woong@gmail.com',
+                card:'',
+                face:'',
+                addr:'일산',
+                code:'',
+                prv1:0,
+                prv2:1,
+                prv3:1
+            }
+        })
+        console.log(getData.data);
+    }catch(err){
+        return console.log(err);
+    }
+}
+exports.pro_signup = async(data) => {
+    try{
+        postData = await axios({
+            method: 'post',
+            url: 'http://34.64.207.117:3000/pro/signup',
             headers:{
                 Authorization: `${data}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             }
         })
-        console.log(getData.data);
+        console.log(postData.data);
     }catch(err){
         return console.log(err);
     }

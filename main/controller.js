@@ -350,11 +350,24 @@ exports.get_usr = async(req, res) => {
         res.json(rows);
     })
 }
-exports.sssss = (req, res) => {
-    usrid = req.body.usrid //작성자아이디
-    con.query(`CALL REG_PRO('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
-                                 '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
-                                 '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {
+exports.pro_signup = (req, res) => {
+    const newPro = { //글자수 제한 ㅍ론트에서 요청할것
+        id: req.body.id, // id varchar(20)
+        password: req.body.password, // 비밀번호
+        name: req.body.name, // 이름
+        phone: req.body.phone, // 전화번호 varchar(11)
+        email: req.body.email, // 이메일
+        card: req.body.card, // 사원증
+        face: req.body.face, // 프사
+        addr: req.body.addr, // 회사주소
+        code: req.body.code, // varchar(6) 추천코드
+        prv1: req.body.prv1, //int
+        prv2: req.body.prv2, //int
+        prv3: req.body.prv3 //int
+    }
+    con.query(`CALL REG_PRO('${newPro.id}', '${newPro.password}', '${newPro.name}', '${newPro.phone}', '${newPro.email}',
+                                 '${newPro.card}', '${newPro.face}', '${newPro.addr}', '${newPro.code}',
+                                 '${newPro.prv1}', '${newPro.prv2}', '${newPro.prv3}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         res.status(201).json({success:true});
     })
