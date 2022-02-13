@@ -255,7 +255,7 @@ exports.pro_signup = async(token) => {
                 Authorization: `${token}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             },
-            body:{
+            data:{
                 id:'qwer1234',
                 password:'',
                 name:'김영웅',
@@ -268,7 +268,7 @@ exports.pro_signup = async(token) => {
                 prv1:0,
                 prv2:1,
                 prv3:1
-            }
+            },
         })
         console.log(postData.data);
     }catch(err){
