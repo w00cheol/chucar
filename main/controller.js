@@ -326,7 +326,7 @@ exports.get_pro = async(req, res) => {
     }
     console.log('인증완료');
     pro_id = req.params.pro_id; //작성자아이디
-    con.query(`select * from promst where pro_id = ${pro_id}`, (error, rows, fields) => {
+    con.query(`select * from promst where pro_id = '${pro_id}'`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         res.json(rows);
     })

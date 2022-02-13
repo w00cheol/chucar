@@ -220,9 +220,13 @@ exports.get_pro = async(data) => {
     try{
         getData = await axios({
             method: 'get',
-            url: 'http://34.64.207.117:3000/pro/woocheol'
+            url: 'http://34.64.207.117:3000/pro/woocheol',
+            headers:{
+                Authorization: `${data}`,
+                'Content-type':'application/x-www-form-urlencoded;utf-8'
+            }
         })
-        console.log(getData);
+        console.log(getData.data);
     }catch(err){
         return console.log(err);
     }
