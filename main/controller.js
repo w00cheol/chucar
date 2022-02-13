@@ -351,9 +351,9 @@ exports.get_usr = async(req, res) => {
     })
 }
 // 딜러 회원가입 함수(params : 회원번호)
-exports.pro_signup = (req, res) => {
+exports.pro_signup = async(req, res) => {
     try{
-        console.log('get_usr');
+        console.log('pro_signup');
         const getStatus = await this.checkToken(req.headers.authorization);
         if(getStatus!=200){
             console.log('token fail');
