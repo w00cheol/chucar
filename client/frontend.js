@@ -222,8 +222,8 @@ exports.get_pro = async(data) => {
             method: 'get',
             url: 'http://34.64.207.117:3000/pro/woocheol'
         })
-        console.log(getData.data);
+        console.log(getData);
     }catch(err){
-        // return console.log(err);
+        return console.log(err);
     }
 }

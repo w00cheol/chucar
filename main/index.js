@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true}));
 
 app.get("/", controller.home); // / : home 화면
 
-app.get("/pro:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
+app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
 app.get("/contracts", controller.show); // / => DB 견적요청서 전체 출력
 
