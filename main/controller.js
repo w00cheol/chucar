@@ -312,7 +312,7 @@ exports.showInfo = async(req, res) => {
         res.json(0);
     }
 }
-// 딜러 정보 반환 해주는 함수(params : 회원번호)
+// 고객 정보 반환 해주는 함수(params : 회원번호)
 exports.get_pro = async(req, res) => {
     try{
         console.log('get_pro');
@@ -350,9 +350,19 @@ exports.get_usr = async(req, res) => {
         res.json(rows);
     })
 }
+// 딜러 회원가입 함수(params : 회원번호)
 exports.pro_signup = (req, res) => {
-    console.log(req.data);
-    console.log(req.body);
+    try{
+        console.log('get_usr');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
     const newPro = { //글자수 제한 ㅍ론트에서 요청할것
         id: req.body.id, // id varchar(20)
         password: req.body.password, // 비밀번호

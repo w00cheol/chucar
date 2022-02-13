@@ -252,8 +252,7 @@ exports.pro_signup = async(token) => {
             method: 'post',
             url: 'http://34.64.207.117:3000/pro/signup',
             headers:{
-                Authorization: `${token}`,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
+                Authorization: `${token}`
             },
             data:{
                 id:'qwer1234',
