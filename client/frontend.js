@@ -255,15 +255,39 @@ exports.pro_signup = async(token) => {
                 Authorization: `${token}`
             },
             data:{
-                id:'qwer1234',
+                id:'zxc123',
                 password:'',
-                name:'김영웅',
-                phone:'01033335555',
-                email:'woong@gmail.com',
+                name:'hero kim',
+                phone:'01022222222',
+                email:'asdf@gmail.com',
                 card:'',
                 face:'',
-                addr:'일산',
+                addr:'인천',
                 code:'',
+                prv1:0,
+                prv2:1,
+                prv3:1
+            },
+        })
+        console.log(postData.data);
+    }catch(err){
+        return console.log(err);
+    }
+}
+exports.usr_signup = async(token) => {
+    try{
+        postData = await axios({
+            method: 'post',
+            url: 'http://34.64.207.117:3000/usr/signup',
+            headers:{
+                Authorization: `${token}`
+            },
+            data:{
+                id:'qqqq',
+                password:'',
+                nickname:'kim',
+                email:'qqq@gmail.com',
+                phone:'011222222',
                 prv1:0,
                 prv2:1,
                 prv3:1

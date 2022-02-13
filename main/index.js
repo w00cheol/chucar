@@ -25,6 +25,8 @@ app.get("/", controller.home); // / : home 화면
 
 app.post("/pro/signup", controller.pro_signup);
 
+app.post("/usr/signup", controller.usr_signup);
+
 app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
 app.get("/usr/:usr_id", controller.get_usr); // pro_id -> 회원번호, 딜러의 정보 전송

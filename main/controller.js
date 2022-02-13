@@ -385,6 +385,35 @@ exports.pro_signup = async(req, res) => {
     })
 }
 
+exports.usr_signup = async(req, res) => {
+    try{
+        console.log('usr_signup');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
+    const newUsr = { //글자수 제한 ㅍ론트에서 요청할것
+        id: req.body.id, // id varchar(20)
+        password: req.body.password, // 비밀번호
+        nickname: req.body.nickname, // 이름
+        email: req.body.email, // 이메일
+        phone: req.body.phone, // 전화번호 varchar(11)
+        prv1: req.body.prv1, //int
+        prv2: req.body.prv2, //int
+        prv3: req.body.prv3 //int
+    }
+    con.query(`CALL REG_USER('${newUsr.id}', '${newUsr.password}', '${newUsr.name}', '${newUsr.email}', '${newUsr.phone}',
+                                 '${newUsr.prv1}', '${newUsr.prv2}', '${newUsr.prv3}', @iserr)`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        res.status(201).json({success:true});
+    })
+}
+
 exports.logout = (req,res) => {
     console.log(res.data);
 }
