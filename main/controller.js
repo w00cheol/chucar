@@ -313,9 +313,9 @@ exports.showInfo = async(req, res) => {
     }
 }
 // 딜러 정보 반환 해주는 함수(params : 회원번호)
-exports.get_pro = (req, res) => {
+exports.get_pro = async(req, res) => {
     try{
-        console.log('get_pro')
+        console.log('get_pro');
         const getStatus = await this.checkToken(req.headers.authorization);
         if(getStatus!=200){
             console.log('token fail');
