@@ -240,7 +240,7 @@ exports.get_usr = async(data) => {
                 Authorization: `${data}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
             },
-            body:{
+            data:{
                 id:'qwer1234',
                 password:'',
                 name:'김영웅',

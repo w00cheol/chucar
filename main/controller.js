@@ -351,6 +351,7 @@ exports.get_usr = async(req, res) => {
     })
 }
 exports.pro_signup = (req, res) => {
+    console.log(req);
     const newPro = { //글자수 제한 ㅍ론트에서 요청할것
         id: req.body.id, // id varchar(20)
         password: req.body.password, // 비밀번호
