@@ -309,7 +309,7 @@ exports.showInfo = async(req, res) => {
         res.json(properties);
     }catch(err){
         console.log(err);
-        res.json(0);
+        res.json('server say : success');
     }
 }
 // 고객 정보 반환 해주는 함수(params : 회원번호)
