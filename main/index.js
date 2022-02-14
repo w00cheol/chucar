@@ -23,9 +23,9 @@ app.use(express.urlencoded({ extended: true}));
 
 app.get("/", controller.home); // / : home 화면
 
-app.post("/pro/signup", controller.pro_signup);
+app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
 
-app.post("/usr/signup", controller.usr_signup);
+app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호,
 
 app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
