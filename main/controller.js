@@ -252,7 +252,7 @@ exports.refreshToken = async(req,res) => { //토큰 갱신
             console.log('refreshing...');
             newToken = await axios({
                 method: 'POST',
-                url: 'https://kauth.kakao.com/oauth/token;charset=utf-8',
+                url: 'https://kauth.kakao.com/oauth/token',
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
                 },
