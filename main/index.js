@@ -9,7 +9,7 @@ const app = express();
 
 const mod = require('./connection');
 const con = mod.init(); //con => 연결객체
-import controller from './controller';
+const controller = require('./controller');
 mod.open(con);
 
 //Express 4.16.0버전 부터 body-parser의 일부 기능이 익스프레스에 내장 body-parser 연결 
@@ -25,7 +25,7 @@ app.get("/", controller.home); // / : home 화면
 
 app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
 
-app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호,
+app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호
 
 app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
