@@ -254,7 +254,7 @@ exports.refreshToken = async(req,res) => { //토큰 갱신
                 method: 'POST',
                 url: 'https://kauth.kakao.com/oauth/token',
                 headers:{
-                    'content-type':'application/x-www-form-urlencoded'
+                    'content-type':'application/x-www-form-urlencoded;charset=utf-8'
                 },
                 data:qs.stringify({
                     grant_type: 'refresh_token',//특정 스트링
@@ -292,7 +292,7 @@ exports.checkToken = async(token) => {
 // 프론트에서 토큰값을 헤더에 껴서 보내면 카카오 api 를 이용하여 정보 확인 받은 후 프론트에게 전달
 exports.showInfo = async(req, res) => {
     try{
-        const token = req.headers.Authorization; 
+        const token = req.headers.authorization; 
         console.log(token);
         tokenInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
             headers:{
@@ -309,7 +309,7 @@ exports.showInfo = async(req, res) => {
         res.json(properties);
     }catch(err){
         console.log(err);
-        res.json('server say : success');
+        res.json('server say : false');
     }
 }
 // 고객 정보 반환 해주는 함수(params : 회원번호)
