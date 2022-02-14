@@ -283,11 +283,11 @@ exports.usr_signup = async(token) => {
                 Authorization: `${token}`
             },
             data:{
-                id:'qqqq',
+                id:'PARK',
                 password:'',
-                nickname:'kim',
-                email:'qqq@gmail.com',
-                phone:'011222222',
+                nickname:'PARKLLL',
+                email:'PARK@gmail.com',
+                phone:'82108792442',
                 prv1:0,
                 prv2:1,
                 prv3:1
