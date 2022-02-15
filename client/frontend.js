@@ -158,7 +158,7 @@ exports.findfromusrid = async(data) => {
     try{
         getData = await axios({
             method: 'get',
-            url: 'http://34.64.207.117:3000/contracts/woocheol'
+            url: 'http://34.64.207.117:3000/contracts/2111801212'
         })
         console.log(getData.data);
     }catch(err){
@@ -191,7 +191,7 @@ exports.findfromproid = async(data) => {
     try{
         getData = await axios({
             method: 'get',
-            url: 'http://34.64.207.117:3000/contracts/pro/1234',
+            url: 'http://34.64.207.117:3000/contracts/pro/2111801212',
             headers:{
                 Authorization: `${data}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'

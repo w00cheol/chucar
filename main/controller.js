@@ -21,7 +21,7 @@ exports.home = (req, res) =>{
     console.log('home');
     res.send('Welcome to CHUCAR!');
 }
-exports.show = (req, res) =>{
+exports.xshow = (req, res) =>{
     console.log('show');
     con.query('SELECT * from contract_send', (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
@@ -75,20 +75,8 @@ exports.contractInfo = (req, res) =>{ // 견적요청 상세보기
     })
 }
 exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달린 요청글들 띄우기
-    try{
-        console.log('find_reply_from_id');
-        const getStatus = await this.checkToken(req.headers.authorization);
-        if(getStatus!=200){
-            return res.status(401).json({err: 'token fail'});
-        }
-    }catch(err){
-        return res.status(401).json({err: 'token fail'});
-    }
-    console.log('인증완료');
+    console.log('find_contract_from_proid');
     findId = req.params.proid;
-    if(!findId){
-        return res.status(400).json({err: 'proid must be required'});
-    }
     con.query(`select * from contract_send where ct_key  in (
         SELECT cr_key as num from contract_reply where cr_proid = '${findId}');`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
