@@ -21,7 +21,7 @@ exports.home = (req, res) =>{
     console.log('home');
     res.send('Welcome to CHUCAR!');
 }
-exports.xshow = (req, res) =>{
+exports.show = (req, res) =>{
     console.log('show');
     con.query('SELECT * from contract_send', (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
