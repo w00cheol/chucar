@@ -524,6 +524,7 @@ exports.schedule = async (req, res) => {
     }
     });
     const { access_token } = getToken.data.response; // 인증 토큰
+    console.log(access_token);
     // imp_uid로 아임포트 서버에서 결제 정보 조회
     const getPaymentData = await axios({
       url: `https://api.iamport.kr/payments/${imp_uid}`, // imp_uid 전달
