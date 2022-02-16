@@ -469,7 +469,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
                                  '${contract.img1}', '${contract.img2}', '${contract.img3}', '${contract.img4}',
                                  '${contract.code}', '${contract.usrid}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
-        res.status(201).json({success:true});
+        else res.status(201).json({success:true});
     })
 }
 
