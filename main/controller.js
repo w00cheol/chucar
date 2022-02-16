@@ -546,7 +546,7 @@ exports.schedule = async (req, res) => {
             schedules: [
               {
                 merchant_uid: "order_monthly_0001", // 주문 번호
-                schedule_at: 1645030440, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+                schedule_at: 1645033440, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
                 amount: 1000,
                 name: "월간 이용권 정기결제",
               //   buyer_name: "홍길동",
