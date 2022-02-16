@@ -29,11 +29,13 @@ const qs = require('qs');
         //     }
         // })
 
-        axios({
-          url: `https://api.iamport.kr/subscribe/payments/unschedule`,
-          method: "post",
-          headers: { "Authorization": 'd088638a820f43c7ea4ef26cf9381d549e4941e0' }, // 인증 토큰 Authorization header에 추가
-          data: {
-          customer_uid: "1_1" // 카드(빌링키)와 1:1로 대응하는 값
-          }
-      });
+      //   axios({
+      //     url: `https://api.iamport.kr/subscribe/payments/unschedule`,
+      //     method: "post",
+      //     headers: { "Authorization": 'd088638a820f43c7ea4ef26cf9381d549e4941e0' }, // 인증 토큰 Authorization header에 추가
+      //     data: {
+      //     customer_uid: "1_1" // 카드(빌링키)와 1:1로 대응하는 값
+      //     }
+      // });
+      const body = { '{"catg":1,"gubn":1,"kind":2,"model":"2","title":"2","content":"2","price":"2","distance":"2","option":"2","img1":"","img2":"","img3":"","img4":"","code":"","usrid":2111801212}': '' };
+      console.log(body['{"catg":1,"gubn":1,"kind":2,"model":"2","title":"2","content":"2","price":"2","distance":"2","option":"2","img1":"","img2":"","img3":"","img4":"","code":"","usrid":2111801212}'])
