@@ -510,8 +510,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
 exports.schedule = async (req, res) => {
   try {
     console.log("schedule");
-    if(imp_uid)
-    const { imp_uid, merchant_uid } = req.body;
+    if(imp_uid) const { imp_uid, merchant_uid } = req.body;
     // 액세스 토큰(access token) 발급 받기
     const getToken = await axios({
     url: "https://api.iamport.kr/users/getToken",
