@@ -465,8 +465,8 @@ exports.contractSend = async (req,res) => { //견적요청 전송
     //     usrid: '권우철' //작성자아이디
     // }
     con.query(`CALL SND_CONTRACT('${contract.catg}', '${contract.gubn}', '${contract.kind}', '${contract.model}', '${contract.title}',
-                                 '${contract.content}', '${contract.price}', '${contract.distance}', '${contract.option}, '${contract.img1}',
-                                 '${contract.img2}', '${contract.img3}', '${contract.img4}', '${contract.img4}',
+                                 '${contract.content}', '${contract.price}', '${contract.distance}', '${contract.option},
+                                 '${contract.img1}', '${contract.img2}', '${contract.img3}', '${contract.img4}',
                                  '${contract.code}', '${contract.usrid}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         res.status(201).json({success:true});
