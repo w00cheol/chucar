@@ -451,6 +451,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
         code: req.body.code, //추천코드
         usrid: req.body.usrid //작성자아이디
     }
+    console.log(contract);
     // const contract = {
     //     kind: 1, //결제종류
     //     brand: '테슬라', // 제조사
