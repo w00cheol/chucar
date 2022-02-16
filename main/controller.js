@@ -1,16 +1,16 @@
 //mysql 연결객체 불러오기
-const { errorMonitor } = require('events');
+// const { errorMonitor } = require('events');
 require('dotenv').config({path : '../.env' });
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 //const { resolve } = require('path/posix');
 const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-const e = require('express');
-const res = require('express/lib/response');
-const express = require('express');
-const { acc } = require('react-native-reanimated');
+// const e = require('express');
+// const res = require('express/lib/response');
+// const express = require('express');
+// const { acc } = require('react-native-reanimated');
 
 const kakao = { //나중에 import로 유출방지
     clientID: '9e7627ff0adc857af4fd5e69de0222e6',
@@ -555,7 +555,7 @@ exports.schedule = async (req, res) => {
             ]
           }
         });
-        res.status(200).send();
+        res.status(401).send();
     }
 } catch (err) {
     res.status(400).send(err);
