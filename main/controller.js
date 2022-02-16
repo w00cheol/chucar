@@ -510,7 +510,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
 exports.schedule = async (req, res) => {
   try {
     console.log("schedule");
-    // const { imp_uid, merchant_uid } = req.body;
+    const { imp_uid, merchant_uid } = req.body;
     // 액세스 토큰(access token) 발급 받기
     const getToken = await axios({
     url: "https://api.iamport.kr/users/getToken",
@@ -522,7 +522,6 @@ exports.schedule = async (req, res) => {
     }
     });
     const { access_token } = getToken.data.response; // 인증 토큰
-    console.log(access_token);
     // imp_uid로 아임포트 서버에서 결제 정보 조회
     const getPaymentData = await axios({
       url: `https://api.iamport.kr/payments/${imp_uid}`, // imp_uid 전달
