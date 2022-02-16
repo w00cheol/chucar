@@ -37,5 +37,27 @@ const qs = require('qs');
       //     customer_uid: "1_1" // 카드(빌링키)와 1:1로 대응하는 값
       //     }
       // });
-      const body = { '{"catg":1,"gubn":1,"kind":2,"model":"2","title":"2","content":"2","price":"2","distance":"2","option":"2","img1":"","img2":"","img3":"","img4":"","code":"","usrid":2111801212}': '' };
-      console.log(body['{"catg":1,"gubn":1,"kind":2,"model":"2","title":"2","content":"2","price":"2","distance":"2","option":"2","img1":"","img2":"","img3":"","img4":"","code":"","usrid":2111801212}'])
+    axios({
+      method: 'post',
+      url: 'http://34.64.207.117:3000/contract/send',
+      headers:{
+        Authorization: 'vfdLu78zaKH6yNjLHSZ1Fc61e3rl-719KRAlbwo9dZoAAAF_BHVAig',
+      },
+      data:{
+        catg:1, //1할부, 2렌트, 3리스, 4현금.
+        gubn:1, //제조사
+        kind:1, //모델
+        model:'sd', //세부모덷
+        title:'sdg', //가격
+        content:'sdg', //월납입금액
+        price:'sd', //최대주행거리 희망
+        distance:'sd', //희망옵션 ex)선루프,,
+        option:'23', //딜러에게할말
+        img1:'', //추천인코드
+        img2:'', //고객의 아이디 -> 추후에 로그인 개발하면 해당 사용자 id 추출 후 넣을 것
+        img3:'',
+        img4:'',
+        code:'',
+        usrid:''
+      }
+    })
