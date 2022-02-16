@@ -7,7 +7,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-const { acc } = require('react-native-reanimated');
+// const { acc } = require('react-native-reanimated');
 // const e = require('express');
 // const res = require('express/lib/response');
 // const express = require('express');
