@@ -22,7 +22,7 @@
         IMP.request_pay({ // param
             pg: "danal_tpay",
             pay_method: "card",
-            merchant_uid: "1_month_pay_999999", //주문번호
+            merchant_uid: "1_month_pay_999939", //주문번호
             name: "첫달무료인증결제\n(1개월 정기 구독권)", // 상품명
             customer_uid:"1_1",
             amount: 0, //금액
@@ -41,7 +41,6 @@
                         costomer_uid: "1_1" // xx사 카드 호칭 (타인카드, 개인카드 모두 중복금지)
                     }
                 })
-                alert("빌링키발급완료zㅋㅋ >\n "+rsp);
             // 결제 성공 시 로직,
         } else {
             // 결제 실패 시 로직,
