@@ -7,11 +7,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-// const { acc } = require('react-native-reanimated');
-// const e = require('express');
-// const res = require('express/lib/response');
 // const express = require('express');
-// const { acc } = require('react-native-reanimated');
 
 const kakao = { //나중에 import로 유출방지
     clientID: '9e7627ff0adc857af4fd5e69de0222e6',
@@ -25,7 +21,7 @@ exports.home = (req, res) =>{
 }
 exports.show = (req, res) =>{
     console.log('show');
-    con.query('SELECT * from contract_send', (error, rows) => {
+    con.query('SELECT * from contract_send order by CT_DTTM desc;', (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         res.json(rows);
     })
@@ -122,120 +118,6 @@ exports.sendReply = async (req, res) =>{
         res.status(201).json({success:true});
     })
 }
-// exports.delete = (req, res) => { 
-//     console.log('delete');
-//     deleteId = req.params.id;
-//     if(!deleteId){
-//         return res.status(400).json({err: 'id must be required'});
-//     }
-//     con.query('SELECT * from users where id = ?', deleteId, (error, rows, fields) => {
-//         if(error) return res.status(404).json({err: 'Undefined error!'});
-//         if(!rows[0]) return res.status(404).json({err: 'Unknown user'});
-//         else con.query('DELETE from users where id = ?', id, (error, rows, fields) => {
-//             if(error) return res.status(404).json({err: 'Undefined error!'});
-//             res.status(204);
-//         })
-//     })
-//     //REST API protocol에 의거 "no content" 전송
-// }
-// exports.create = (req, res) => {
-//     console.log('create');
-//     const newId = req.body.id;
-//     const newName = req.body.name || '';
-//     if(!newId){
-//         return res.status(400).json({err: 'Incorrct id'});
-//     }
-//     if(!newName){
-//         return res.status(400).json({err: 'Incorrect name'});
-//     }
-//     con.query('SELECT * from users where id = ?', newId, (error, rows, fields) => {
-//         if(error) return res.status(404).json({err: 'Undefined error!'});
-//         if(!!rows[0]) return res.status(404).json({err: 'the id already exist'});
-//         else con.query('insert into users set ?', req.body, (error, rows, fields) => {
-//             if(error) return res.status(404).json({err: 'Undefined error!'});
-//             res.status(201).json(rows);
-//             //REST API 규약에 맞게 Created code 전송
-//         })
-//     })
-// }
-// exports.update = (req, res) =>{
-//     console.log('update');
-//     const id = req.params.id;
-//     const updateName = req.body.name || '';
-//     if(!id){
-//         return res.status(400).json({err: 'Incorrct id'});
-//     }
-//     if(!updateName.length){
-//         return res.status(400).json({err: 'Incorrect name'});
-//     }
-//     var updateUser = [updateName, id];
-//     con.query('SELECT * from users where id = ?', id, (error, rows, fields) => {
-//         if(error) return res.status(404).json({err: 'Undefined error!'});
-//         if(!rows[0]) return res.status(404).json({err: 'the id doesn\'t  exist'});
-//         con.query('UPDATE users SET name = ? where id = ?', updateUser, (error, rows, fields) => {
-//             if(error) return res.status(404).json(error);
-//             res.status(204).end();
-//         })
-//     })
-// }
-// exports.signup = (req, res) => {
-//     const member = {
-//         id: req.body.id,
-//         password: req.body.password,
-//         nickname: req.body.nickname,
-//         email: req.body.email,
-//         phone: req.body.phone,
-//         prv1: parseInt(req.body.prv1),
-//         prv2: parseInt(req.body.prv2),
-//         prv3: parseInt(req.body.prv3),
-//     }
-
-//     if(!member.id){
-//         return res.status(401).json({err: 'id must be required'});
-//     }
-//     else if(!member.password){
-//         return res.status(401).json({err: 'password must be required'});
-//     }
-//     else if(!member.nickname){
-//         return res.status(401).json({err: 'nickname must be required'});
-//     }
-//     console.log("REST API Post Method - Member Login And JWT Sign");
-//     con.query(`CALL REG_USER('${member.id}','${member.password}','${member.nickname}','${member.email}','${member.phone}',${member.prv1},${member.prv2},${member.prv3},@err)`, (error, rows, fields) => {
-//         console.log('1');
-//         if(error) res.status(404).json(error);
-//         console.log('2');
-//         con.query('select @err as err' , (error, rows, fields) => {
-
-//         console.log('3');
-//             if(error) res.status(404).json(error);
-//             if(rows[0].err){
-//                     const secret = process.env.jwtcode;
-//                     jwt.sign({
-//                             memberId : rows[0].name,
-//                             memberName : rows[0].password
-//                     },
-//                     secret,
-//                     {
-//                         expiresIn : '300'
-//                     },
-//                     (err, token) => {
-//                         if (err) {
-//                             res.status(401).json({err:'token sign fail'});
-//                         }
-//                         res.json({token:token});
-//                     });
-//             }else {
-//                 res.status(401).json({success:false, errormessage:'wrong id or password'});
-//             }
-//         })
-//     })
-// }
-
-// exports.loginPage = (req,res)=>{ //인가코드요청
-//     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientID}&redirect_uri=${kakao.redirectUri}&response_type=code`;
-//     res.redirect(kakaoAuthURL);
-// }
-
 exports.refreshToken = async(req,res) => { //토큰 갱신
         try{
             const refresh_token = req.headers.refresh_token;
@@ -457,7 +339,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
                                  '${contract.code}', '${contract.usrid}')`, (error, rows, fields) => {
         if(error) {
             res.status(404).json(error);
-            console.log(error);
+            console.log(error.data);
         }
         else {
             res.status(201).json({success:true});
