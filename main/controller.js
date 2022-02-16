@@ -402,8 +402,21 @@ exports.usr_signup = async(req, res) => {
     })
 }
 
-exports.logout = (req,res) => {
-    console.log(res.data);
+exports.logout = async (req,res) => {
+    try{
+        console.log("logout");
+        const getStatus =  await axios({
+          url: "https://kapi.kakao.com/v1/user/logout",
+          method: "post", // POST method
+          headers: {
+              Authorization: `Bearer ${req.headers.authorization}`,
+              "Content-Type": "application/x-www-form-urlencoded"
+            }
+        });
+        return res.json(getStatus.status);
+    }catch(err){
+        return res.status(400).json(err.data);
+    }
 }
 
 exports.contractSend = async (req,res) => { //견적요청 전송

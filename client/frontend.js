@@ -127,11 +127,11 @@ exports.showInfo = async(data) => { // 사용자 정보 불러오는 함수
     }
 }
 
-exports.contractFinish = async(data) => {
+exports.contractFinish = async(data) => { //마감치기
     try{
         getData = await axios({
             method: 'put',
-            url: 'http://34.64.207.117:3000/contracts/finish/202202061',
+            url: 'http://34.64.207.117:3000/contracts/finish/202202061', // finish/ 뒤에 견적번호 임
             headers:{
                 Authorization: `${data}`,
                 'Content-type':'application/x-www-form-urlencoded;utf-8'
@@ -165,11 +165,11 @@ exports.findfromusrid = async(data) => {
         // return console.log(err);
     }
 }
-exports.showReply = async(data) => {
+exports.showReply = async(data) => { //댓글 정보
     try{
         getData = await axios({
             method: 'get',
-            url: 'http://34.64.207.117:3000/reply/202202072'
+            url: 'http://34.64.207.117:3000/reply/202202072' // reply/ 뒤에 견적고유번호
         })
         console.log(getData.data);
     }catch(err){
