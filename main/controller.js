@@ -435,16 +435,19 @@ exports.contractSend = async (req,res) => { //견적요청 전송
     }
     console.log('인증완료');
     const contract = { //글자수 제한 ㅍ론트에서 요청할것
+        catg: parseInt(req.body.catg),
+        gubn: parseInt(req.body.gubn),
         kind: parseInt(req.body.kind), //결제종류
-        brand: req.body.brand, // 제조사
         model: req.body.model, //모델
-        detail: req.body.detail, //세부모델
-        price: parseInt(req.body.price), //가격
-        mnpay: parseInt(req.body.mnpay), //월납입금
-        distance: parseInt(req.body.distance), //주행거리
-        option: req.body.option, //옵션
-        protosay: req.body.protosay, //프로에게ㅎㄹ말
-        procode: req.body.procode, //추천코드
+        title: req.body.title, //세부모델
+        content: req.body.content,
+        price: req.body.price, //가격
+        distance: req.body.distance, //주행거리
+        img1: img1,
+        img2: img2,
+        img3: img3,
+        img4: img4,
+        code: req.body.code, //추천코드
         usrid: req.body.usrid //작성자아이디
     }
     // const contract = {
@@ -460,9 +463,10 @@ exports.contractSend = async (req,res) => { //견적요청 전송
     //     procode: '', //추천코드
     //     usrid: '권우철' //작성자아이디
     // }
-    con.query(`CALL SND_CONTRACT('${contract.kind}', '${contract.brand}', '${contract.model}', '${contract.detail}', '${contract.price}',
-                                 '${contract.mnpay}', '${contract.distance}', '${contract.option}', '${contract.protosay}',
-                                 '${contract.procode}', '${contract.usrid}')`, (error, rows, fields) => {
+    con.query(`CALL SND_CONTRACT('${contract.catg}', '${contract.gubn}', '${contract.kind}', '${contract.model}', '${contract.title}',
+                                 '${contract.content}', '${contract.price}', '${contract.distance}', '${contract.img1}',
+                                 '${contract.img2}', '${contract.img3}', '${contract.img4}', '${contract.img4}',
+                                 '${contract.code}', '${contract.usrid}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         res.status(201).json({success:true});
     })
@@ -585,4 +589,32 @@ exports.schedule = async (req, res) => {
 } catch (err) {
     res.status(400).send(err);
 }
+}
+
+exports.unschedule = async (req, res) => {
+    try{
+        console.log("unschedule...");
+        const { customer_uid } = req.body;
+        const getToken = await axios({
+          url: "https://api.iamport.kr/users/getToken",
+          method: "post", // POST method
+          headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
+          data: {
+            imp_key: "0522871454882836", // REST API 키
+            imp_secret: "e9c0f18efc363ffa7c0721f42b6bde807bea6975f896919e29c367c2ea32f1d7a7d3e3c807f13a4b" // REST API Secret
+          }
+        });
+        const {access_token} = getToken.data.response;
+
+        await axios({
+          url: `https://api.iamport.kr/subscribe/payments/unschedule`,
+          method: "post",
+          headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
+          data: {
+          customer_uid: "1_1" // 카드(빌링키)와 1:1로 대응하는 값
+          }
+      });
+    }catch(err){
+        res.status(400).send(err);
+    }
 }

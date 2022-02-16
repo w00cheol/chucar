@@ -16,25 +16,16 @@
         </li>
     </div>
     <script>
-      await axios({
-        url: `https://api.iamport.kr/subscribe/payments/schedule`,
-        method: "post",
-        headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
-        data: {
-          customer_uid: "1_1", // 카드(빌링키)와 1:1로 대응하는 값
-          schedules: [
-            {
-              merchant_uid: (date.getTime()/1000)+60, // 주문 번호
-              schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-              amount: 200,
-              name: "월간 이용권 정기결제",
-            //   buyer_name: "홍길동",
-            //   buyer_tel: "01012345678",
-            //   buyer_email: "gildong@gmail.com"
-            }
-          ]
+        function unschedule() {
+        // IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
+            jQuery.ajax({
+                url: `http://34.64.207.117:3000/subscribe/payments/unschedule`,
+                method: "post",
+                data: {
+                customer_uid: "1_1" // 카드(빌링키)와 1:1로 대응하는 값
+                }
+            });
         }
-      });
         function requestPay() {
         // var IMP = window.IMP; // 생략 가능
         IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
@@ -42,7 +33,7 @@
         IMP.request_pay({ // param
             pg: "danal_tpay",
             pay_method: "card",
-            merchant_uid: "1_month_pay_32333", //주문번호
+            merchant_uid: "1_month_pay_323fs33", //주문번호
             name: "첫달무료인증결제\n(1개월 정기 구독권)", // 상품명
             customer_uid:"1_1",
             amount: 0, //금액

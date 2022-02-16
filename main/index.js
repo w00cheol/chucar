@@ -57,6 +57,7 @@ app.get('/logout', controller.logout); // 아직 개발중...
 
 app.post("/billings", controller.billings);
 
+app.post("/subscribe/payments/unschedule", controller.unschedule);
 // "/iamport-callback/schedule"에 대한 POST 요청을 처리
 app.post("/iamport-callback/schedule", controller.schedule);
 

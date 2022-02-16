@@ -28,3 +28,12 @@ const qs = require('qs');
         //       "Content-Type": "application/x-www-form-urlencoded"
         //     }
         // })
+
+        axios({
+          url: `https://api.iamport.kr/subscribe/payments/unschedule`,
+          method: "post",
+          headers: { "Authorization": 'd088638a820f43c7ea4ef26cf9381d549e4941e0' }, // 인증 토큰 Authorization header에 추가
+          data: {
+          customer_uid: "1_1" // 카드(빌링키)와 1:1로 대응하는 값
+          }
+      });
