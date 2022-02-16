@@ -55,6 +55,8 @@ app.post('/contract/send', controller.contractSend); // 견적 요청 여기로 
 
 app.get('/logout', controller.logout); // 아직 개발중...
 
+app.post("/billings", controller.billings);
+
 app.listen(httpPort,'10.178.0.3', () => console.log('server has been running...'));
 
 

@@ -451,3 +451,40 @@ exports.contractSend = async (req,res) => { //견적요청 전송
         res.status(201).json({success:true});
     })
 }
+
+exports.billings = async (req, res) => { // 빌링키 요청
+    try {
+      const { customer_uid } = req.body; // req body에서 customer_uid 추출
+      const getToken = await axios({
+        url: "https://api.iamport.kr/users/getToken",
+        method: "post", // POST method
+        headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
+        data: {
+          imp_key: "0522871454882836", // REST API 키
+          imp_secret: "e9c0f18efc363ffa7c0721f42b6bde807bea6975f896919e29c367c2ea32f1d7a7d3e3c807f13a4b" // REST API Secret
+        }
+      });
+      const {access_token} = getToken.data.response;
+      axios({
+        url: `https://api.iamport.kr/subscribe/payments/schedule`,
+        method: "post",
+        headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
+        data: {
+          customer_uid: "1_1", // 카드(빌링키)와 1:1로 대응하는 값
+          schedules: [
+            {
+              merchant_uid: "order_monthly_0001", // 주문 번호
+              schedule_at: 1519862400, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+              amount: 8900,
+              name: "월간 이용권 정기결제",
+              buyer_name: "홍길동",
+              buyer_tel: "01012345678",
+              buyer_email: "gildong@gmail.com"
+            }
+          ]
+        }
+      });
+    } catch (err) {
+      res.status(400).send(err);
+    }
+}

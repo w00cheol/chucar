@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head> </head>
+
+<body>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+    <div>
+        <h2>IAMPORT 결제 데모</h2>
+        <li>
+            <button onclick="requestPay()" type="botton">결제테스트</button>
+        </li>
+    </div>
+    <script>
+        function requestPay() {
+        // var IMP = window.IMP; // 생략 가능
+        IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
+        // IMP.request_pay(param, callback) 결제창 호출
+        IMP.request_pay({ // param
+            pg: "danal_tpay",
+            pay_method: "card",
+            merchant_uid: "1_month_pay_999999", //주문번호
+            name: "첫달무료인증결제\n(1개월 정기 구독권)", // 상품명
+            costumer_uid:"1_1",
+            amount: 0, //금액
+            // buyer_email: "", //구매자 정보
+            // buyer_name: "홍길동",
+            // buyer_tel: "010-4242-4242",
+            // buyer_addr: "서울특별시 강남구 신사동",
+            // buyer_postcode: "01181"
+        }, function (rsp) { // callback
+            if (rsp.success) {
+                jQuery.ajax({
+                    url: "http://34.64.207.117:3000/billings",
+                    method: "POST",
+                    headers: {"Content_Type": "application/json"},
+                    data: {
+                        costomer_uid: "1_1" // xx사 카드 호칭 (타인카드, 개인카드 모두 중복금지)
+                    }
+                })
+                alert("빌링키발급완료zㅋㅋ >\n "+rsp);
+            // 결제 성공 시 로직,
+        } else {
+            // 결제 실패 시 로직,
+            alert("빌링키 발급 실패 : 코드(" + rsp.error_code+") / 메시지(" + rsp.error_msg + ")");
+        }
+        });
+        }
+    </script>
+</body>
+</html>
