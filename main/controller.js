@@ -495,7 +495,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
             {
               merchant_uid: (date.getTime()/1000)+60, // 주문 번호
               schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-              amount: 100,
+              amount: 200,
               name: "월간 이용권 정기결제",
             //   buyer_name: "홍길동",
             //   buyer_tel: "01012345678",
@@ -531,11 +531,12 @@ exports.schedule = async (req, res) => {
       headers: { "Authorization": access_token } // 인증 토큰 Authorization header에 추가
     });
     const paymentData = getPaymentData.data.response; // 조회한 결제 정보
-    console.log(paymentData);
+    console.log(paymentData.name);
     const { status } = paymentData;
     if (status === "paid") { // 결제 성공적으로 완료
     // DB에 결제 정보 저장
     console.log('결제성공!!')
+    var date = new Date();
     await axios({
       url: `https://api.iamport.kr/subscribe/payments/schedule`,
       method: "post",
