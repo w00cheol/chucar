@@ -10,6 +10,7 @@ const axios = require('axios');
 const e = require('express');
 const res = require('express/lib/response');
 const express = require('express');
+const { acc } = require('react-native-reanimated');
 
 const kakao = { //나중에 import로 유출방지
     clientID: '9e7627ff0adc857af4fd5e69de0222e6',
@@ -402,7 +403,7 @@ exports.usr_signup = async(req, res) => {
     })
 }
 
-exports.logout = async (req,res) => {
+exports.logout = async (req,res) => { //로그아웃
     try{
         console.log("logout");
         const getStatus =  await axios({
@@ -413,6 +414,7 @@ exports.logout = async (req,res) => {
               "Content-Type": "application/x-www-form-urlencoded"
             }
         });
+        console.log(getStatus.status);
         return res.json(getStatus.status);
     }catch(err){
         return res.status(400).json(err.data);
@@ -468,6 +470,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
 exports.billings = async (req, res) => { // 빌링키 요청
     try {
       const { customer_uid } = req.body; // req body에서 customer_uid 추출
+      console.log(customer_uid);
       const getToken = await axios({
         url: "https://api.iamport.kr/users/getToken",
         method: "post", // POST method
@@ -478,7 +481,8 @@ exports.billings = async (req, res) => { // 빌링키 요청
         }
       });
       const {access_token} = getToken.data.response;
-      axios({
+      console.log(access_token);
+      await axios({
         url: `https://api.iamport.kr/subscribe/payments/schedule`,
         method: "post",
         headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
@@ -487,12 +491,12 @@ exports.billings = async (req, res) => { // 빌링키 요청
           schedules: [
             {
               merchant_uid: "order_monthly_0001", // 주문 번호
-              schedule_at: 1519862400, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-              amount: 8900,
+              schedule_at: 1645032180, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+              amount: 1000,
               name: "월간 이용권 정기결제",
-              buyer_name: "홍길동",
-              buyer_tel: "01012345678",
-              buyer_email: "gildong@gmail.com"
+            //   buyer_name: "홍길동",
+            //   buyer_tel: "01012345678",
+            //   buyer_email: "gildong@gmail.com"
             }
           ]
         }
@@ -500,4 +504,60 @@ exports.billings = async (req, res) => { // 빌링키 요청
     } catch (err) {
       res.status(400).send(err);
     }
+}
+
+exports.schedule = async (req, res) => {
+  try {
+    console.log("schedule");
+    const { imp_uid, merchant_uid } = req.body;
+    // 액세스 토큰(access token) 발급 받기
+    const getToken = await axios({
+    url: "https://api.iamport.kr/users/getToken",
+    method: "post", // POST method
+    headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
+    data: {
+      imp_key: "0522871454882836", // REST API 키
+      imp_secret: "e9c0f18efc363ffa7c0721f42b6bde807bea6975f896919e29c367c2ea32f1d7a7d3e3c807f13a4b" // REST API Secret
+    }
+    });
+    const { access_token } = getToken.data.response; // 인증 토큰
+    // imp_uid로 아임포트 서버에서 결제 정보 조회
+    const getPaymentData = await axios({
+      url: `https://api.iamport.kr/payments/${imp_uid}`, // imp_uid 전달
+      method: "get", // GET method
+      headers: { "Authorization": access_token } // 인증 토큰 Authorization header에 추가
+    });
+    const paymentData = getPaymentData.data.response; // 조회한 결제 정보
+    console.log(paymentData);
+    const { status } = paymentData;
+    if (status === "paid") { // 결제 성공적으로 완료
+    // DB에 결제 정보 저장
+    console.log('결제성공!!')
+    res.status(200).send();
+    } else {
+        console.log("결제실패... 3일 후 결제 예약");
+        await axios({
+          url: `https://api.iamport.kr/subscribe/payments/schedule`,
+          method: "post",
+          headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
+          data: {
+            customer_uid: "1_1", // 카드(빌링키)와 1:1로 대응하는 값
+            schedules: [
+              {
+                merchant_uid: "order_monthly_0001", // 주문 번호
+                schedule_at: 1645030440, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+                amount: 1000,
+                name: "월간 이용권 정기결제",
+              //   buyer_name: "홍길동",
+              //   buyer_tel: "01012345678",
+              //   buyer_email: "gildong@gmail.com"
+              }
+            ]
+          }
+        });
+        res.status(200).send();
+    }
+} catch (err) {
+    res.status(400).send(err);
+}
 }

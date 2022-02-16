@@ -57,6 +57,9 @@ app.get('/logout', controller.logout); // 아직 개발중...
 
 app.post("/billings", controller.billings);
 
+// "/iamport-callback/schedule"에 대한 POST 요청을 처리
+app.post("/iamport-callback/schedule", controller.schedule);
+
 app.listen(httpPort,'10.178.0.3', () => console.log('server has been running...'));
 
 
