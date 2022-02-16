@@ -534,6 +534,26 @@ exports.schedule = async (req, res) => {
     if (status === "paid") { // 결제 성공적으로 완료
     // DB에 결제 정보 저장
     console.log('결제성공!!')
+    await axios({
+      url: `https://api.iamport.kr/subscribe/payments/schedule`,
+      method: "post",
+      headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
+      data: {
+        customer_uid: "1_1", // 카드(빌링키)와 1:1로 대응하는 값
+        schedules: [
+          {
+            merchant_uid: "order_monthly_0001", // 주문 번호
+            schedule_at: 1645034400, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+            amount: 1000,
+            name: "월간 이용권 정기결제",
+          //   buyer_name: "홍길동",
+          //   buyer_tel: "01012345678",
+          //   buyer_email: "gildong@gmail.com"
+          }
+        ]
+      }
+    });
+    console.log("3일 후 결제 예약");
     res.status(200).send();
     } else {
         console.log("결제실패... 3일 후 결제 예약");
@@ -546,7 +566,7 @@ exports.schedule = async (req, res) => {
             schedules: [
               {
                 merchant_uid: "order_monthly_0001", // 주문 번호
-                schedule_at: 1645033920, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+                schedule_at: 1645034400, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
                 amount: 1000,
                 name: "월간 이용권 정기결제",
               //   buyer_name: "홍길동",
