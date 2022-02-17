@@ -64,14 +64,10 @@ const qs = require('qs');
       //   }
       // })
 
-      const merchant_uid = jQuery.ajax({
-        url: "http://34.64.207.117:3000/merchant",
+      axios({
+        url: "http://34.64.207.117:3000/payments/save",
         method: "POST",
         data: {
-            code: '1', // 상품 코드
-            customer_uid: "2111801212" // 카드 호칭 (타인카드, 개인카드 모두 중복금지)},
-        },
-        dataType: 'json',
-        async: false
+            paymentData:'sf'
+        }
     })
-    console.log(merchant_uid)

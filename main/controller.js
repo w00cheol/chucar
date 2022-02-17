@@ -419,9 +419,6 @@ exports.schedule = async (req, res) => {
     axios({
         url: "http://34.64.207.117:3000/payments/save",
         method: "POST",
-        headers: {
-            "Content_Type": "application/json"
-        },
         body: {
             paymentData:paymentData
         }
@@ -517,16 +514,14 @@ exports.getMerchantUid = async (req, res) => {
 }
 exports.savePayment = async (req, res) => {
     console.log('savePayment');
-    console.log(req.body);
     const {paymentData} = req.body;
-    console.log(paymentData)
     const goodId = paymentData.merchant_uid.substr(0,1);
     const memberNo = paymentData.merchant_uid.substr(1,10);
     const odno = paymentData.merchant_uid.substr(11,4);
 
     con.query(`insert into pro_payments value(
-               '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${paymentData.pay_method}',
-               '${paymentData.paid_amount}', 0, default, '${paymentData.paid_at}', '${paymentData.imp_uid}',
+               '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${paymentData.pay_method}', '${paymentData.paid_amount}',
+               ${paymentData.cancel_amount}, '${paymentData.paid_at}', '${paymentData.imp_uid}', '${paymentData.card_name},
                default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.json(rows);
