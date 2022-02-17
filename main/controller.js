@@ -421,7 +421,7 @@ exports.schedule = async (req, res) => {
         data: {
             paymentData:paymentData
         }
-    })
+    }).catch(function(err){console.log(err)})
     console.log('db저장성공!!')
     var date = new Date();
     await axios({
@@ -513,8 +513,7 @@ exports.getMerchantUid = async (req, res) => {
 }
 exports.savePayment = async (req, res) => {
     console.log('savePayment');
-    const paymentData = req.body.paymentData;
-    console.log(req.body)
+    const {paymentData} = req.body;
     const goodId = paymentData.merchant_uid.substr(0,1);
     const memberNo = paymentData.merchant_uid.substr(1,10);
     const odno = paymentData.merchant_uid.substr(11,4);
