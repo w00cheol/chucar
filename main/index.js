@@ -23,6 +23,8 @@ app.use(express.urlencoded({ extended: true}));
 
 app.get("/", controller.home); // / : home 화면
 
+app.get("/isdealer/:usr_id", controller.isDealer);
+
 app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
 
 app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호

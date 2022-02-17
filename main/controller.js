@@ -7,6 +7,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
+const { exp } = require('react-native-reanimated');
 // const express = require('express');
 
 const kakao = { //나중에 import로 유출방지
@@ -21,9 +22,17 @@ exports.home = (req, res) =>{
 }
 exports.show = (req, res) =>{
     console.log('show');
-    con.query('SELECT * from contract_send order by CT_DTTM desc;', (error, rows) => {
+    con.query('SELECT * from contract_send order by CT_DTTM desc', (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         res.json(rows);
+    })
+}
+exports.isDealer = (req, res) => {
+    console.log('is Dealer');
+    findId = req.params.usr_id;
+    con.query(`SELECT * from promst where pro_id = '${findId}'`, (error, rows) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        if(!!rows[0]) res.json(1);
     })
 }
 exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
