@@ -121,7 +121,7 @@ exports.sendReply = async (req, res) =>{
                                  '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}',
                                  '${member.img9}', ${member.img10}), ${member.img11}), ${member.img12}, ${member.proid})`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
-        res.status(201).json({success:true});
+        else res.status(201).json({success:true});
     })
 }
 exports.refreshToken = async(req,res) => { //토큰 갱신
@@ -527,7 +527,7 @@ exports.savePayment = async (req, res) => {
 
     con.query(`insert into pro_payments value(
                '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${paymentData.pay_method}', '${paymentData.amount}',
-               ${paymentData.cancel_amount}, '${paymentData.paid_at}', '${paymentData.imp_uid}', '${paymentData.card_name}',
+               ${paymentData.cancel_amount}, '${paymentData.paid_at}', '${paymentData.card_name}', '${paymentData.imp_uid}',
                default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
     })
