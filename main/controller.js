@@ -416,6 +416,15 @@ exports.schedule = async (req, res) => {
     if (status === "paid") { // 결제 성공적으로 완료
     // DB에 결제 정보 저장
     console.log('결제성공!!')
+    axios({
+        url: "http://34.64.207.117:3000/payments/save",
+        method: "POST",
+        headers: {
+            "Content_Type": "application/json",
+            rsp:rsp
+        }
+    })
+    console.log('db저장성공!!')
     var date = new Date();
     await axios({
       url: `https://api.iamport.kr/subscribe/payments/schedule`,

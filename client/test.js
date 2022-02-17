@@ -64,5 +64,14 @@ const qs = require('qs');
       //   }
       // })
 
-      const a = [ RowDataPacket { UID: '121118012120001' } ];
-      console.log(a);
+      const merchant_uid = jQuery.ajax({
+        url: "http://34.64.207.117:3000/merchant",
+        method: "POST",
+        data: {
+            code: '1', // 상품 코드
+            customer_uid: "2111801212" // 카드 호칭 (타인카드, 개인카드 모두 중복금지)},
+        },
+        dataType: 'json',
+        async: false
+    })
+    console.log(merchant_uid)
