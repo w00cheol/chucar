@@ -29,13 +29,13 @@ exports.show = (req, res) =>{
 exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
     console.log('find_contract_from_usrid');
     findId = req.params.usrid;
-    con.query('SELECT * from contract_send where ct_usrid = ?', findId, (error, rows, fields) => {
+    con.query(`SELECT * from contract_send where ct_usrid = ${findId} order by ct_dttm desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
     })
 }
-exports.showReply = (req, res) =>{ //댓글에 달 견적서들 모두 불러오기 params => 해당 견적요청서 번호
+exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 params => 해당 견적요청서 번호
     console.log('showReply');
     cr_key = req.params.cr_key;
     con.query(`select * from contract_reply where cr_key = ${cr_key}`, (error, rows, fields) => {
@@ -76,7 +76,7 @@ exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달
     console.log('find_contract_from_proid');
     findId = req.params.proid;
     con.query(`select * from contract_send where ct_key  in (
-        SELECT cr_key as num from contract_reply where cr_proid = '${findId}');`, (error, rows, fields) => {
+        SELECT cr_key as num from contract_reply where cr_proid = '${findId}') order by ct_dttm desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         return res.json(rows);
@@ -496,6 +496,8 @@ exports.unschedule = async (req, res) => {
 exports.getMerchantUid = async (req, res) => {
     console.log('getMerchantUid');
     const {code, customer_uid} = req.headers;
+    console.log(code);
+    console.log(customer_uid);
     con.query(`select CONCAT('${code}','${customer_uid}',
                GET_ODNO('${code}','${customer_uid}')) UID from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
