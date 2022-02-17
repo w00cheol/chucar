@@ -130,7 +130,7 @@ exports.sendReply = async (req, res) =>{
     }
     con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
                                  '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.img9}', '${member.img10}', '${member.img11}',
-                                 '${member.img12}', '${member.img13}', '${member.img14}', '${member.img15}', '${member.img16}', '${member.proid}', '${member.nickname}')`, (error, rows, fields) => {
+                                 '${member.img12}', '${member.img13}', '${member.img14}', '${member.img15}', '${member.img16}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.status(201).json({success:true});
     })
