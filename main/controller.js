@@ -496,12 +496,13 @@ exports.unschedule = async (req, res) => {
 exports.getMerchantUid = async (req, res) => {
     console.log('getMerchantUid');
     const {code, customer_uid} = req.body;
-    console.log(code);
-    console.log(customer_uid);
     con.query(`select CONCAT('${code}','${customer_uid}',
                GET_ODNO('${code}','${customer_uid}')) UID from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
-        else res.json(rows);
+        else {
+            res.json(rows);
+            console.log(rows);
+        }
     })
 }
 exports.savePayment = async (req, res) => {
