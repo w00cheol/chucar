@@ -514,7 +514,7 @@ exports.getMerchantUid = async (req, res) => {
 exports.savePayment = async (req, res) => {
     console.log('savePayment');
     const paymentData = req.body.paymentData;
-    console.log(paymentData)
+    console.log(req.body)
     const goodId = paymentData.merchant_uid.substr(0,1);
     const memberNo = paymentData.merchant_uid.substr(1,10);
     const odno = paymentData.merchant_uid.substr(11,4);
