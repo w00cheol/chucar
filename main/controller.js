@@ -141,7 +141,6 @@ exports.refreshToken = async(req,res) => { //토큰 갱신
                     client_secret:'9F00S9wCb8X6cggmdqesUVTYoQeD41P4'
                 })//객체를 string 으로 변환
             })
-            console.log(newToken);
             res.json(newToken.data);
         }catch(err){
             console.log(err);
