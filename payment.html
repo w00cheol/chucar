@@ -26,7 +26,7 @@
                 },
                 async: false
             })
-            const merchant_uid = '121118012120002jk'
+            const merchant_uid = '177778012120002ddd'
             // var IMP = window.IMP; // 생략 가능
             IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
             // IMP.request_pay(param, callback) 결제창 호출
@@ -35,7 +35,7 @@
                 pay_method: "card",
                 merchant_uid: merchant_uid, //주문번호
                 name: "1개월 정기 구독", // 상품명
-                customer_uid: merchant_uid, // 회원번호
+                customer_uid: merchant_uid.substr(1,10), // 회원번호
                 amount: merchant_uid.substr(11,4)=='0002'? 0 : 777, //금액 (첫번째만(주문번호== 0001) 0원으로 추후 설정)
                 // buyer_email: "", //구매자 정보
                 // buyer_name: "홍길동",
