@@ -119,7 +119,7 @@ exports.sendReply = async (req, res) =>{
     }
     con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
                                  '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}',
-                                 '${member.img9}', ${member.img10}), ${member.img11}), ${member.img12}, ${member.proid})`, (error, rows, fields) => {
+                                 '${member.img9}', '${member.img10}', '${member.img11}', '${member.img12}', '${member.proid}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.status(201).json({success:true});
     })
