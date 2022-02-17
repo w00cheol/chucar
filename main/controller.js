@@ -500,8 +500,9 @@ exports.getMerchantUid = async (req, res) => {
                GET_ODNO('${code}','${customer_uid}')) UID from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else {
-            res.json(rows[0]);
-            console.log(rows);
+            res.json(rows);
+            console.log(rows[0]);
+            console.log(rows[1]);
         }
     })
 }
