@@ -32,6 +32,7 @@ exports.isDealer = (req, res) => {
     con.query(`SELECT * from promst where pro_id = '${findId}'`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         if(!!rows[0]) res.json(1);
+        else res.json(0);
     })
 }
 exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
