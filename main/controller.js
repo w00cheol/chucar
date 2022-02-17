@@ -97,7 +97,7 @@ exports.sendReply = async (req, res) =>{
     const member = {
         cr_key: req.body.cr_key, // 견적신청서고유번호
         cr_price: req.body.cr_price,
-        cr_distance: req.body.distance,
+        cr_distance: req.body.cr_distance,
         cr_reply: req.body.cr_reply,  //답변
         img1: req.body.img1,
         img2: req.body.img2,
