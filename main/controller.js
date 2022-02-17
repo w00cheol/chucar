@@ -95,8 +95,10 @@ exports.sendReply = async (req, res) =>{
     }
     console.log('인증완료'); //클라랑 서버에서 딜러인지 한번씩 더 확인해야 할듯
     const member = {
-        cr_key: req.body.cr_key,
-        cr_reply: req.body.cr_reply,
+        cr_key: req.body.cr_key, // 견적신청서고유번호
+        // cr_price: req.body.cr_price,
+        // cr_distance: req.body.distance,
+        cr_reply: req.body.cr_reply,  //답변
         img1: req.body.img1,
         img2: req.body.img2,
         img3: req.body.img3,
@@ -109,6 +111,10 @@ exports.sendReply = async (req, res) =>{
         img10: req.body.img10,
         img11: req.body.img11,
         img12: req.body.img12,
+        // img13: req.body.img13,
+        // img14: req.body.img14,
+        // img15: req.body.img15,
+        // img16: req.body.img16,
         proid: req.body.proid
     }
     con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
@@ -415,13 +421,14 @@ exports.schedule = async (req, res) => {
     if (status === "paid") { // 결제 성공적으로 완료
     // DB에 결제 정보 저장
     console.log('결제성공!!')
-    axios({
+    const next_merchant_uid = await axios({
         url: "http://34.64.207.117:3000/payments/save",
         method: "POST",
         data: {
             paymentData:paymentData
         }
     }).catch(function(err){console.log(err)})
+    console.log(next_merchant_uid)
     console.log('db저장성공!!')
     var date = new Date();
     await axios({
@@ -429,10 +436,10 @@ exports.schedule = async (req, res) => {
       method: "post",
       headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
       data: {
-        customer_uid: "1_1", // 카드(빌링키)와 1:1로 대응하는 값
+        customer_uid: next_merchant_uid.substr(1,10), // 카드(빌링키)와 1:1로 대응하는 값
         schedules: [
           {
-            merchant_uid: (date.getTime()/1000)+60, // 주문 번호
+            merchant_uid: next_merchant_uid, // 주문 번호
             schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
             amount: 100,
             name: "월간 이용권 정기결제",
@@ -452,10 +459,10 @@ exports.schedule = async (req, res) => {
           method: "post",
           headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
           data: {
-            customer_uid: "1_1", // 카드(빌링키)와 1:1로 대응하는 값
+            customer_uid: next_merchant_uid.substr(1,10), // 카드(빌링키)와 1:1로 대응하는 값
             schedules: [
               {
-                merchant_uid: (date.getTime()/1000)+60, // 주문 번호
+                merchant_uid: next_merchant_uid, // 주문 번호
                 schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
                 amount: 100,
                 name: "월간 이용권 정기결제",
@@ -523,6 +530,12 @@ exports.savePayment = async (req, res) => {
                ${paymentData.cancel_amount}, '${paymentData.paid_at}', '${paymentData.imp_uid}', '${paymentData.card_name}',
                default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
-        else res.json(rows);
+    })
+    con.query(`select CONCAT('${goodId}','${memberNo}',
+               GET_ODNO('${goodId}','${memberNo}')) uid from dual`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        else {
+            res.json(rows[0].uid);
+        }
     })
 }
