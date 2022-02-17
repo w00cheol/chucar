@@ -26,7 +26,7 @@ exports.show = (req, res) =>{
         res.json(rows);
     })
 }
-exports.isDealer = (req, res) => {
+exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1, 고객 0
     console.log('is Dealer');
     findId = req.params.usr_id;
     con.query(`SELECT * from promst where pro_id = '${findId}'`, (error, rows) => {
@@ -125,11 +125,12 @@ exports.sendReply = async (req, res) =>{
         img14: req.body.img14,
         img15: req.body.img15,
         img16: req.body.img16,
-        proid: req.body.proid
+        proid: req.body.proid,
+        cr_nickname: req.body.cr_nickname
     }
     con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
                                  '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.img9}', '${member.img10}', '${member.img11}',
-                                 '${member.img12}', '${member.img13}', '${member.img14}', '${member.img15}', '${member.img16}', '${member.proid}')`, (error, rows, fields) => {
+                                 '${member.img12}', '${member.img13}', '${member.img14}', '${member.img15}', '${member.img16}', '${member.proid}', '${member.nickname}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.status(201).json({success:true});
     })
