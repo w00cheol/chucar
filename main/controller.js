@@ -495,7 +495,7 @@ exports.unschedule = async (req, res) => {
 }
 exports.getMerchantUid = async (req, res) => {
     console.log('getMerchantUid');
-    const {code, customer_uid} = req.headers;
+    const {code, customer_uid} = req.body;
     console.log(code);
     console.log(customer_uid);
     con.query(`select CONCAT('${code}','${customer_uid}',
@@ -506,7 +506,7 @@ exports.getMerchantUid = async (req, res) => {
 }
 exports.savePayment = async (req, res) => {
     console.log('savePayment');
-    const {rsp} = req.headers;
+    const {rsp} = req.body;
     const goodId = rsp.merchant_uid.substr(0,1);
     const memberNo = rsp.merchant_uid.substr(1,10);
     const odno = rsp.merchant_uid.substr(11,4);

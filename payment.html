@@ -16,19 +16,19 @@
         </li>
     </div>
     <script>
-        function getMerchantUid() {
-            return jQuery.ajax({
+        function requestPay() {
+            jQuery.ajax({
                 url: "http://34.64.207.117:3000/merchant",
                 method: "POST",
-                headers: {
+                data: {
                     code: '1', // 상품 코드
                     costomer_uid: "2111801212" // 카드 호칭 (타인카드, 개인카드 모두 중복금지)},
                 },
-                async: false
-        })
-        }
-        function requestPay() {
-            const merchant_uid = getMerchantUid();
+                async: false,
+                success: function(data){
+                    alert(data);
+                }
+            })
             // var IMP = window.IMP; // 생략 가능
             IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
             // IMP.request_pay(param, callback) 결제창 호출
