@@ -420,8 +420,10 @@ exports.schedule = async (req, res) => {
         url: "http://34.64.207.117:3000/payments/save",
         method: "POST",
         headers: {
-            "Content_Type": "application/json",
-            rsp:rsp
+            "Content_Type": "application/json"
+        },
+        body: {
+            paymentData:paymentData
         }
     })
     console.log('db저장성공!!')
@@ -515,14 +517,14 @@ exports.getMerchantUid = async (req, res) => {
 }
 exports.savePayment = async (req, res) => {
     console.log('savePayment');
-    const {rsp} = req.body;
-    const goodId = rsp.merchant_uid.substr(0,1);
-    const memberNo = rsp.merchant_uid.substr(1,10);
-    const odno = rsp.merchant_uid.substr(11,4);
+    const {paymentData} = req.body;
+    const goodId = paymentData.merchant_uid.substr(0,1);
+    const memberNo = paymentData.merchant_uid.substr(1,10);
+    const odno = paymentData.merchant_uid.substr(11,4);
 
     con.query(`insert into pro_payments value(
-               '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${rsp.pay_method}',
-               '${rsp.paid_amount}', 0, default, '${rsp.paid_at}', '${rsp.imp_uid}',
+               '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${paymentData.pay_method}',
+               '${paymentData.paid_amount}', 0, default, '${paymentData.paid_at}', '${paymentData.imp_uid}',
                default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.json(rows);
