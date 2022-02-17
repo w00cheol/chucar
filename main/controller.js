@@ -93,7 +93,7 @@ exports.sendReply = async (req, res) =>{
     }catch(err){
         return res.status(401).json({err: 'token fail'});
     }
-    console.log('인증완료');
+    console.log('인증완료'); //클라랑 서버에서 딜러인지 한번씩 더 확인해야 할듯
     const member = {
         cr_key: req.body.cr_key,
         cr_reply: req.body.cr_reply,
@@ -297,7 +297,6 @@ exports.logout = async (req,res) => { //로그아웃
               "Content-Type": "application/x-www-form-urlencoded"
             }
         });
-        console.log(getStatus);
         return res.json(getStatus.status);
     }catch(err){
         return res.status(400).json(err.data);
@@ -493,4 +492,28 @@ exports.unschedule = async (req, res) => {
     }catch(err){
         res.status(400).send(err);
     }
+}
+exports.getMerchantUid = async (req, res) => {
+    console.log('getMerchantUid');
+    const {code, customer_uid} = req.headers;
+    con.query(`select CONCAT('${code}','${customer_uid}',
+               GET_ODNO('${code}','${customer_uid}')) UID from dual`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        else res.json(rows);
+    })
+}
+exports.savePayment = async (req, res) => {
+    console.log('savePayment');
+    const {rsp} = req.headers;
+    const goodId = rsp.merchant_uid.substr(0,1);
+    const memberNo = rsp.merchant_uid.substr(1,10);
+    const odno = rsp.merchant_uid.substr(11,4);
+
+    con.query(`insert into pro_payments value(
+               '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${rsp.pay_method}',
+               '${rsp.paid_amount}', 0, default, '${rsp.paid_at}', '${rsp.imp_uid}',
+               default, default)`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        else res.json(rows);
+    })
 }

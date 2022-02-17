@@ -45,6 +45,8 @@ app.get("/reply/:cr_key", controller.showReply) // 게시글 들어갈때 이 �
 
 app.post('/reply', controller.sendReply); // 견적서 작성하고 백엔드 저장요청 들어오는 곳
 
+app.post('/merchant', controller.getMerchantUid); // 새로운 merchant uid 를 db를 이용하여 조회 
+
 app.get('/refresh', controller.refreshToken); // 사용자가 접속할때마다 토큰 보내서 갱신하셈 받아서 async storage에 저장
 
 app.get('/showInfo', controller.showInfo); // async storage 에서 꺼낸 토큰 받으면 닉네임(실명)이랑 회원번호 줌 redux에 저장 후 사용할때마다 꺼내쓰기
@@ -56,6 +58,8 @@ app.post('/contract/send', controller.contractSend); // 견적 요청 여기로 
 app.get('/logout', controller.logout); // 아직 개발중...
 
 app.post("/billings", controller.billings);
+
+app.post("/payments/save", controller.savePayment);
 
 app.post("/subscribe/payments/unschedule", controller.unschedule);
 // "/iamport-callback/schedule"에 대한 POST 요청을 처리
