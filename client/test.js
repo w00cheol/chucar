@@ -63,11 +63,5 @@ const qs = require('qs');
       //     usrid:''
       //   }
       // })
-
-      axios({
-        url: "http://34.64.207.117:3000/payments/save",
-        method: "POST",
-        data: {
-            paymentData:'sf'
-        }
-    })
+const a  = [ { uid: '173008012120003' } ];
+console.log(a[0].uid);

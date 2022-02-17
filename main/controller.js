@@ -421,15 +421,16 @@ exports.schedule = async (req, res) => {
     if (status === "paid") { // 결제 성공적으로 완료
     // DB에 결제 정보 저장
     console.log('결제성공!!')
-    const next_merchant_uid = await axios({
+    const getMerchant = await axios({ //결제결과 저장 및 다음 주문번호 발급
         url: "http://34.64.207.117:3000/payments/save",
         method: "POST",
         data: {
             paymentData:paymentData
         }
     }).catch(function(err){console.log(err)})
-    console.log(next_merchant_uid.data)
+    next_merchant_uid = getMerchant.data[0].uid
     console.log('db저장성공!!')
+    console.log(next_merchant_uid)
     var date = new Date();
     await axios({
       url: `https://api.iamport.kr/subscribe/payments/schedule`,
