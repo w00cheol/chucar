@@ -428,7 +428,7 @@ exports.schedule = async (req, res) => {
             paymentData:paymentData
         }
     }).catch(function(err){console.log(err)})
-    console.log(next_merchant_uid)
+    console.log(next_merchant_uid.data)
     console.log('db저장성공!!')
     var date = new Date();
     await axios({
