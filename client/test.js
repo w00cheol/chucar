@@ -63,3 +63,6 @@ const qs = require('qs');
       //     usrid:''
       //   }
       // })
+
+      const a = [ RowDataPacket { UID: '121118012120001' } ];
+      console.log(a);
