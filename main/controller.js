@@ -511,7 +511,7 @@ exports.unschedule = async (req, res) => {
           method: "post",
           headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
           data: {
-          customer_uid: "1_1" // 카드(빌링키)와 1:1로 대응하는 값
+          customer_uid: "2200801882" // 카드(빌링키)와 1:1로 대응하는 값
           }
       });
     }catch(err){
