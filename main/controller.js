@@ -535,7 +535,8 @@ exports.savePayment = async (req, res) => {
                GET_ODNO('${goodId}','${memberNo}')) uid from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else {
-            res.json(rows[0].uid);
+            console.log(rows);
+            res.json(rows);
         }
     })
 }
