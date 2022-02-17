@@ -96,8 +96,8 @@ exports.sendReply = async (req, res) =>{
     console.log('인증완료'); //클라랑 서버에서 딜러인지 한번씩 더 확인해야 할듯
     const member = {
         cr_key: req.body.cr_key, // 견적신청서고유번호
-        // cr_price: req.body.cr_price,
-        // cr_distance: req.body.distance,
+        cr_price: req.body.cr_price,
+        cr_distance: req.body.distance,
         cr_reply: req.body.cr_reply,  //답변
         img1: req.body.img1,
         img2: req.body.img2,
@@ -111,15 +111,15 @@ exports.sendReply = async (req, res) =>{
         img10: req.body.img10,
         img11: req.body.img11,
         img12: req.body.img12,
-        // img13: req.body.img13,
-        // img14: req.body.img14,
-        // img15: req.body.img15,
-        // img16: req.body.img16,
+        img13: req.body.img13,
+        img14: req.body.img14,
+        img15: req.body.img15,
+        img16: req.body.img16,
         proid: req.body.proid
     }
-    con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
-                                 '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}',
-                                 '${member.img9}', '${member.img10}', '${member.img11}', '${member.img12}', '${member.proid}')`, (error, rows, fields) => {
+    con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
+                                 '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.img9}', '${member.img10}', '${member.img11}',
+                                 '${member.img12}', '${member.img13}', '${member.img14}', '${member.img15}', '${member.img16}', '${member.proid}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.status(201).json({success:true});
     })
