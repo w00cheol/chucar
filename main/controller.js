@@ -519,7 +519,7 @@ exports.savePayment = async (req, res) => {
     const odno = paymentData.merchant_uid.substr(11,4);
 
     con.query(`insert into pro_payments value(
-               '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${paymentData.pay_method}', '${paymentData.paid_amount}',
+               '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${paymentData.pay_method}', '${paymentData.amount}',
                ${paymentData.cancel_amount}, '${paymentData.paid_at}', '${paymentData.imp_uid}', '${paymentData.card_name},
                default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
