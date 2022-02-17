@@ -35,7 +35,7 @@ exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시�
         res.json(rows);
     })
 }
-exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 params => 해당 견적요청서 번호
+exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 params => 해당 견적신청서 번호
     console.log('showReply');
     cr_key = req.params.cr_key;
     con.query(`select * from contract_reply where cr_key = ${cr_key}`, (error, rows, fields) => {
