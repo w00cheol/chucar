@@ -418,7 +418,7 @@ exports.schedule = async (req, res) => {
     axios({
         url: "http://34.64.207.117:3000/payments/save",
         method: "POST",
-        body: {
+        data: {
             paymentData:paymentData
         }
     })
