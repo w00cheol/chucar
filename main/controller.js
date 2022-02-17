@@ -411,7 +411,7 @@ exports.schedule = async (req, res) => {
       headers: { "Authorization": access_token } // 인증 토큰 Authorization header에 추가
     });
     const paymentData = getPaymentData.data.response; // 조회한 결제 정보
-    console.log(paymentData.name);
+    console.log(paymentData);
     const { status } = paymentData;
     if (status === "paid") { // 결제 성공적으로 완료
     // DB에 결제 정보 저장
@@ -518,6 +518,7 @@ exports.getMerchantUid = async (req, res) => {
 exports.savePayment = async (req, res) => {
     console.log('savePayment');
     const {paymentData} = req.body;
+    console.log(paymentData)
     const goodId = paymentData.merchant_uid.substr(0,1);
     const memberNo = paymentData.merchant_uid.substr(1,10);
     const odno = paymentData.merchant_uid.substr(11,4);
