@@ -566,7 +566,7 @@ exports.savePayment = async (req, res) => {
         })
     }else {
         var date = new Date();
-        con.query(`update promst set pro_end '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
+        con.query(`update promst set pro_end = '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
             if(error) res.status(404).json(error);
         })
     }
