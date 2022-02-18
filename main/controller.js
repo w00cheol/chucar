@@ -52,8 +52,8 @@ exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시�
 }
 exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 params => 해당 견적신청서 번호
     console.log('showReply');
-    cr_key = req.params.cr_key;
-    con.query(`select * from contract_reply where cr_key = ${cr_key}`, (error, rows, fields) => {
+    cr_num = req.params.cr_num;
+    con.query(`select * from contract_reply where cr_num = ${cr_num}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
@@ -114,7 +114,7 @@ exports.sendReply = async (req, res) =>{
         cr_model: req.body.cr_model,
         cr_price: req.body.cr_price,
         cr_distance: req.body.cr_distance,
-        cr_reply: req.body.cr_reply,  //답변
+        cr_comment: req.body.cr_comment,  //답변
         img1: req.body.img1,
         img2: req.body.img2,
         img3: req.body.img3,

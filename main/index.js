@@ -43,7 +43,7 @@ app.get("/contracts/info/:ct_key", controller.contractInfo) // 게시글 들어�
 
 app.put("/contracts/finish/:ct_key", controller.contractFinish) // 마감 버튼 누르면 여기로 접속됨
 
-app.get("/reply/:cr_key", controller.showReply) // 게시글 들어갈때 이 글에 대한 견적서 (댓글) 정보 다 보내줌
+app.get("/reply/:cr_num", controller.showReply) // 게시글 들어갈때 이 글에 대한 견적서 (댓글) 정보 다 보내줌
 
 app.post('/reply', controller.sendReply); // 견적서 작성하고 백엔드 저장요청 들어오는 곳
 
