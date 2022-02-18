@@ -22,7 +22,7 @@ exports.home = (req, res) =>{
 }
 exports.show = (req, res) =>{
     console.log('show');
-    con.query('SELECT * from contract_send order by CT_DTTM desc', (error, rows) => {
+    con.query('SELECT * from contract_send  order by ct_dt desc ct_no desc', (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         res.json(rows);
     })
@@ -41,7 +41,7 @@ exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1,
 exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
     console.log('find_contract_from_usrid');
     findId = req.params.usrid;
-    con.query(`SELECT * from contract_send where ct_usrid = ${findId} order by ct_dttm desc`, (error, rows, fields) => {
+    con.query(`SELECT * from contract_send where ct_usrid = ${findId}  order by ct_dt desc ct_no desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
@@ -69,7 +69,7 @@ exports.contractFinish = async (req, res) =>{ //견적요청 마감치기
     console.log('인증완료');
     ct_num = req.params.ct_num;
     console.log(ct_num)
-    con.query(`update contract_send set ct_stat = 0 where ct_num = '${ct_num}' order by ct_dt desc ct_no desc`, (error, rows, fields) => {
+    con.query(`update contract_send set ct_stat = 0 where ct_num = '${ct_num}'`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.status(204).json({success:true});
@@ -88,7 +88,7 @@ exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달
     console.log('find_contract_from_proid');
     findId = req.params.proid;
     con.query(`select * from contract_send where ct_num  in (
-        SELECT cr_num as num from contract_reply where cr_proid = '${findId}') order by ct_dttm desc`, (error, rows, fields) => {
+        SELECT cr_num as num from contract_reply where cr_proid = '${findId}')  order by ct_dt desc ct_no desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         return res.json(rows);
