@@ -560,7 +560,7 @@ exports.savePayment = async (req, res) => {
     })
     if(odno == '0001'){
         var date = new Date();
-        con.query(`insert into promst set (pro_id, pro_start, pro_end) value(
+        con.query(`insert into promst (pro_id, pro_start, pro_end) value(
                   '${memberNo}', '${(date.getTime()/1000)}','${(date.getTime()/1000)+60}')`, (error, rows, fields) => {
             if(error) res.status(404).json(error);
         })
