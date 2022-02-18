@@ -337,7 +337,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
         ct_price: req.body.ct_price, //가격
         ct_distance: req.body.ct_distance, //주행거리
         ct_option: req.body.ct_option,
-        usrid: req.body.usrid //작성자아이디
+        ct_usrid: req.body.ct_usrid //작성자아이디
     }
     con.query(`CALL SND_CONTRACT('${contract.ct_kind}', '${contract.ct_model}', '${contract.ct_title}',
                                  '${contract.ct_content}', '${contract.ct_price}', '${contract.ct_distance}',
