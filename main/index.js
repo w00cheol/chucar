@@ -41,7 +41,7 @@ app.get("/contracts/pro/:proid", controller.find_from_proid) // 딜러가 [내�
 
 app.get("/contracts/info/:ct_key", controller.contractInfo) // 게시글 들어갈때 견적요청서 정보 다 보내줌
 
-app.put("/contracts/finish/:ct_key", controller.contractFinish) // 마감 버튼 누르면 여기로 접속됨
+app.patch("/contracts/finish/:ct_key", controller.contractFinish) // 마감 버튼 누르면 여기로 접속됨
 
 app.get("/reply/:cr_num", controller.showReply) // 게시글 들어갈때 이 글에 대한 견적서 (댓글) 정보 다 보내줌
 
