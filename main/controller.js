@@ -69,7 +69,7 @@ exports.contractFinish = async (req, res) =>{ //견적요청 마감치기
     console.log('인증완료');
     ct_num = req.params.ct_num;
     console.log(ct_num)
-    con.query(`update contract_send set ct_stat = 0 where ct_num = '${ct_num}'`, (error, rows, fields) => {
+    con.query(`update contract_send set ct_stat = 0 where ct_num = '${ct_num}' order by ct_dt desc ct_no desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.status(204).json({success:true});
