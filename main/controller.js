@@ -71,8 +71,8 @@ exports.contractFinish = async (req, res) =>{ //견적요청 마감치기
         return res.status(401).json({err: 'token fail'});
     }
     console.log('인증완료');
-    ct_key = req.params.ct_key;
-    con.query(`update contract_send set ct_stat = 2 where ct_key = ${ct_key}`, (error, rows, fields) => {
+    ct_num = req.params.ct_num;
+    con.query(`update contract_send set ct_stat = 2 where ct_num = ${ct_num}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.status(204).json({success:true});
@@ -80,8 +80,8 @@ exports.contractFinish = async (req, res) =>{ //견적요청 마감치기
 }
 exports.contractInfo = (req, res) =>{ // 견적요청 상세보기
     console.log('contractInfo');
-    ct_key = req.params.ct_key;
-    con.query(`select * from contract_send where ct_key = ${ct_key}`, (error, rows, fields) => {
+    ct_num = req.params.ct_num;
+    con.query(`select * from contract_send where ct_num = ${ct_num}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
@@ -90,8 +90,8 @@ exports.contractInfo = (req, res) =>{ // 견적요청 상세보기
 exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달린 요청글들 띄우기
     console.log('find_contract_from_proid');
     findId = req.params.proid;
-    con.query(`select * from contract_send where ct_key  in (
-        SELECT cr_key as num from contract_reply where cr_proid = '${findId}') order by ct_dttm desc`, (error, rows, fields) => {
+    con.query(`select * from contract_send where ct_num  in (
+        SELECT cr_num as num from contract_reply where cr_proid = '${findId}') order by ct_dttm desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         return res.json(rows);
@@ -110,7 +110,7 @@ exports.sendReply = async (req, res) =>{
     }
     console.log('인증완료'); //클라랑 서버에서 딜러인지 한번씩 더 확인해야 할듯
     const member = {
-        cr_key: req.body.cr_key, // 견적신청서고유번호
+        cr_num: req.body.cr_num, // 견적신청서고유번호
         cr_model: req.body.cr_model,
         cr_price: req.body.cr_price,
         cr_distance: req.body.cr_distance,
@@ -134,7 +134,7 @@ exports.sendReply = async (req, res) =>{
         proid: req.body.proid,
         cr_nickname: req.body.cr_nickname
     }
-    con.query(`CALL RPY_CONTRACT('${member.cr_key}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
+    con.query(`CALL RPY_CONTRACT('${member.cr_num}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
                                  '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.img9}', '${member.img10}', '${member.img11}',
                                  '${member.img12}', '${member.img13}', '${member.img14}', '${member.img15}', '${member.img16}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
