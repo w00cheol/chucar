@@ -17,7 +17,7 @@
     </div>
     <script>
         function requestPay() {
-            const merchant_uid = jQuery.ajax({
+            const merchant_uid11 = jQuery.ajax({
                 url: "http://34.64.207.117:3000/merchant",
                 method: "POST",
                 data: {
@@ -27,7 +27,7 @@
                 async: false
             })
 
-            // const merchant_uid = '122011018820008' //서버에 요청해서 받아올것
+            const merchant_uid = '21118012120001' //서버에 요청해서 받아올것
 
             // var IMP = window.IMP; // 생략 가능
             IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드

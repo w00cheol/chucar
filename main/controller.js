@@ -7,6 +7,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
+const { DATE } = require('mysql/lib/protocol/constants/types');
 // const express = require('express');
 
 const kakao = { //나중에 import로 유출방지
@@ -557,6 +558,18 @@ exports.savePayment = async (req, res) => {
                default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
     })
+    if(odno == '0001'){
+        var date = new Date();
+        con.query(`insert into promst set (pro_id, pro_start, pro_end) value(
+                  '${memberNo}', '${(date.getTime()/1000)}','${(date.getTime()/1000)+60}')`, (error, rows, fields) => {
+            if(error) res.status(404).json(error);
+        })
+    }else {
+        var date = new Date();
+        con.query(`update promst set pro_end '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}')`, (error, rows, fields) => {
+            if(error) res.status(404).json(error);
+        })
+    }
     con.query(`select CONCAT('${goodId}','${memberNo}',
                GET_ODNO('${goodId}','${memberNo}')) uid from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
