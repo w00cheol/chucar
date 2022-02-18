@@ -12,7 +12,7 @@ const qs = require('qs');
 // client.checkToken('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
 // client.findfromproid('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
 // client.contractInfo('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
-// client.contractFinish('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
+client.contractFinish('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
 // client.showReply('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');
 // client.findfromusrid('vfdLu78zaKH6yNjLHSZ1Fc61e3rl-719KRAlbwo9dZoAAAF_BHVAig');
 // client.show('NG6AIpw4RTDpE6AXrCLvMGkoHrNKKUasRrAj3wo9dNoAAAF-8gzMdw');

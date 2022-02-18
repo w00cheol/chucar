@@ -52,13 +52,13 @@ exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 p
     cr_num = req.params.cr_num;
     con.query(`select * from contract_reply where cr_num = ${cr_num}`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
-        // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
     })
 }
 exports.contractFinish = async (req, res) =>{ //견적요청 마감치기
     try{
         console.log('contractFinish');
+        console.log(req.headers.authorization);
         const getStatus = await this.checkToken(req.headers.authorization);
         if(getStatus!=200){
             console.log('token fail');

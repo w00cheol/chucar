@@ -133,8 +133,7 @@ exports.contractFinish = async(data) => { //마감치기
             method: 'put',
             url: 'http://34.64.207.117:3000/contracts/finish/202202061', // finish/ 뒤에 견적번호 임
             headers:{
-                Authorization: `${data}`,
-                'Content-type':'application/x-www-form-urlencoded;utf-8'
+                Authorization: `${data}`
             }
         })
         console.log(getData.data);
