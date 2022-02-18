@@ -7,6 +7,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
+const { exp } = require('react-native-reanimated');
 // const express = require('express');
 
 const kakao = { //나중에 import로 유출방지
@@ -285,7 +286,7 @@ exports.usr_signup = async(req, res) => {
         return res.status(401).json({err: 'token fail'});
     }
     console.log('인증완료');
-    const newUsr = { //글자수 제한 ㅍ론트에서 요청할것
+    const newUsr = { // 프론트에서 요청할것
         id: req.body.id, // id varchar(20)
         password: req.body.password, // 비밀번호
         nickname: req.body.nickname, // 이름
@@ -311,12 +312,16 @@ exports.logout = async (req,res) => { //로그아웃
           headers: {
               Authorization: `Bearer ${req.headers.authorization}`,
               "Content-Type": "application/x-www-form-urlencoded"
-            }
+          }
         });
         return res.json(getStatus.status);
     }catch(err){
         return res.status(400).json(err.data);
     }
+}
+
+exports.imageUpload = async (req, res) => { // 이미지 파일 db에 저장
+
 }
 
 exports.contractSend = async (req,res) => { //견적요청 전송
@@ -385,7 +390,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
         method: "post",
         headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
         data: {
-          customer_uid: "1_1", // 카드(빌링키)와 1:1로 대응하는 값
+          customer_uid: customer_uid, // 카드(빌링키)와 1:1로 대응하는 값
           schedules: [
             {
               merchant_uid: (date.getTime()/1000)+60, // 주문 번호
@@ -419,7 +424,6 @@ exports.schedule = async (req, res) => {
     }
     });
     const { access_token } = getToken.data.response; // 인증 토큰
-    console.log(access_token);
     // imp_uid로 아임포트 서버에서 결제 정보 조회
     const getPaymentData = await axios({
       url: `https://api.iamport.kr/payments/${imp_uid}`, // imp_uid 전달
@@ -438,9 +442,9 @@ exports.schedule = async (req, res) => {
             paymentData:paymentData
         }
     }).catch(function(err){console.log(err)})
-    next_merchant_uid = getMerchant.data[0].uid
     console.log('db저장성공!!')
-    console.log(next_merchant_uid)
+    next_merchant_uid = getMerchant.data[0].uid
+    console.log("다음 주문 예약 : next_merchant_uid")
     var date = new Date();
     await axios({
       url: `https://api.iamport.kr/subscribe/payments/schedule`,
@@ -519,8 +523,20 @@ exports.unschedule = async (req, res) => {
     }
 }
 exports.getMerchantUid = async (req, res) => {
-    console.log('getMerchantUid');
+    try{
+        console.log('getMerchantUid');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
     const {code, customer_uid} = req.body;
+    console.log(code)
+    console.log(customer_uid)
     con.query(`select CONCAT('${code}','${customer_uid}',
                GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);

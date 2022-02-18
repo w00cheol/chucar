@@ -3,6 +3,7 @@ const httpPort = 3000;
 const { default: axios } = require('axios');
 const bodyParser = require('body-parser');
 const express = require('express');
+const { combineTransition } = require('react-native-reanimated');
 const app = express();
 //const { resolve } = require('path/posix');
 //express 사용
@@ -55,7 +56,9 @@ app.get('/checkToken', controller.checkToken); // 백엔드에서만 돌아가�
 
 app.post('/contract/send', controller.contractSend); // 견적 요청 여기로 보내면 됨
 
-app.get('/logout', controller.logout); // 아직 개발중...
+app.post('/image/upload', controller.imageUpload);
+
+app.get('/logout', controller.logout); // 로그아웃
 
 app.post("/billings", controller.billings);
 

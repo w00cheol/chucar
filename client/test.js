@@ -63,5 +63,24 @@ const qs = require('qs');
       //     usrid:''
       //   }
       // })
-const a  = [ { uid: '173008012120003' } ];
-console.log(a[0].uid);
+// const a  = [ { uid: '173008012120003' } ];
+// console.log(a[0].uid);
+async function a(){
+  try{
+    const merchant_uid = await axios({
+      url: "http://34.64.207.117:3000/merchant",
+      method: "POST",
+      headers:{
+        Authorization: 'vfdLu78zaKH6yNjLHSZ1Fc61e3rl-719KRAlbwo9dZoAAAF_BHVAig',
+      },
+      data: {
+          code: '1', // 상품 코드 
+          customer_uid: "2111801212" // 카드 호칭 = 회원번호 (타인카드, 개인카드 모두 중복금지)},
+      }
+    })
+    console.log(merchant_uid)
+  }catch(err){
+    console.log(err);
+  }
+}
+a();
