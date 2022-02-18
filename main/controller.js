@@ -34,7 +34,8 @@ exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1,
     console.log(findId);
     con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
-        if(!!rows[0]) res.json(1);
+        console.log(rows[0]);
+        if(rows[0]) res.json(1);
         else res.json(0);
     })
 }
