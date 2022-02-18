@@ -3,7 +3,6 @@ const httpPort = 3000;
 const { default: axios } = require('axios');
 const bodyParser = require('body-parser');
 const express = require('express');
-const { combineTransition } = require('react-native-reanimated');
 const app = express();
 //const { resolve } = require('path/posix');
 //express 사용
