@@ -7,7 +7,6 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-const { exp } = require('react-native-reanimated');
 // const express = require('express');
 
 const kakao = { //나중에 import로 유출방지
