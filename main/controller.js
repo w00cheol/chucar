@@ -444,7 +444,7 @@ exports.schedule = async (req, res) => {
     }).catch(function(err){console.log(err)})
     console.log('db저장성공!!')
     next_merchant_uid = getMerchant.data[0].uid
-    console.log("다음 주문 예약 : next_merchant_uid")
+    console.log("다음 주문 예약 : "+next_merchant_uid)
     var date = new Date();
     await axios({
       url: `https://api.iamport.kr/subscribe/payments/schedule`,
@@ -566,7 +566,7 @@ exports.savePayment = async (req, res) => {
         })
     }else {
         var date = new Date();
-        con.query(`update promst set pro_end '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}')`, (error, rows, fields) => {
+        con.query(`update promst set pro_end '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
             if(error) res.status(404).json(error);
         })
     }
@@ -574,7 +574,6 @@ exports.savePayment = async (req, res) => {
                GET_ODNO('${goodId}','${memberNo}')) uid from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else {
-            console.log(rows);
             res.json(rows);
         }
     })
