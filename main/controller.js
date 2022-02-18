@@ -32,14 +32,11 @@ exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1,
     var date = new Date();
     findId = req.params.usr_id;
     console.log(findId);
-    if(findId=='undefined') res.json(undefined);
-    else{
-        con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
-            if(error) return res.status(404).json({err: 'Undefined error!'});
-            if(rows[0]) res.json(1);
-            else res.json(0);
-        })
-    }
+    con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        if(rows[0]) res.json(1);
+        else res.json(0);
+    })
 }
 exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
     console.log('find_contract_from_usrid');
@@ -123,20 +120,11 @@ exports.sendReply = async (req, res) =>{
         img6: req.body.img6,
         img7: req.body.img7,
         img8: req.body.img8,
-        img9: req.body.img9,
-        img10: req.body.img10,
-        img11: req.body.img11,
-        img12: req.body.img12,
-        img13: req.body.img13,
-        img14: req.body.img14,
-        img15: req.body.img15,
-        img16: req.body.img16,
         proid: req.body.proid,
         cr_nickname: req.body.cr_nickname
     }
-    con.query(`CALL RPY_CONTRACT('${member.cr_num}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_reply}', '${member.img1}', '${member.img2}', '${member.img3}',
-                                 '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.img9}', '${member.img10}', '${member.img11}',
-                                 '${member.img12}', '${member.img13}', '${member.img14}', '${member.img15}', '${member.img16}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
+    con.query(`CALL RPY_CONTRACT('${member.cr_num}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_comment}', '${member.img1}', '${member.img2}', '${member.img3}',
+                                 '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.status(201).json({success:true});
     })
@@ -342,26 +330,18 @@ exports.contractSend = async (req,res) => { //견적요청 전송
     }
     console.log('인증완료');
     const contract = { //글자수 제한 ㅍ론트에서 요청할것
-        catg: parseInt(req.body.catg),
-        gubn: parseInt(req.body.gubn),
-        kind: parseInt(req.body.kind), //결제종류
-        model: req.body.model, //모델
-        title: req.body.title, //세부모델
-        content: req.body.content,
-        price: req.body.price, //가격
-        distance: req.body.distance, //주행거리
-        option: req.body.option,
-        img1: req.body.img1,
-        img2: req.body.img2,
-        img3: req.body.img3,
-        img4: req.body.img4,
-        code: req.body.code, //추천코드
+        ct_kind: parseInt(req.body.ct_kind), //결제종류
+        ct_model: req.body.ct_model, //모델
+        ct_title: req.body.ct_title, //세부모델
+        ct_content: req.body.ct_content,
+        ct_price: req.body.ct_price, //가격
+        ct_distance: req.body.ct_distance, //주행거리
+        ct_option: req.body.ct_option,
         usrid: req.body.usrid //작성자아이디
     }
-    con.query(`CALL SND_CONTRACT('${contract.catg}', '${contract.gubn}', '${contract.kind}', '${contract.model}', '${contract.title}',
-                                 '${contract.content}', '${contract.price}', '${contract.distance}', '${contract.option}',
-                                 '${contract.img1}', '${contract.img2}', '${contract.img3}', '${contract.img4}',
-                                 '${contract.code}', '${contract.usrid}')`, (error, rows, fields) => {
+    con.query(`CALL SND_CONTRACT('${contract.ct_kind}', '${contract.ct_model}', '${contract.ct_title}',
+                                 '${contract.ct_content}', '${contract.ct_price}', '${contract.ct_distance}',
+                                 '${contract.ct_option}', '${contract.ct_usrid}')`, (error, rows, fields) => {
         if(error) {
             res.status(404).json(error);
             console.log(error.data);
