@@ -69,9 +69,7 @@ app.post("/subscribe/payments/unschedule", controller.unschedule);
 // "/iamport-callback/schedule"에 대한 POST 요청을 처리
 app.post("/iamport-callback/schedule", controller.schedule);
 
-app.listen(httpPort,'10.178.0.3', () => console.log('server has been running...'));
-
-
+app.listen(httpPort,'172.31.7.158', () => console.log('server has been running...'));
 
 
 // app.put('/users/:id', controller.update); // /users/숫자 로 전송하고 data로 name 값 전송해줘야함 , 해당 id 의 name 변경
@@ -84,4 +82,5 @@ app.listen(httpPort,'10.178.0.3', () => console.log('server has been running...'
 //app.post('/login', controller.login); //data로 사용자가입력했던 id, pw 보내서 로그인되면 token값 발급 되는데 이거 저장해서 항상 들고다녀야함. (글올리기, 계정변경 등등)
 
 // app.post('/signup', controller.signup);
+
 //app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결
