@@ -124,7 +124,7 @@ exports.sendReply = async (req, res) =>{
         proid: req.body.proid,
         cr_nickname: req.body.cr_nickname
     }
-    con.query(`CALL RPY_CONTRACT('${member.cr_num}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_comment}', '${member.img1}', '${member.img2}', '${member.img3}',
+    con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_comment}', '${member.img1}', '${member.img2}', '${member.img3}',
                                  '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.status(201).json({success:true});
