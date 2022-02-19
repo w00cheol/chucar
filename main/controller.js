@@ -107,6 +107,7 @@ exports.sendReply = async (req, res) =>{
     }
     console.log('인증완료'); //클라랑 서버에서 딜러인지 한번씩 더 확인해야 할듯
     const member = {
+        cr_title: req.body.cr_title,
         cr_num: req.body.cr_num, // 견적신청서고유번호
         cr_model: req.body.cr_model,
         cr_price: req.body.cr_price,
