@@ -72,7 +72,7 @@ exports.contractFinish = async (req, res) =>{ //견적요청 마감치기
     con.query(`update contract_send set ct_stat = 0 where ct_num = '${ct_num}'`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
-        res.status(204).json({success:true});
+        else res.status(204).json({success:true});
     })
 }
 exports.contractInfo = (req, res) =>{ // 견적요청 상세보기
@@ -114,6 +114,7 @@ exports.sendReply = async (req, res) =>{
         cr_distance: req.body.cr_distance,
         cr_option: req.body.cr_option,
         cr_comment: req.body.cr_comment,  //답변
+        img0: req.body.img0,
         img1: req.body.img1,
         img2: req.body.img2,
         img3: req.body.img3,
@@ -121,12 +122,11 @@ exports.sendReply = async (req, res) =>{
         img5: req.body.img5,
         img6: req.body.img6,
         img7: req.body.img7,
-        img8: req.body.img8,
         proid: req.body.proid,
         cr_nickname: req.body.cr_nickname
     }
-    con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_option}', '${member.cr_comment}', '${member.img1}', '${member.img2}', '${member.img3}',
-                                 '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.img8}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
+    con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_model}', '${member.cr_price}', '${member.cr_distance}', '${member.cr_option}', '${member.cr_comment}', '${member.img0}', '${member.img1}', '${member.img2}',
+                                 '${member.img3}', '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.status(201).json({success:true});
     })

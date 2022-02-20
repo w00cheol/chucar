@@ -69,7 +69,9 @@ app.post("/subscribe/payments/unschedule", controller.unschedule);
 // "/iamport-callback/schedule"에 대한 POST 요청을 처리
 app.post("/iamport-callback/schedule", controller.schedule);
 
-app.listen(httpPort,'172.31.7.158', () => console.log('server has been running...'));
+app.listen(httpPort,'0.0.0.0', () => console.log('server has been running...'));
+
+
 
 
 // app.put('/users/:id', controller.update); // /users/숫자 로 전송하고 data로 name 값 전송해줘야함 , 해당 id 의 name 변경
