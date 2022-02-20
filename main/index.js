@@ -31,7 +31,7 @@ app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 �
 
 app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
-app.get("/usr/:usr_id", controller.get_usr); // pro_id -> 회원번호, 딜러의 정보 전송
+app.get("/usr/:usr_id",  controller.get_usr); // pro_id -> 회원번호, 딜러의 정보 전송
 
 app.get("/contracts", controller.show); // / => DB 견적요청서 전체 출력
 
@@ -55,7 +55,7 @@ app.get('/checkToken', controller.checkToken); // 백엔드에서만 돌아가�
 
 app.post('/contract/send', controller.contractSend); // 견적 요청 여기로 보내면 됨
 
-app.post('/image/upload', controller.imageUpload);
+// app.post('/image/upload', controller.imageUpload);
 
 app.get('/logout', controller.logout); // 로그아웃
 

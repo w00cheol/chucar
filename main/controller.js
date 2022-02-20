@@ -315,10 +315,6 @@ exports.logout = async (req,res) => { //로그아웃
     }
 }
 
-exports.imageUpload = async (req, res) => { // 이미지 파일 db에 저장
-
-}
-
 exports.contractSend = async (req,res) => { //견적요청 전송
     try{
         console.log('contractsend')
@@ -357,7 +353,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
 
 exports.billings = async (req, res) => { // 빌링키 요청
     try {
-        console("req billings...");
+        console.log("req billings...");
       const { customer_uid } = req.body; // req body에서 customer_uid 추출
       console.log(customer_uid);
       const getToken = await axios({
@@ -382,7 +378,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
             {
               merchant_uid: (date.getTime()/1000)+60, // 주문 번호
               schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-              amount: 200,
+              amount: 107,
               name: "월간 이용권 정기결제",
             //   buyer_name: "홍길동",
             //   buyer_tel: "01012345678",
