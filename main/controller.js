@@ -397,6 +397,7 @@ exports.schedule = async (req, res) => {
     console.log("schedule");
     const { imp_uid, merchant_uid } = req.body;
     // 액세스 토큰(access token) 발급 받기
+    console.log(imp_uid);
     const getToken = await axios({
     url: "https://api.iamport.kr/users/getToken",
     method: "post", // POST method
