@@ -368,14 +368,14 @@ exports.billings = async (req, res) => { // 빌링키 요청
       var date = new Date();
       const {access_token} = getToken.data.response;
       console.log(access_token);
-      let merchant_uid;
-      con.query(`select CONCAT('${code}','${customer_uid}',
+      const merchant = con.query(`select CONCAT('${code}','${customer_uid}',
                  GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
-          if(error) res.status(404).json(error);
+          if(error) return res.status(404).json(error);
           else {
-            merchant_uid = rows[0].uid;
+              return rows;
           }
       })
+      merchant_uid = merchant.data[0];
       console.log('merchaunt id is..');
       console.log(merchant_uid);
       await axios({
