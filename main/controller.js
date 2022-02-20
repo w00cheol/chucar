@@ -372,6 +372,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
                  GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
           if(error) return res.status(404).json(error);
           else {
+              console.log(rows[0].uid)
               return rows;
           }
       })
