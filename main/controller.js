@@ -354,7 +354,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
 exports.billings = async (req, res) => { // 빌링키 요청
     try {
         console.log("req billings...");
-      const { customer_uid } = req.body; // req body에서 customer_uid 추출
+      const { code, customer_uid } = req.body; // req body에서 customer_uid 추출
       console.log(customer_uid);
       const getToken = await axios({
         url: "https://api.iamport.kr/users/getToken",
@@ -368,6 +368,16 @@ exports.billings = async (req, res) => { // 빌링키 요청
       var date = new Date();
       const {access_token} = getToken.data.response;
       console.log(access_token);
+      let merchant_uid;
+      con.query(`select CONCAT('${code}','${customer_uid}',
+                 GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
+          if(error) res.status(404).json(error);
+          else {
+            merchant_uid = rows[0].uid;
+          }
+      })
+      console.log('merchaunt id is..');
+      console.log(merchant_uid);
       await axios({
         url: `https://api.iamport.kr/subscribe/payments/schedule`,
         method: "post",
@@ -376,7 +386,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
           customer_uid: customer_uid, // 카드(빌링키)와 1:1로 대응하는 값
           schedules: [
             {
-              merchant_uid: (date.getTime()/1000)+60, // 주문 번호
+              merchant_uid: merchant_uid, // 주문 번호
               schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
               amount: 107,
               name: "월간 이용권 정기결제",
@@ -440,7 +450,7 @@ exports.schedule = async (req, res) => {
           {
             merchant_uid: next_merchant_uid, // 주문 번호
             schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-            amount: 100,
+            amount: 107,
             name: "월간 이용권 정기결제",
           //   buyer_name: "홍길동",
           //   buyer_tel: "01012345678",
