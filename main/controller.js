@@ -378,7 +378,6 @@ exports.billings = async (req, res) => { // 빌링키 요청
         }
       });
       merchant_uid = getMerchant.data;
-      console.log('merchaunt id is..');
       console.log(merchant_uid);
       await axios({
         url: `https://api.iamport.kr/subscribe/payments/schedule`,
@@ -409,7 +408,6 @@ exports.schedule = async (req, res) => {
     console.log("schedule");
     const { imp_uid, merchant_uid } = req.body;
     // 액세스 토큰(access token) 발급 받기
-    console.log(imp_uid);
     const getToken = await axios({
     url: "https://api.iamport.kr/users/getToken",
     method: "post", // POST method
@@ -528,8 +526,6 @@ exports.unschedule = async (req, res) => {
 }
 exports.getMerchantUid = async (req, res) => {
     const {code, customer_uid} = req.body;
-    console.log(code)
-    console.log(customer_uid)
     con.query(`select CONCAT('${code}','${customer_uid}',
                GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
@@ -561,6 +557,7 @@ exports.savePayment = async (req, res) => {
         var date = new Date();
         con.query(`update promst set pro_end = '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
             if(error) res.status(404).json(error);
+            else res.end();
         })
     }
 }
