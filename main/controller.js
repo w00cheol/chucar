@@ -368,15 +368,16 @@ exports.billings = async (req, res) => { // 빌링키 요청
       var date = new Date();
       const {access_token} = getToken.data.response;
       console.log(access_token);
-      const merchant = con.query(`select CONCAT('${code}','${customer_uid}',
-                 GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
-          if(error) return res.status(404).json(error);
-          else {
-              console.log(rows[0].uid)
-              return rows[0].uid;
-          }
-      })
-      merchant_uid = merchant.data[0];
+      const getMerchant = await axios({
+        url: "https://15.165.26.162:3000/merchant",
+        method: "post", // POST method
+        headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
+        data: {
+            code: code,
+            customer_uid: customer_uid
+        }
+      });
+      merchant_uid = getMerchant.data;
       console.log('merchaunt id is..');
       console.log(merchant_uid);
       await axios({
@@ -430,15 +431,23 @@ exports.schedule = async (req, res) => {
     if (status === "paid") { // 결제 성공적으로 완료
     // DB에 결제 정보 저장
     console.log('결제성공!!')
-    const getMerchant = await axios({ //결제결과 저장 및 다음 주문번호 발급
+    await axios({ //결제결과 저장
         url: "http://15.165.26.162:3000/payments/save",
         method: "POST",
         data: {
             paymentData:paymentData
         }
     }).catch(function(err){console.log(err)})
+    getMerchant = await axios({ // 다음 주문번호 발급
+        url: "http://15.165.26.162:3000/merchant",
+        method: "POST",
+        data: {
+            code: paymentData.merchant_uid.substr(0,1),
+            customer_uid: paymentData.merchant_uid.substr(1,10)
+        }
+    }).catch(function(err){console.log(err)})
     console.log('db저장성공!!')
-    next_merchant_uid = getMerchant.data[0].uid
+    next_merchant_uid = getMerchant.data;
     console.log("다음 주문 예약 : "+next_merchant_uid)
     var date = new Date();
     await axios({
@@ -518,17 +527,6 @@ exports.unschedule = async (req, res) => {
     }
 }
 exports.getMerchantUid = async (req, res) => {
-    try{
-        console.log('getMerchantUid');
-        const getStatus = await this.checkToken(req.headers.authorization);
-        if(getStatus!=200){
-            console.log('token fail');
-            return res.status(401).json({err: 'token fail'});
-        }
-    }catch(err){
-        return res.status(401).json({err: 'token fail'});
-    }
-    console.log('인증완료');
     const {code, customer_uid} = req.body;
     console.log(code)
     console.log(customer_uid)
@@ -565,11 +563,4 @@ exports.savePayment = async (req, res) => {
             if(error) res.status(404).json(error);
         })
     }
-    con.query(`select CONCAT('${goodId}','${memberNo}',
-               GET_ODNO('${goodId}','${memberNo}')) uid from dual`, (error, rows, fields) => {
-        if(error) res.status(404).json(error);
-        else {
-            res.json(rows);
-        }
-    })
 }
