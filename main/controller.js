@@ -369,7 +369,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
       const {access_token} = getToken.data.response;
       console.log(access_token);
       const getMerchant = await axios({
-        url: "https://15.165.26.162:3000/merchant",
+        url: "http://15.165.26.162:3000/merchant",
         method: "post", // POST method
         headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
         data: {
