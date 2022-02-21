@@ -529,14 +529,16 @@ exports.getMerchantUid = async (req, res) => {
     const {code, customer_uid} = req.body;
     console.log(code);
     console.log(customer_uid);
-    if(customer_uid==undefined) return res.json(customer_uid);
-    con.query(`select CONCAT('${code}','${customer_uid}',
-               GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
-        if(error) return res.status(404).json(error);
-        else {
-            return res.json(rows[0].uid);
-        }
-    })
+    if(!customer_uid) return res.json(customer_uid);
+    else {
+        con.query(`select CONCAT('${code}','${customer_uid}',
+                   GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
+            if(error) return res.status(404).json(error);
+            else {
+                return res.json(rows[0].uid);
+            }
+        })
+    }
 }
 exports.savePayment = async (req, res) => {
     console.log('savePayment');
