@@ -25,7 +25,9 @@ app.get("/", controller.home); // / : home 화면
 
 app.get("/isdealer/:usr_id", controller.isDealer);
 
-app.get("/isCircle/:usr_id", controller.isCircle);
+app.get("/iscircle/:usr_id", controller.isCircle);
+
+app.get("/setpro", controller.setPro);
 
 app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
 

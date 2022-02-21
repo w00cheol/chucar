@@ -27,6 +27,38 @@ exports.show = (req, res) =>{
         res.json(rows);
     })
 }
+exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
+    console.log('setPro');
+    try{
+        console.log('contractFinish');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
+    date = new Date();
+    
+    const pro = {
+        id: req.body.id,
+        name: req.body.name||'',
+        phone: req.body.phone,
+        email: req.body.email||'',
+        face: req.body.face,
+        card: req.body.card||'',
+        company: req.body.company,
+        prv1: req.body.prv1||0,
+        prv2: req.body.prv2||0,
+        prv3: req.body.prv3||0
+    }
+    con.query(`call REG_PRO('${pro.id}', '${pro.name}', '${pro.phone}', '${pro.email}', '${pro.face}', '${pro.card}', '${pro.company}', '${pro.prv1}', '${pro.prv2}', '${pro.prv3}', '${date.getTime()/1000}')`, (error, rows) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        else return res.json(0);
+    })
+}
 exports.isCircle = (req, res) => { // 구독중인지 알려주는 함수 딜러 1, 고객 0
     console.log('is Circle');
     var date = new Date();
@@ -563,18 +595,9 @@ exports.savePayment = async (req, res) => {
                default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
     })
-    if(odno == '0001'){
-        var date = new Date();
-        con.query(`insert into promst (pro_id, pro_start, pro_end) value(
-                  '${memberNo}', '${(date.getTime()/1000)}','${(date.getTime()/1000)+60}')`, (error, rows, fields) => {
-            if(error) res.status(404).json(error);
-            else res.end();
-        })
-    }else {
-        var date = new Date();
-        con.query(`update promst set pro_end = '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
-            if(error) res.status(404).json(error);
-            else res.end();
-        })
-    }
+    var date = new Date();
+    con.query(`update promst set pro_end = '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        else res.end();
+    })
 }
