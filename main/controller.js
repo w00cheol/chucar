@@ -529,7 +529,7 @@ exports.getMerchantUid = async (req, res) => {
     const {code, customer_uid} = req.body;
     console.log(code);
     console.log(customer_uid);
-    if(customer_uid==undefined) return res.json(undefined);
+    if(customer_uid==undefined) return res.json(customer_uid);
     con.query(`select CONCAT('${code}','${customer_uid}',
                GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
         if(error) return res.status(404).json(error);
