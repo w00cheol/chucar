@@ -27,11 +27,11 @@ app.get("/isdealer/:usr_id", controller.isDealer);
 
 app.get("/iscircle/:usr_id", controller.isCircle);
 
-app.get("/setpro", controller.setPro);
+app.put("/setpro", controller.setPro);
 
-app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
+// app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
 
-app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호
+// app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호
 
 app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
