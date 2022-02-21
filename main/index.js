@@ -25,6 +25,8 @@ app.get("/", controller.home); // / : home 화면
 
 app.get("/isdealer/:usr_id", controller.isDealer);
 
+app.get("/isCircle/:usr_id", controller.isCircle);
+
 app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
 
 app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호
@@ -70,19 +72,3 @@ app.post("/subscribe/payments/unschedule", controller.unschedule);
 app.post("/iamport-callback/schedule", controller.schedule);
 
 app.listen(httpPort,'0.0.0.0', () => console.log('server has been running...'));
-
-
-
-
-// app.put('/users/:id', controller.update); // /users/숫자 로 전송하고 data로 name 값 전송해줘야함 , 해당 id 의 name 변경
-
-// app.delete("/users/:id", controller.delete); // /usrs/숫자 : id로 삭제
-
-// app.post('/users', controller.create); // /users 로 전송하고 data로 id, name 값 전송해줘야함, 생성
-
-
-//app.post('/login', controller.login); //data로 사용자가입력했던 id, pw 보내서 로그인되면 token값 발급 되는데 이거 저장해서 항상 들고다녀야함. (글올리기, 계정변경 등등)
-
-// app.post('/signup', controller.signup);
-
-//app.get('/auth/kakao', controller.loginPage) //카카오로그인 페이지 연결

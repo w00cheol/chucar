@@ -27,12 +27,22 @@ exports.show = (req, res) =>{
         res.json(rows);
     })
 }
-exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1, 고객 0
-    console.log('is Dealer');
+exports.isCircle = (req, res) => { // 구독중인지 알려주는 함수 딜러 1, 고객 0
+    console.log('is Circle');
     var date = new Date();
     findId = req.params.usr_id;
     console.log(findId);
     con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        if(rows[0]) res.json(1);
+        else res.json(0);
+    })
+}
+exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1, 고객 0
+    console.log('is Dealer');
+    findId = req.params.usr_id;
+    console.log(findId);
+    con.query(`SELECT pro_id from promst where pro_id = '${findId}'`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         if(rows[0]) res.json(1);
         else res.json(0);
@@ -558,6 +568,7 @@ exports.savePayment = async (req, res) => {
         con.query(`insert into promst (pro_id, pro_start, pro_end) value(
                   '${memberNo}', '${(date.getTime()/1000)}','${(date.getTime()/1000)+60}')`, (error, rows, fields) => {
             if(error) res.status(404).json(error);
+            else res.end();
         })
     }else {
         var date = new Date();
