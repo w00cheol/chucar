@@ -13,7 +13,7 @@ const axios = require('axios');
 const kakao = { //나중에 import로 유출방지
     clientID: '9e7627ff0adc857af4fd5e69de0222e6',
     clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
-    redirectUri: 'http://15.165.26.162:3000/oauth'
+    redirectUri: 'http://34.64.207.117:3000/oauth'
 }
 
 exports.home = (req, res) =>{
@@ -369,7 +369,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
       const {access_token} = getToken.data.response;
       console.log(access_token);
       const getMerchant = await axios({
-        url: "http://15.165.26.162:3000/merchant",
+        url: "http://34.64.207.117:3000/merchant",
         method: "post", // POST method
         headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
         data: {
@@ -430,14 +430,14 @@ exports.schedule = async (req, res) => {
         // DB에 결제 정보 저장
         console.log('결제성공!!')
         await axios({ //결제결과 저장
-            url: "http://15.165.26.162:3000/payments/save",
+            url: "http://34.64.207.117:3000/payments/save",
             method: "POST",
             data: {
                 paymentData:paymentData
             }
         }).catch(function(err){console.log(err)})
         getMerchant = await axios({ // 다음 주문번호 발급
-            url: "http://15.165.26.162:3000/merchant",
+            url: "http://34.64.207.117:3000/merchant",
             method: "POST",
             data: {
                 code: paymentData.merchant_uid.substr(0,1),
