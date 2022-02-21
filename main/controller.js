@@ -525,6 +525,7 @@ exports.unschedule = async (req, res) => {
     }
 }
 exports.getMerchantUid = async (req, res) => {
+    console.log("getmerchant...")
     const {code, customer_uid} = req.body;
     con.query(`select CONCAT('${code}','${customer_uid}',
                GET_ODNO('${code}','${customer_uid}')) uid from dual`, (error, rows, fields) => {
