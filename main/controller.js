@@ -7,7 +7,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-const { DATE } = require('mysql/lib/protocol/constants/types');
+// const { DATE } = require('mysql/lib/protocol/constants/types');
 // const express = require('express');
 
 const kakao = { //나중에 import로 유출방지
@@ -427,48 +427,48 @@ exports.schedule = async (req, res) => {
     const paymentData = getPaymentData.data.response; // 조회한 결제 정보
     const { status } = paymentData;
     if (status === "paid") { // 결제 성공적으로 완료
-    // DB에 결제 정보 저장
-    console.log('결제성공!!')
-    await axios({ //결제결과 저장
-        url: "http://15.165.26.162:3000/payments/save",
-        method: "POST",
+        // DB에 결제 정보 저장
+        console.log('결제성공!!')
+        await axios({ //결제결과 저장
+            url: "http://15.165.26.162:3000/payments/save",
+            method: "POST",
+            data: {
+                paymentData:paymentData
+            }
+        }).catch(function(err){console.log(err)})
+        getMerchant = await axios({ // 다음 주문번호 발급
+            url: "http://15.165.26.162:3000/merchant",
+            method: "POST",
+            data: {
+                code: paymentData.merchant_uid.substr(0,1),
+                customer_uid: paymentData.merchant_uid.substr(1,10)
+            }
+        }).catch(function(err){console.log(err)})
+        console.log('db저장성공!!')
+        next_merchant_uid = getMerchant.data;
+        console.log("다음 주문 예약 : "+next_merchant_uid)
+        var date = new Date();
+        await axios({
+        url: `https://api.iamport.kr/subscribe/payments/schedule`,
+        method: "post",
+        headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
         data: {
-            paymentData:paymentData
+            customer_uid: next_merchant_uid.substr(1,10), // 카드(빌링키)와 1:1로 대응하는 값
+            schedules: [
+            {
+                merchant_uid: next_merchant_uid, // 주문 번호
+                schedule_at: (date.getTime()/1000)+120, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+                amount: 107,
+                name: "월간 이용권 정기결제",
+            //   buyer_name: "홍길동",
+            //   buyer_tel: "01012345678",
+            //   buyer_email: "gildong@gmail.com"
+            }
+            ]
         }
-    }).catch(function(err){console.log(err)})
-    getMerchant = await axios({ // 다음 주문번호 발급
-        url: "http://15.165.26.162:3000/merchant",
-        method: "POST",
-        data: {
-            code: paymentData.merchant_uid.substr(0,1),
-            customer_uid: paymentData.merchant_uid.substr(1,10)
-        }
-    }).catch(function(err){console.log(err)})
-    console.log('db저장성공!!')
-    next_merchant_uid = getMerchant.data;
-    console.log("다음 주문 예약 : "+next_merchant_uid)
-    var date = new Date();
-    await axios({
-      url: `https://api.iamport.kr/subscribe/payments/schedule`,
-      method: "post",
-      headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
-      data: {
-        customer_uid: next_merchant_uid.substr(1,10), // 카드(빌링키)와 1:1로 대응하는 값
-        schedules: [
-          {
-            merchant_uid: next_merchant_uid, // 주문 번호
-            schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-            amount: 107,
-            name: "월간 이용권 정기결제",
-          //   buyer_name: "홍길동",
-          //   buyer_tel: "01012345678",
-          //   buyer_email: "gildong@gmail.com"
-          }
-        ]
-      }
-    });
-    console.log("3일 후 결제 예약");
-    res.status(200).send();
+        });
+        console.log("3일 후 결제 예약");
+        res.status(200).send();
     } else {
         console.log("결제실패... 3일 후 결제 예약");
         await axios({
