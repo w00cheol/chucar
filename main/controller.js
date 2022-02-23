@@ -531,7 +531,7 @@ exports.schedule = async (req, res) => {
                     merchant_uid: next_merchant_uid, // 주문 번호
                     schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
                     amount: paymentData.amount,
-                    name: "츄카 1개월 이용권 정기결제",
+                    name: "츄카 1개월 이용권 정기결제(결제 실패로 인한 재시도)",
                     //   buyer_name: "홍길동",
                     //   buyer_tel: "01012345678",
                     //   buyer_email: "gildong@gmail.com"
