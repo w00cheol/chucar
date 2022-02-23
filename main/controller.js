@@ -622,7 +622,7 @@ exports.countFailed = (pp_member_no) => {
         if(error) return 9;
         else {
             console.log(rows)
-            return rows;
+            return rows[0].cnt;
         }
     })
 }
