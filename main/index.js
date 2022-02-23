@@ -25,7 +25,7 @@ app.get("/", controller.home); // / : home 화면
 
 app.get("/isdealer/:usr_id", controller.isDealer);
 
-app.get("/issubscribe/:usr_id", controller.isCircle);
+app.get("/issubscribe/:usr_id", controller.isSubscribe);
 
 app.put("/setpro", controller.setPro);
 
