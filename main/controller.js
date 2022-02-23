@@ -56,7 +56,7 @@ exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
     }
     con.query(`call REG_PRO('${pro.id}', '${pro.name}', '${pro.phone}', '${pro.email}', '${pro.face}', '${pro.card}', '${pro.company}', '${pro.prv1}', '${pro.prv2}', '${pro.prv3}', '${date.getTime()/1000}')`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
-        else return res.json(0);
+        else return res.json(1);
     })
 }
 exports.isCircle = (req, res) => { // 구독중인지 알려주는 함수 딜러 1, 고객 0
@@ -240,17 +240,18 @@ exports.showInfo = async(req, res) => {
 }
 // 고객 정보 반환 해주는 함수(params : 회원번호)
 exports.get_pro = async(req, res) => {
-    try{
-        console.log('get_pro');
-        const getStatus = await this.checkToken(req.headers.authorization);
-        if(getStatus!=200){
-            console.log('token fail');
-            return res.status(401).json({err: 'token fail'});
-        }
-    }catch(err){
-        return res.status(401).json({err: 'token fail'});
-    }
-    console.log('인증완료');
+    console.log('get_pro')
+    // try{
+    //     console.log('get_pro');
+    //     const getStatus = await this.checkToken(req.headers.authorization);
+    //     if(getStatus!=200){
+    //         console.log('token fail');
+    //         return res.status(401).json({err: 'token fail'});
+    //     }
+    // }catch(err){
+    //     return res.status(401).json({err: 'token fail'});
+    // }
+    // console.log('인증완료');
     pro_id = req.params.pro_id; //작성자아이디
     con.query(`select * from promst where pro_id = '${pro_id}'`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
@@ -491,28 +492,29 @@ exports.schedule = async (req, res) => {
         console.log("다음 주문 예약 : "+next_merchant_uid)
         var date = new Date();
         await axios({
-        url: `https://api.iamport.kr/subscribe/payments/schedule`,
-        method: "post",
-        headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
-        data: {
-            customer_uid: next_merchant_uid.substr(1,10), // 카드(빌링키)와 1:1로 대응하는 값
-            schedules: [
-            {
-                merchant_uid: next_merchant_uid, // 주문 번호
-                schedule_at: (date.getTime()/1000)+120, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-                amount: 107,
-                name: "월간 이용권 정기결제",
-            //   buyer_name: "홍길동",
-            //   buyer_tel: "01012345678",
-            //   buyer_email: "gildong@gmail.com"
+            url: `https://api.iamport.kr/subscribe/payments/schedule`,
+            method: "post",
+            headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
+            data: {
+                customer_uid: next_merchant_uid.substr(1,10), // 카드(빌링키)와 1:1로 대응하는 값
+                schedules: [
+                {
+                    merchant_uid: next_merchant_uid, // 주문 번호
+                    schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+                    amount: 107,
+                    name: "월간 이용권 정기결제",
+                //   buyer_name: "홍길동",
+                //   buyer_tel: "01012345678",
+                //   buyer_email: "gildong@gmail.com"
+                }
+                ]
             }
-            ]
-        }
         });
         console.log("3일 후 결제 예약");
         res.status(200).send();
     } else {
         console.log("결제실패... 3일 후 결제 예약");
+        console.log(paymentData);
         await axios({
           url: `https://api.iamport.kr/subscribe/payments/schedule`,
           method: "post",
