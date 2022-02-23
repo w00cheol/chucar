@@ -26,7 +26,7 @@
                 },
                 async: false
             })
-            const merchant_uid = '121118012120073' //서버에 요청해서 받아올것
+            const merchant_uid = '121118012120075' //서버에 요청해서 받아올것
 
             // var IMP = window.IMP; // 생략 가능
             IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
@@ -58,6 +58,7 @@
                     // })
                 } else {
                     // 결제 실패 시 로직,
+                    alert('sdf')
                     alert("빌링키 발급 실패 : 코드(" + rsp.error_code+") / 메시지(" + rsp.error_msg + ")");
                 }
             }

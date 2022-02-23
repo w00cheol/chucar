@@ -515,7 +515,8 @@ exports.schedule = async (req, res) => {
         res.status(200).send();
     } else if(status === "failed") {
         console.log("결제실패... 3일 후 결제 예약");
-        console.log(paymentData);
+        const count = this.countFailed(paymentData.customer_uid);
+        console.log(count);
         var date = new Date();
         await axios({
           url: `https://api.iamport.kr/subscribe/payments/schedule`,
@@ -529,9 +530,9 @@ exports.schedule = async (req, res) => {
                 schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
                 amount: paymentData.amount,
                 name: "츄카 1개월 이용권 정기결제",
-              //   buyer_name: "홍길동",
-              //   buyer_tel: "01012345678",
-              //   buyer_email: "gildong@gmail.com"
+                //   buyer_name: "홍길동",
+                //   buyer_tel: "01012345678",
+                //   buyer_email: "gildong@gmail.com"
               }
             ]
           }
@@ -542,7 +543,7 @@ exports.schedule = async (req, res) => {
     }
 } catch (err) {
     res.status(400).send(err);
-}
+  }
 }
 
 exports.unschedule = async (req, res) => {
@@ -605,5 +606,20 @@ exports.savePayment = async (req, res) => {
     con.query(`update promst set pro_end = '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
         else res.end();
+    })
+}
+
+/*select count(*) as cnt
+	from (
+		select * from pro_payments
+        where pp_member_no = '2111801212' order by pp_odno desc limit 50
+	) a where a.pp_status = "failed";*/
+exports.countFailed = (pp_member_no) => {
+    con.query(`select count(*) as cnt from (
+		         select * from pro_payments where pp_member_no = '2111801212'
+                 order by pp_odno desc limit 3) a
+               where a.pp_status = "failed"`, (error, rows, fields) => {
+        if(error) res.status(404).json(error);
+        else res.json(rows[0].count);
     })
 }
