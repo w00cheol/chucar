@@ -7,7 +7,6 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-const { call } = require('react-native-reanimated');
 // const { DATE } = require('mysql/lib/protocol/constants/types');
 // const express = require('express');
 
