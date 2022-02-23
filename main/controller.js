@@ -620,6 +620,9 @@ exports.countFailed = (pp_member_no) => {
                  order by pp_odno desc limit 10) a
                where a.pp_status = "failed"`, (error, rows, fields) => {
         if(error) return 9;
-        else return rows;
+        else {
+            console.log(rows)
+            return rows;
+        }
     })
 }
