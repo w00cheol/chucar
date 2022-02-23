@@ -517,7 +517,7 @@ exports.schedule = async (req, res) => {
         console.log("결제실패... 3일 후 결제 예약");
         let count;
         //  = await this.countFailed(paymentData.customer_uid);
-        this.countFailed(paymentData.customer_uid).then(
+        await this.countFailed(paymentData.customer_uid).then(
             function(resolve){
                 count = resolve;
                 console.log(resolve);
