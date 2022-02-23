@@ -515,7 +515,7 @@ exports.schedule = async (req, res) => {
         res.status(200).send();
     } else if(status === "failed") {
         console.log("결제실패... 3일 후 결제 예약");
-        const count = this.countFailed(paymentData.customer_uid);
+        const count = await this.countFailed(paymentData.customer_uid);
         console.log("return is ... "+count);
         var date = new Date();
         await axios({
@@ -614,10 +614,10 @@ exports.savePayment = async (req, res) => {
 		select * from pro_payments
         where pp_member_no = '2111801212' order by pp_odno desc limit 50
 	) a where a.pp_status = "failed";*/
-exports.countFailed = (pp_member_no) => {
+exports.countFailed = async (pp_member_no) => {
     con.query(`select count(*) as cnt from (
 		         select * from pro_payments where pp_member_no = '${pp_member_no}'
-                 order by pp_odno desc limit 10) a
+                 order by pp_odno desc limit 50) a
                where a.pp_status = "failed"`, (error, rows, fields) => {
         if(error) return 9;
         else {
