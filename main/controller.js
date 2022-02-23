@@ -516,6 +516,7 @@ exports.schedule = async (req, res) => {
     } else if(status === "failed") {
         console.log("결제실패... 3일 후 결제 예약");
         console.log(paymentData);
+        var date = new Date();
         await axios({
           url: `https://api.iamport.kr/subscribe/payments/schedule`,
           method: "post",

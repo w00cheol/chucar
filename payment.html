@@ -38,29 +38,29 @@
                 name: "1개월 정기 구독", // 상품명
                 customer_uid: merchant_uid.substr(1,10), // 회원번호
                 // amount: merchant_uid.substr(11,3)=='000'? 0 : 123 //금액 (첫번째만(주문번호== 0001) 0원으로 추후 설정)
-                amount: 0
+                amount: 100
                 // buyer_email: "", //구매자 정보
                 // buyer_name: "홍길동",
                 // buyer_tel: "010-4242-4242",
                 // buyer_addr: "서울특별시 강남구 신사동",
                 // buyer_postcode: "01181"
             })
-            // , function (rsp) { // callback
-            //     if (rsp.success) {
-            //         // 결제 성공 시 로직
-            //         jQuery.ajax({
-            //             url: "http://34.64.207.117:3000/billings",
-            //             method: "POST",
-            //             headers: {"Content_Type": "application/json"},
-            //             data: {
-            //                 costomer_uid: "2200801882" // 카드 호칭 (타인카드, 개인카드 모두 중복금지)
-            //             }
-            //         })
-            //     } else {
-            //         // 결제 실패 시 로직,
-            //         alert("빌링키 발급 실패 : 코드(" + rsp.error_code+") / 메시지(" + rsp.error_msg + ")");
-            //     }
-            // }
+            , function (rsp) { // callback
+                if (rsp.success) {
+                    // 결제 성공 시 로직
+                    // jQuery.ajax({
+                    //     url: "http://34.64.207.117:3000/billings",
+                    //     method: "POST",
+                    //     headers: {"Content_Type": "application/json"},
+                    //     data: {
+                    //         costomer_uid: "2200801882" // 카드 호칭 (타인카드, 개인카드 모두 중복금지)
+                    //     }
+                    // })
+                } else {
+                    // 결제 실패 시 로직,
+                    alert("빌링키 발급 실패 : 코드(" + rsp.error_code+") / 메시지(" + rsp.error_msg + ")");
+                }
+            }
         }
         function unschedule() {
         // IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
