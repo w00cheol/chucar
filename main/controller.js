@@ -518,6 +518,7 @@ exports.schedule = async (req, res) => {
         let count;
         await this.countFailed(paymentData.customer_uid, function(callback){
             count = callback;
+            console.log("ret is ... + "+count)
         });
         console.log("return is ... "+count);
         var date = new Date();
