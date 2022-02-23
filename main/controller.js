@@ -617,7 +617,7 @@ exports.savePayment = async (req, res) => {
 exports.countFailed = (pp_member_no) => {
     con.query(`select count(*) as cnt from (
 		         select * from pro_payments where pp_member_no = '2111801212'
-                 order by pp_odno desc limit 3) a
+                 order by pp_odno desc limit 10) a
                where a.pp_status = "failed"`, (error, rows, fields) => {
         if(error) return 9;
         else return rows;
