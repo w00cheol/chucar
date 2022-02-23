@@ -596,8 +596,8 @@ exports.savePayment = async (req, res) => {
 
     con.query(`insert into pro_payments value(
                '${goodId}', '${memberNo}', '${odno}', '${memberNo}', '${paymentData.pay_method}', '${paymentData.amount}',
-               ${paymentData.cancel_amount}, '${paymentData.paid_at}', '${paymentData.card_name}', '${paymentData.imp_uid}',
-               ${paymentData.status}, default, default)`, (error, rows, fields) => {
+               '${paymentData.cancel_amount}', '${paymentData.paid_at}', '${paymentData.card_name}', '${paymentData.imp_uid}',
+               '${paymentData.status}', default, default)`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
     })
     var date = new Date();
