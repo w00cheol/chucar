@@ -516,27 +516,29 @@ exports.schedule = async (req, res) => {
     } else if(status === "failed") {
         console.log("결제실패... 3일 후 결제 예약");
         const count = await this.countFailed(paymentData.customer_uid);
-        console.log("return is ... "+count);
-        var date = new Date();
-        await axios({
-          url: `https://api.iamport.kr/subscribe/payments/schedule`,
-          method: "post",
-          headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
-          data: {
-            customer_uid: paymentData.customer_uid, // 카드(빌링키)와 1:1로 대응하는 값
-            schedules: [
-              {
-                merchant_uid: next_merchant_uid, // 주문 번호
-                schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-                amount: paymentData.amount,
-                name: "츄카 1개월 이용권 정기결제",
-                //   buyer_name: "홍길동",
-                //   buyer_tel: "01012345678",
-                //   buyer_email: "gildong@gmail.com"
+        console.log("failed count ... "+count);
+        if(count<3){
+            var date = new Date();
+            await axios({
+              url: `https://api.iamport.kr/subscribe/payments/schedule`,
+              method: "post",
+              headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
+              data: {
+                customer_uid: paymentData.customer_uid, // 카드(빌링키)와 1:1로 대응하는 값
+                schedules: [
+                  {
+                    merchant_uid: next_merchant_uid, // 주문 번호
+                    schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
+                    amount: paymentData.amount,
+                    name: "츄카 1개월 이용권 정기결제",
+                    //   buyer_name: "홍길동",
+                    //   buyer_tel: "01012345678",
+                    //   buyer_email: "gildong@gmail.com"
+                  }
+                ]
               }
-            ]
-          }
-        });
+            });
+        }
         res.status(401).send();
     } else if (status === "cancelled"){
         console.log('환불완료');
@@ -614,7 +616,7 @@ exports.savePayment = async (req, res) => {
 		select * from pro_payments
         where pp_member_no = '2111801212' order by pp_odno desc limit 50
 	) a where a.pp_status = "failed";*/
-exports.countFailed = (pp_member_no) => {
+exports.countFailed = async (pp_member_no) => {
     return new Promise(function (resolve, reject) {
         con.query(`select count(*) as cnt from (
                      select * from pro_payments where pp_member_no = '${pp_member_no}'
