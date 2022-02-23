@@ -512,7 +512,7 @@ exports.schedule = async (req, res) => {
         });
         console.log("3일 후 결제 예약");
         res.status(200).send();
-    } else {
+    } else if(status === "failed") {
         console.log("결제실패... 3일 후 결제 예약");
         console.log(paymentData);
         await axios({
@@ -535,6 +535,8 @@ exports.schedule = async (req, res) => {
           }
         });
         res.status(401).send();
+    } else if (status === "cancelled"){
+        console.log('환불신청');
     }
 } catch (err) {
     res.status(400).send(err);

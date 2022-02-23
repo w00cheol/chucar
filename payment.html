@@ -27,7 +27,7 @@
                 async: false
             })
 
-            const merchant_uid = '121118012120001test12' //서버에 요청해서 받아올것
+            const merchant_uid = '121118012120064' //서버에 요청해서 받아올것
 
             // var IMP = window.IMP; // 생략 가능
             IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
@@ -69,7 +69,7 @@
                 url: `http://34.64.207.117:3000/subscribe/payments/unschedule`,
                 method: "post",
                 data: {
-                customer_uid: "2201101882" // (회원번호) 카드(빌링키)와 1:1로 대응하는 값
+                customer_uid: "2111801212" // (회원번호) 카드(빌링키)와 1:1로 대응하는 값
                 }
             });
         }
