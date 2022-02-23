@@ -539,6 +539,8 @@ exports.schedule = async (req, res) => {
                 ]
               }
             });
+        } else {
+            console.log(paymentData.customer_uid + '님 3회 결제실패 이슈로 결제 취소합니다.');
         }
         res.status(401).send();
     } else if (status === "cancelled"){
