@@ -502,10 +502,10 @@ exports.schedule = async (req, res) => {
                     merchant_uid: next_merchant_uid, // 주문 번호
                     schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
                     amount: 107,
-                    name: "월간 이용권 정기결제",
-                //   buyer_name: "홍길동",
-                //   buyer_tel: "01012345678",
-                //   buyer_email: "gildong@gmail.com"
+                    name: "츄카 1개월 이용권 정기결제",
+                    //   buyer_name: "홍길동",
+                    //   buyer_tel: "01012345678",
+                    //   buyer_email: "gildong@gmail.com"
                 }
                 ]
             }
@@ -520,13 +520,13 @@ exports.schedule = async (req, res) => {
           method: "post",
           headers: { "Authorization": access_token }, // 인증 토큰 Authorization header에 추가
           data: {
-            customer_uid: next_merchant_uid.substr(1,10), // 카드(빌링키)와 1:1로 대응하는 값
+            customer_uid: paymentData.customer_uid, // 카드(빌링키)와 1:1로 대응하는 값
             schedules: [
               {
-                merchant_uid: next_merchant_uid, // 주문 번호
+                merchant_uid: paymentData.merchant_uid, // 주문 번호
                 schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
-                amount: 100,
-                name: "월간 이용권 정기결제",
+                amount: paymentData.amount,
+                name: "츄카 1개월 이용권 정기결제",
               //   buyer_name: "홍길동",
               //   buyer_tel: "01012345678",
               //   buyer_email: "gildong@gmail.com"
@@ -536,7 +536,7 @@ exports.schedule = async (req, res) => {
         });
         res.status(401).send();
     } else if (status === "cancelled"){
-        console.log('환불신청');
+        console.log('환불완료');
     }
 } catch (err) {
     res.status(400).send(err);

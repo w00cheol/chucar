@@ -26,8 +26,7 @@
                 },
                 async: false
             })
-
-            const merchant_uid = '121118012120064' //서버에 요청해서 받아올것
+            const merchant_uid = '121118012120068' //서버에 요청해서 받아올것
 
             // var IMP = window.IMP; // 생략 가능
             IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
@@ -38,13 +37,14 @@
                 merchant_uid: merchant_uid, //주문번호
                 name: "1개월 정기 구독", // 상품명
                 customer_uid: merchant_uid.substr(1,10), // 회원번호
-                amount: merchant_uid.substr(11,3)=='000'? 0 : 777, //금액 (첫번째만(주문번호== 0001) 0원으로 추후 설정)
+                // amount: merchant_uid.substr(11,3)=='000'? 0 : 123 //금액 (첫번째만(주문번호== 0001) 0원으로 추후 설정)
+                amount: 0
                 // buyer_email: "", //구매자 정보
                 // buyer_name: "홍길동",
                 // buyer_tel: "010-4242-4242",
                 // buyer_addr: "서울특별시 강남구 신사동",
                 // buyer_postcode: "01181"
-            }
+            })
             // , function (rsp) { // callback
             //     if (rsp.success) {
             //         // 결제 성공 시 로직
@@ -61,7 +61,6 @@
             //         alert("빌링키 발급 실패 : 코드(" + rsp.error_code+") / 메시지(" + rsp.error_msg + ")");
             //     }
             // }
-            )
         }
         function unschedule() {
         // IMP.init("imp62201906"); // 예: imp00000000 가맹점 식별코드
