@@ -619,7 +619,7 @@ exports.countFailed = (pp_member_no) => {
 		         select * from pro_payments where pp_member_no = '2111801212'
                  order by pp_odno desc limit 3) a
                where a.pp_status = "failed"`, (error, rows, fields) => {
-        if(error) res.status(404).json(error);
-        else res.json(rows[0].count);
+        if(error) return 9;
+        else return rows[0].count;
     })
 }
