@@ -621,7 +621,7 @@ exports.countFailed = (pp_member_no) => {
                where a.pp_status = "failed"`, (error, rows, fields) => {
         if(error) return 9;
         else {
-            console.log(rows)
+            console.log(rows[0].cnt)
             return rows[0].cnt;
         }
     })
