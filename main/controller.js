@@ -516,7 +516,7 @@ exports.schedule = async (req, res) => {
     } else if(status === "failed") {
         console.log("결제실패... 3일 후 결제 예약");
         const count = this.countFailed(paymentData.customer_uid);
-        console.log(count);
+        console.log("return is ... "+count);
         var date = new Date();
         await axios({
           url: `https://api.iamport.kr/subscribe/payments/schedule`,
@@ -616,12 +616,12 @@ exports.savePayment = async (req, res) => {
 	) a where a.pp_status = "failed";*/
 exports.countFailed = (pp_member_no) => {
     con.query(`select count(*) as cnt from (
-		         select * from pro_payments where pp_member_no = '2111801212'
+		         select * from pro_payments where pp_member_no = '${pp_member_no}'
                  order by pp_odno desc limit 10) a
                where a.pp_status = "failed"`, (error, rows, fields) => {
         if(error) return 9;
         else {
-            console.log(rows[0].cnt)
+            console.log("in query ,, "+rows[0].cnt)
             return rows[0].cnt;
         }
     })
