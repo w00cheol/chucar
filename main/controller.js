@@ -620,6 +620,6 @@ exports.countFailed = (pp_member_no) => {
                  order by pp_odno desc limit 3) a
                where a.pp_status = "failed"`, (error, rows, fields) => {
         if(error) return 9;
-        else return rows[0].count;
+        else return rows[0];
     })
 }
