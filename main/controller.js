@@ -7,6 +7,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
+const { call } = require('react-native-reanimated');
 // const { DATE } = require('mysql/lib/protocol/constants/types');
 // const express = require('express');
 
@@ -516,8 +517,8 @@ exports.schedule = async (req, res) => {
     } else if(status === "failed") {
         console.log("결제실패... 3일 후 결제 예약");
         let count;
-        await this.countFailed(paymentData.customer_uid, function(count){
-            console.log(count)
+        await this.countFailed(paymentData.customer_uid, function(callback){
+            count = callback;
         });
         console.log("return is ... "+count);
         var date = new Date();
@@ -617,15 +618,15 @@ exports.savePayment = async (req, res) => {
 		select * from pro_payments
         where pp_member_no = '2111801212' order by pp_odno desc limit 50
 	) a where a.pp_status = "failed";*/
-exports.countFailed = async (pp_member_no, count) => {
+exports.countFailed = async (pp_member_no, promise) => {
     con.query(`select count(*) as cnt from (
 		         select * from pro_payments where pp_member_no = '${pp_member_no}'
                  order by pp_odno desc limit 50) a
                where a.pp_status = "failed"`, (error, rows, fields) => {
-        if(error) count(9);
+        if(error) promise(9);
         else {
             console.log("in query ,, "+rows[0].cnt)
-            count(rows[0].cnt);
+            promise(rows[0].cnt);
         }
     })
 }
