@@ -59,12 +59,13 @@ exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
         else return res.json(1);
     })
 }
-exports.isCircle = (req, res) => { // 구독중인지 알려주는 함수 딜러 1, 고객 0
-    console.log('is Circle');
+exports.isSubscribe = (req, res) => { // 구독중인지 알려주는 함수 딜러 1, 고객 0
+    console.log('is Subscribe');
     var date = new Date();
     findId = req.params.usr_id;
     console.log(findId);
-    con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
+    if(findId=='undefined') res.json(findId);
+    else con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         if(rows[0]) res.json(1);
         else res.json(0);
@@ -542,6 +543,7 @@ exports.schedule = async (req, res) => {
         res.status(401).send();
     } else if (status === "cancelled"){
         console.log('환불완료');
+        res.status(200).send();
     }
 } catch (err) {
     res.status(400).send(err);
@@ -624,7 +626,6 @@ exports.countFailed = async (pp_member_no) => {
                    where a.pp_status = "failed"`, (error, rows, fields) => {
             if(error) reject(9);
             else {
-                console.log("in query ,, "+rows[0].cnt)
                 resolve(rows[0].cnt);
             }
         })
