@@ -15,11 +15,13 @@ app.use(express.urlencoded({ extended: true}));
 
 app.get("/", controller.home); // / : home 화면
 
-app.get("/isdealer/:usr_id", controller.isDealer);
+app.get("/isdealer/:usr_id", controller.isDealer); // 딜러 고객 구분
 
-app.get("/issubscribe/:usr_id", controller.isSubscribe);
+app.get("/issubscribe/:usr_id", controller.isSubscribe); // 현재 구독상태 구분
 
-app.put("/setpro", controller.setPro);
+app.put("/setpro", controller.setPro); // 딜러정보 생성, 수정
+
+app.put("/profile/:pro_id", controller.setProfile); // 딜러 프로필 사진 수정
 
 // app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
 

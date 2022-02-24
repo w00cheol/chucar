@@ -59,11 +59,20 @@ exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
         else return res.json(1);
     })
 }
+exports.setProfile = async (req, res) => { // 프로필 사진 변경
+    const pro_id = req.params.pro_id;
+    const {profile} = req.body;
+    con.query(`UPDATE promst set pro_profile = '${profile}' where pro_id = '${pro_id}'`, (error, rows) => {
+        if(error) return res.status(404).json({err: 'Undefined error!'});
+        else res.json(1);
+    })
+}
 exports.isSubscribe = (req, res) => { // 구독중인지 알려주는 함수 딜러 1, 고객 0
     console.log('is Subscribe');
     var date = new Date();
     findId = req.params.usr_id;
     console.log(findId);
+    if(findId=='undefined') res.json(findId);
     con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         if(rows[0]) res.json(1);
