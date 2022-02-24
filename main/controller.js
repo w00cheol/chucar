@@ -47,14 +47,13 @@ exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
         name: req.body.name||'',
         phone: req.body.phone||'',
         email: req.body.email||'',
-        profile: req.body.profile||'',
         idcard: req.body.idcard||'',
         company: req.body.company||'',
         prv1: req.body.prv1||'0',
         prv2: req.body.prv2||'0',
         prv3: req.body.prv3||'0'
     }
-    con.query(`call REG_PRO('${pro.id}', '${pro.name}', '${pro.phone}', '${pro.email}', '${pro.profile}', '${pro.idcard}', '${pro.company}', '${pro.prv1}', '${pro.prv2}', '${pro.prv3}', '${date.getTime()/1000}')`, (error, rows) => {
+    con.query(`call REG_PRO('${pro.id}', '${pro.name}', '${pro.phone}', '${pro.email}', '${pro.idcard}', '${pro.company}', '${pro.prv1}', '${pro.prv2}', '${pro.prv3}', '${date.getTime()/1000}')`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         else return res.json(1);
     })
@@ -104,7 +103,8 @@ exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시�
 exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 params => 해당 견적신청서 번호
     console.log('showReply');
     cr_num = req.params.cr_num;
-    con.query(`select * from contract_reply where cr_num = ${cr_num}`, (error, rows, fields) => {
+    con.query(`SELECT * from contract_reply, promst
+               where cr_num = ${cr_num} and cr_proid = promst.pro_id`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         res.json(rows);
     })
