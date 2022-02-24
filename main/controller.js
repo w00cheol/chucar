@@ -45,11 +45,11 @@ exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
     const pro = {
         id: req.body.id,
         name: req.body.name||'',
-        phone: req.body.phone,
+        phone: req.body.phone||'',
         email: req.body.email||'',
-        profile: req.body.profile,
+        profile: req.body.profile||'',
         idcard: req.body.idcard||'',
-        company: req.body.company,
+        company: req.body.company||'',
         prv1: req.body.prv1||'0',
         prv2: req.body.prv2||'0',
         prv3: req.body.prv3||'0'
