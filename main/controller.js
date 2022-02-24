@@ -652,7 +652,7 @@ exports.countFailed = async (pp_member_no) => {
         con.query(`select count(*) as cnt from (
                      select * from pro_payments where pp_member_no = '${pp_member_no}'
                      order by pp_odno desc limit 3) a
-                   where a.pp_status = "failed"`, (error, rows, fields) => {
+                     where a.pp_status = "failed"`, (error, rows, fields) => {
             if(error) reject(9);
             else {
                 resolve(rows[0].cnt);
