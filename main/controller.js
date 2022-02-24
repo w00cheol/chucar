@@ -67,19 +67,7 @@ exports.setProfile = async (req, res) => { // 프로필 사진 변경
         else res.json(1);
     })
 }
-exports.isSubscribe = (req, res) => { // 구독중인지 알려주는 함수 딜러 1, 고객 0
-    console.log('is Subscribe');
-    var date = new Date();
-    findId = req.params.usr_id;
-    console.log(findId);
-    if(findId=='undefined') res.json(findId);
-    con.query(`SELECT pro_id from promst where pro_id = '${findId}' and pro_end >= ${date.getTime()/1000} limit 1`, (error, rows) => {
-        if(error) return res.status(404).json({err: 'Undefined error!'});
-        if(rows[0]) res.json(1);
-        else res.json(0);
-    })
-}
-exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1, 고객 0
+exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1, 고객 0, 구독중인 딜러는 2
     console.log('is Dealer');
     findId = req.params.usr_id;
     console.log(findId);
@@ -89,7 +77,6 @@ exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1,
         if(error) return res.status(404).json({err: 'Undefined error!'});
         if(rows[0]){
             var date = new Date();
-            console.log(rows[0].pro_end);
             if(rows[0].pro_end >= date.getTime()/1000) return res.json(2);
             else return res.json(1);
         }
@@ -101,7 +88,6 @@ exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시�
     findId = req.params.usrid;
     con.query(`SELECT * from contract_send where ct_usrid = ${findId}  order by ct_stat desc, ct_dt desc, ct_no desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
-        // if(!rows[0]) return res.status(404).json({err: 'Unknown usrid'});
         res.json(rows);
     })
 }
@@ -109,7 +95,8 @@ exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 p
     console.log('showReply');
     cr_num = req.params.cr_num;
     con.query(`SELECT * from contract_reply, promst
-               where cr_num = ${cr_num} and cr_proid = promst.pro_id`, (error, rows, fields) => {
+               where cr_num = ${cr_num} and cr_proid = promst.pro_id
+               order by cr_dttm desc`, (error, rows, fields) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         res.json(rows);
     })
