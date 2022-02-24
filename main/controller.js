@@ -54,7 +54,7 @@ exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
         prv2: req.body.prv2||'0',
         prv3: req.body.prv3||'0'
     }
-    con.query(`call REG_PRO('${pro.id}', '${pro.name}', '${pro.phone}', '${pro.email}', '${pro.face}', '${pro.card}', '${pro.company}', '${pro.prv1}', '${pro.prv2}', '${pro.prv3}', '${date.getTime()/1000}')`, (error, rows) => {
+    con.query(`call REG_PRO('${pro.id}', '${pro.name}', '${pro.phone}', '${pro.email}', '${pro.profile}', '${pro.idcard}', '${pro.company}', '${pro.prv1}', '${pro.prv2}', '${pro.prv3}', '${date.getTime()/1000}')`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
         else return res.json(1);
     })
