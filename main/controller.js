@@ -18,7 +18,7 @@ const kakao = { //나중에 import로 유출방지
 
 exports.home = (req, res) =>{
     console.log('home');
-    res.send('Welcome to CHUCAR!');
+    res.status(200).send('Welcome to CHUCAR!');
 }
 exports.show = (req, res) =>{
     console.log('show');
@@ -386,12 +386,37 @@ exports.contractSend = async (req,res) => { //견적요청 전송
                                  '${contract.ct_content}', '${contract.ct_price}', '${contract.ct_distance}',
                                  '${contract.ct_option}', '${contract.ct_usrid}')`, (error, rows, fields) => {
         if(error) {
-            res.status(404).json(error);
             console.log(error.data);
+            res.status(404).json(error);
         }
         else {
-            res.status(201).json({success:true});
             console.log('success');
+            res.status(201).json({success:true});
+        }
+    })
+}
+
+exports.contractDelete = async (req, res) => {
+    try{
+        console.log('contract delete...')
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
+    const ct_num = req.params.ct_num;
+    con.query(`delete from contract_send where ct_num = '${ct_num}'`, (error ,rows, fields) => {
+        if(error) {
+            console.log(error.data);
+            res.status(404).json(error.data);
+        }
+        else {
+            console.log('success');
+            res.status(200).json({success:true});
         }
     })
 }

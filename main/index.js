@@ -59,7 +59,7 @@ app.get('/checkToken', controller.checkToken); // 백엔드에서만 돌아가�
 
 app.post('/contract/send', controller.contractSend); // 견적 요청 여기로 보내면 됨
 
-// app.post('/image/upload', controller.imageUpload);
+app.delete('/contract/:ct_num', controller.contractDelete); // 견적신청서 삭제
 
 app.get('/logout', controller.logout); // 로그아웃
 
