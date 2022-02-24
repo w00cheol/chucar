@@ -242,18 +242,17 @@ exports.showInfo = async(req, res) => {
 }
 // 고객 정보 반환 해주는 함수(params : 회원번호)
 exports.get_pro = async(req, res) => {
-    console.log('get_pro')
-    // try{
-    //     console.log('get_pro');
-    //     const getStatus = await this.checkToken(req.headers.authorization);
-    //     if(getStatus!=200){
-    //         console.log('token fail');
-    //         return res.status(401).json({err: 'token fail'});
-    //     }
-    // }catch(err){
-    //     return res.status(401).json({err: 'token fail'});
-    // }
-    // console.log('인증완료');
+    try{
+        console.log('get_pro');
+        const getStatus = await this.checkToken(req.headers.authorization);
+        if(getStatus!=200){
+            console.log('token fail');
+            return res.status(401).json({err: 'token fail'});
+        }
+    }catch(err){
+        return res.status(401).json({err: 'token fail'});
+    }
+    console.log('인증완료');
     pro_id = req.params.pro_id; //작성자아이디
     con.query(`select * from promst where pro_id = '${pro_id}'`, (error, rows, fields) => {
         if(error) res.status(404).json(error);
