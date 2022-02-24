@@ -85,10 +85,15 @@ exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1,
     console.log(findId);
     if(findId=='undefined') res.json(findId);
     else {
-        con.query(`SELECT pro_id from promst where pro_id = '${findId}'`, (error, rows) => {
+        con.query(`SELECT pro_end from promst where pro_id = '${findId}'`, (error, rows) => {
         if(error) return res.status(404).json({err: 'Undefined error!'});
-        if(rows[0]) res.json(1);
-        else res.json(0);
+        if(rows[0]){
+            var date = new Date();
+            console.log(rows[0].pro_end);
+            if(rows[0].pro_end >= date.getTime()/1000) return res.json(2);
+            else return res.json(1);
+        }
+        else return res.json(0);
     })}
 }
 exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
