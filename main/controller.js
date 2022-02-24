@@ -60,6 +60,7 @@ exports.setPro = async (req, res) => { // 딜러 정보 생성, 갱신
     })
 }
 exports.setProfile = async (req, res) => { // 프로필 사진 변경
+    console.log('set profile')
     const pro_id = req.params.pro_id;
     const {profile} = req.body;
     con.query(`UPDATE promst set pro_profile = '${profile}' where pro_id = '${pro_id}'`, (error, rows) => {
