@@ -37,7 +37,7 @@ app.get("/contracts/pro/:proid", controller.find_from_proid) // 딜러가 [내�
 
 app.get("/contracts/info/:ct_key", controller.contractInfo) // 게시글 들어갈때 견적요청서 정보 다 보내줌
 
-app.patch("/contracts/finish/:ct_num", controller.contractFinish) // 마감 버튼 누르면 여기로 접속됨
+app.patch("/contracts/finish/:ct_num", controller.contractFinish) // 마감 버튼 누르면 여기로 접속됨 /// finish 삭제
 
 app.get("/reply/:cr_num", controller.showReply) // 게시글 들어갈때 이 글에 대한 견적서 (댓글) 정보 다 보내줌
 
@@ -45,11 +45,11 @@ app.post('/reply', controller.sendReply); // 견적서 작성하고 백엔드 �
 
 app.get('/refresh', controller.refreshToken); // 사용자가 접속할때마다 토큰 보내서 갱신하셈 받아서 async storage에 저장
 
-app.get('/showInfo', controller.showInfo); // async storage 에서 꺼낸 토큰 받으면 닉네임(실명)이랑 회원번호 줌 redux에 저장 후 사용할때마다 꺼내쓰기
+app.get('/showInfo', controller.showInfo); // async storage 에서 꺼낸 토큰 받으면 닉네임(실명)이랑 회원번호 줌 redux에 저장 후 사용할때마다 꺼내쓰기 ///show 삭제
 
 app.get('/checkToken', controller.checkToken); // 백엔드에서만 돌아가느 함수
 
-app.post('/contracts/send', controller.contractSend); // 견적 요청 여기로 보내면 됨
+app.post('/contracts/send', controller.contractSend); // 견적 요청 여기로 보내면 됨 //send 삭제
 
 app.delete('/contracts/:ct_num', controller.contractDelete); // 견적신청서 삭제
 
@@ -59,7 +59,7 @@ app.post("/billings", controller.billings);
 
 app.post('/merchant', controller.getMerchantUid); // 새로운 merchant uid 를 db를 이용하여 조회 
 
-app.post("/payments/save", controller.savePayment);
+app.post("/payments/save", controller.savePayment); //save 삭제
 
 app.post("/subscribe/payments/unschedule", controller.unschedule);
 // "/iamport-callback/schedule"에 대한 POST 요청을 처리
