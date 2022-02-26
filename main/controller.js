@@ -18,7 +18,7 @@ const kakao = { //나중에 import로 유출방지
 
 exports.home = (req, res) =>{
   console.log('home');
-  return res.status(200).json('Welcome to CHUCAR!');
+  return res.status(200).send('Welcome to CHUCAR!');
 }
 
 exports.show = (req, res) =>{
@@ -173,6 +173,7 @@ exports.sendReply = async (req, res) =>{
     else return res.status(201).json({success:true});
   })
 }
+
 exports.refreshToken = async(req,res) => { //토큰 갱신
   try{
     const refresh_token = req.headers.refresh_token;
@@ -347,6 +348,23 @@ exports.logout = async (req,res) => { //로그아웃
     });
     return res.json(getStatus.status);
   }catch(err){ return res.status(400).json(err.data); }
+}
+
+exports.getBrand = async (req, res) => { // 자동차 브랜드 전송
+  console.log('getBrand');
+  con.query('select distinct CF_BRAND from car_info_upload', (error, rows, fields) => {
+    if(error) return res.json(error);
+    else return res.json(rows);
+  })
+}
+
+exports.getModel = async (req, res) => { // 자동차 브랜드 전송
+  console.log('getModel');
+  const cf_brand = decodeURIComponent(req.params.cf_brand);
+  con.query(`select distinct CF_MODEL from car_info_upload where CF_BRAND = '${cf_brand}'`, (error, rows, fields) => {
+    if(error) return res.json(error);
+    else return res.json(rows);
+  })
 }
 
 exports.contractSend = async (req,res) => { //견적요청 전송
@@ -590,6 +608,7 @@ exports.getMerchantUid = async (req, res) => {
     })
   }
 }
+
 exports.savePayment = async (req, res) => {
   console.log('savePayment');
   const {paymentData} = req.body;

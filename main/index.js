@@ -49,6 +49,10 @@ app.get('/showInfo', controller.showInfo); // async storage 에서 꺼낸 토큰
 
 app.get('/checkToken', controller.checkToken); // 백엔드에서만 돌아가느 함수
 
+app.get('/car', controller.getBrand); // 자동차 브랜드 조회
+
+app.get('/car/:cf_brand') // 해당 자동차 브랜드의 모델 조회
+
 app.post('/contracts/send', controller.contractSend); // 견적 요청 여기로 보내면 됨 //send 삭제
 
 app.delete('/contracts/:ct_num', controller.contractDelete); // 견적신청서 삭제
