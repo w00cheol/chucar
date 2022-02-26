@@ -29,6 +29,7 @@ exports.showContract = (req, res) =>{
   }
   if(req.query.keyword){ // 제목 및 내용 검색
     const keyword = decodeURIComponent(req.query.keyword);
+    console.log(keyword)
     queryString = queryString.concat(`and ct_comment like '%${keyword}%' or ct_title like '%${keyword}%'`);
   }
   if(req.query.kind){ // 제목 및 내용 검색
@@ -36,6 +37,7 @@ exports.showContract = (req, res) =>{
   }
   queryString = queryString.concat('order by ct_stat desc, ct_dt desc, ct_no desc limit 0, 99'); // 최근 진행중인 100개 반환
 
+  console.log(queryString)
   con.query(queryString, (error, rows, fields) => {
       if(error) return res.status(404).json({err: 'Undefined error!'});
       else return res.json(rows);
