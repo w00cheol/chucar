@@ -67,25 +67,18 @@ const qs = require('qs');
 // console.log(a[0].uid);
 
 
-// async function a(){
-//   try{
-//     const temp = await axios({
-//       url: "http://34.64.207.117:3000/merchant",
-//       method: "POST",
-//       headers:{
-//         Authorization: 'B0schfFD5ydUp7ST4RQ7KDk-Fkr1BG_bQ5AJBgorDNQAAAF_DczrUA',
-//       },
-//       data: {
-//           code: '1', // 상품 코드 
-//           customer_uid: "2111801212" // 카드 호칭 = 회원번호 (타인카드, 개인카드 모두 중복금지)},
-//       }
-//     })
-//     console.log(temp.data)
-//   }catch(err){
-//     console.log(err);
-//   }
-// }
-// a();
-date = new Date();
-const a = 1;
-console.log({a})
+async function a(){
+  try{
+    const temp = await axios({
+      url: "http://34.64.207.117:3000/contracts?keyword=k",
+      method: "get"
+    })
+    console.log(temp.data)
+  }catch(err){
+    console.log(err);
+  }
+}
+a();
+// date = new Date();
+// const a = 1;
+// console.log({a})

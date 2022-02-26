@@ -2,13 +2,10 @@
 // const { errorMonitor } = require('events');
 require('dotenv').config({path : '../.env' });
 // const jwt = require('jsonwebtoken');
-//const { resolve } = require('path/posix');
 const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-// const { DATE } = require('mysql/lib/protocol/constants/types');
-// const express = require('express');
 
 const kakao = { //나중에 import로 유출방지
   clientID: '9e7627ff0adc857af4fd5e69de0222e6',
@@ -391,11 +388,11 @@ exports.contractSend = async (req,res) => { //견적요청 전송
     console.log('인증완료');
 
   const contract = { //글자수 제한 ㅍ론트에서 요청할것
-    ct_kind: parseInt(req.body.ct_kind), //결제종류
-    ct_brand: req.body.ct_brand,
+    ct_kind: parseInt(req.body.ct_kind), //신차,중고차,렌트,리스 구분번호
+    ct_brand: req.body.ct_brand, //브랜드
     ct_model: req.body.ct_model, //모델
     ct_title: req.body.ct_title, //세부모델
-    ct_content: req.body.ct_content,
+    ct_content: req.body.ct_content, //내용
     ct_price: req.body.ct_price, //가격
     ct_distance: req.body.ct_distance, //주행거리
     ct_option: req.body.ct_option,
