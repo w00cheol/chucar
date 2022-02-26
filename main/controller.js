@@ -361,7 +361,7 @@ exports.getCarInfo = async (req, res) => { // 자동차 브랜드 전송
     })
   }
   else {
-    con.query('select distinct CF_BRAND from car_info_upload', (error, rows, fields) => {
+    con.query('select distinct CF_REGION, CF_BRAND from car_info_upload', (error, rows, fields) => {
       if(error) return res.json(error);
       else return res.json(rows);
     })
