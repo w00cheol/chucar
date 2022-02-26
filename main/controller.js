@@ -21,11 +21,48 @@ exports.home = (req, res) =>{
   return res.status(200).send('Welcome to CHUCAR!');
 }
 
-exports.show = (req, res) =>{
-  console.log('show');
-  con.query('SELECT * from contract_send order by ct_stat desc, ct_dt desc, ct_no desc', (error, rows) => {
+exports.showContract = (req, res) =>{
+  console.log('show contract');
+  var queryString = `SELECT * from contract_send where 1=1`; // 기본 쿼리
+  if(req.query.usrid){ // usrid 로 필터링할경우
+    queryString = queryString.concat(`and ct_usrid = '${req.query.usrid}'`);
+  }
+  if(req.query.proid){ // proid 로 필터링할경우
+    queryString = queryString.concat(`and ct_num in (SELECT cr_num from contract_reply where cr_proid = '${req.query.proid}')`);
+  }
+  if(req.query.keyword){ // 제목 및 내용 검색
+    const keyword = decodeURIComponent(req.query.keyword);
+    queryString = queryString.concat(`and ct_comment like '%${keyword}%' or ct_title like '%${keyword}%'`);
+  }
+  if(req.query.kind){ // 제목 및 내용 검색
+    queryString = queryString.concat(`and ct_kind = '%${req.query.kind}%'`);
+  }
+  queryString = queryString.concat('order by ct_stat desc, ct_dt desc, ct_no desc limit 0, 99'); // 최근 진행중인 100개 반환
+
+  con.query(queryString, (error, rows, fields) => {
       if(error) return res.status(404).json({err: 'Undefined error!'});
       else return res.json(rows);
+  })
+}
+
+exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
+  console.log('find_contract_from_usrid');
+  findId = req.params.usrid;
+  con.query(`SELECT * from contract_send where ct_usrid = ${findId}
+             order by ct_stat desc, ct_dt desc, ct_no desc`, (error, rows, fields) => {
+    if(error) return res.status(404).json({err: 'Undefined error!'});
+    else return res.json(rows);
+  })
+}
+
+exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달린 요청글들 띄우기
+  console.log('find_contract_from_proid');
+  findId = req.params.proid;
+  con.query(`select * from contract_send where ct_num  in (
+             SELECT cr_num as num from contract_reply where cr_proid = '${findId}')
+             order by ct_stat desc, ct_dt desc, ct_no desc`, (error, rows, fields) => {
+    if(error) return res.status(404).json({err: 'Undefined error!'});
+    else return res.json(rows);
   })
 }
 
@@ -77,16 +114,6 @@ exports.isDealer = (req, res) => { // 딜러인지 알려주는 함수 딜러 1,
   })}
 }
 
-exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
-  console.log('find_contract_from_usrid');
-  findId = req.params.usrid;
-  con.query(`SELECT * from contract_send where ct_usrid = ${findId}
-             order by ct_stat desc, ct_dt desc, ct_no desc`, (error, rows, fields) => {
-    if(error) return res.status(404).json({err: 'Undefined error!'});
-    else return res.json(rows);
-  })
-}
-
 exports.showReply = (req, res) =>{ //댓글 (견적서)들 모두 불러오기 params => 해당 견적신청서 번호
   console.log('showReply');
   cr_num = req.params.cr_num;
@@ -124,17 +151,6 @@ exports.contractInfo = (req, res) =>{ // 견적요청 상세보기
   })
 }
 
-exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달린 요청글들 띄우기
-  console.log('find_contract_from_proid');
-  findId = req.params.proid;
-  con.query(`select * from contract_send where ct_num  in (
-             SELECT cr_num as num from contract_reply where cr_proid = '${findId}')
-             order by ct_stat desc, ct_dt desc, ct_no desc`, (error, rows, fields) => {
-    if(error) return res.status(404).json({err: 'Undefined error!'});
-    else return res.json(rows);
-  })
-}
-
 exports.sendReply = async (req, res) =>{
   try{
     console.log('sendReply');
@@ -149,6 +165,7 @@ exports.sendReply = async (req, res) =>{
   const member = {
     cr_title: req.body.cr_title,
     cr_num: req.body.cr_num, // 견적신청서고유번호
+    cr_brand: req.body.cr_brand,
     cr_model: req.body.cr_model,
     cr_price: req.body.cr_price,
     cr_distance: req.body.cr_distance,
@@ -165,10 +182,10 @@ exports.sendReply = async (req, res) =>{
     proid: req.body.proid,
     cr_nickname: req.body.cr_nickname
   }
-  con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_model}', '${member.cr_price}',
-            '${member.cr_distance}','${member.cr_option}', '${member.cr_comment}', '${member.img0}', '${member.img1}',
-            '${member.img2}', '${member.img3}', '${member.img4}', '${member.img5}', '${member.img6}', '${member.img7}',
-            '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
+  con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_brand}', '${member.cr_model}',
+             '${member.cr_price}', '${member.cr_distance}','${member.cr_option}', '${member.cr_comment}', '${member.img0}',
+             '${member.img1}', '${member.img2}', '${member.img3}', '${member.img4}', '${member.img5}', '${member.img6}',
+             '${member.img7}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
     if(error) return res.status(404).json(error);
     else return res.status(201).json({success:true});
   })
@@ -190,10 +207,7 @@ exports.refreshToken = async(req,res) => { //토큰 갱신
       })//객체를 string 으로 변환
     })
     return res.json(newToken.data);
-  }catch(err){
-    console.log(err);
-    return res.json(0);
-  }
+  }catch(err){ return res.json(0); }
 }
 
 //앱 사용자만 접근 가능하게함 +외부 공격 일부 차단
@@ -233,10 +247,7 @@ exports.showInfo = async(req, res) => {
       console.log(tokenInfo.data.id);
       console.log(properties.nickname);
       return res.json(properties);
-    }catch(err){
-      console.log(err);
-      return res.json('server say : false');
-    }
+    }catch(err){ return res.json('server say : false'); }
 }
 
 // 고객 정보 반환 해주는 함수(params : 회원번호)
@@ -266,7 +277,7 @@ exports.get_usr = async(req, res) => {
       console.log('token fail');
       return res.status(401).json({err: 'token fail'});
     }
-  }catch(err){return res.status(401).json({err: 'token fail'});}
+  }catch(err){ return res.status(401).json({err: 'token fail'}); }
   console.log('인증완료');
 
   usr_id = req.params.usr_id; //작성자아이디
@@ -381,6 +392,7 @@ exports.contractSend = async (req,res) => { //견적요청 전송
 
   const contract = { //글자수 제한 ㅍ론트에서 요청할것
     ct_kind: parseInt(req.body.ct_kind), //결제종류
+    ct_brand: req.body.ct_brand,
     ct_model: req.body.ct_model, //모델
     ct_title: req.body.ct_title, //세부모델
     ct_content: req.body.ct_content,
@@ -389,8 +401,8 @@ exports.contractSend = async (req,res) => { //견적요청 전송
     ct_option: req.body.ct_option,
     ct_usrid: req.body.ct_usrid //작성자아이디
   }
-  con.query(`CALL SND_CONTRACT('${contract.ct_kind}', '${contract.ct_model}', '${contract.ct_title}',
-             '${contract.ct_content}', '${contract.ct_price}', '${contract.ct_distance}',
+  con.query(`CALL SND_CONTRACT('${contract.ct_kind}', '${contract.ct_brand}', '${contract.ct_model}',
+             '${contract.ct_title}', '${contract.ct_content}', '${contract.ct_price}', '${contract.ct_distance}',
              '${contract.ct_option}', '${contract.ct_usrid}')`, (error, rows, fields) => {
     if(error) return res.status(404).json(error);
     else return res.status(201).json({success:true});

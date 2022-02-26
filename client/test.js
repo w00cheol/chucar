@@ -87,4 +87,5 @@ const qs = require('qs');
 // }
 // a();
 date = new Date();
-console.log(date.getTime()/1000)
+const a = 1;
+console.log({a})
