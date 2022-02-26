@@ -20,7 +20,7 @@ exports.home = (req, res) =>{
 
 exports.showContract = (req, res) =>{
   console.log('show contract');
-  var queryString = `SELECT * from contract_send where 1=1`; // 기본 쿼리
+  var queryString = `SELECT * from contract_send where 1=1 `; // 기본 쿼리
   if(req.query.usrid){ // usrid 로 필터링할경우
     queryString = queryString.concat(`and ct_usrid = '${req.query.usrid}'`);
   }
