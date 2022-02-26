@@ -350,21 +350,22 @@ exports.logout = async (req,res) => { //로그아웃
   }catch(err){ return res.status(400).json(err.data); }
 }
 
-exports.getBrand = async (req, res) => { // 자동차 브랜드 전송
-  console.log('getBrand');
-  con.query('select distinct CF_BRAND from car_info_upload', (error, rows, fields) => {
-    if(error) return res.json(error);
-    else return res.json(rows);
-  })
-}
+exports.getCarInfo = async (req, res) => { // 자동차 브랜드 전송
+  console.log('getCarInfo');
 
-exports.getModel = async (req, res) => { // 자동차 브랜드 전송
-  console.log('getModel');
-  const cf_brand = decodeURIComponent(req.params.cf_brand);
-  con.query(`select distinct CF_MODEL from car_info_upload where CF_BRAND = '${cf_brand}'`, (error, rows, fields) => {
-    if(error) return res.json(error);
-    else return res.json(rows);
-  })
+  if(req.query.brand){
+    const cf_brand = decodeURIComponent(req.query.brand);
+    con.query(`select distinct CF_MODEL from car_info_upload where CF_BRAND = '${cf_brand}'`, (error, rows, fields) => {
+      if(error) return res.json(error);
+      else return res.json(rows);
+    })
+  }
+  else {
+    con.query('select distinct CF_BRAND from car_info_upload', (error, rows, fields) => {
+      if(error) return res.json(error);
+      else return res.json(rows);
+    })
+  }
 }
 
 exports.contractSend = async (req,res) => { //견적요청 전송
