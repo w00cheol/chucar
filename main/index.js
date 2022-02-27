@@ -21,19 +21,9 @@ app.put("/setpro", controller.setPro); // 딜러정보 생성, 수정
 
 app.put("/profile/:pro_id", controller.setProfile); // 딜러 프로필 사진 수정
 
-// app.post("/pro/signup", controller.pro_signup); // 딜러 개인정보 기입 함수
-
-// app.post("/usr/signup", controller.usr_signup); // 고객 개인정보 기입 함수 ex) 프사, 전화번호
-
 app.get("/pro/:pro_id", controller.get_pro); // pro_id -> 회원번호, 딜러의 정보 전송
 
-// app.get("/usr/:usr_id",  controller.get_usr); // pro_id -> 회원번호, 딜러의 정보 전송
-
 app.get("/contracts", controller.showContract); // / => DB 견적요청서 출력
-
-// app.get("/contracts/:usrid", controller.find_from_usrid); // 회원번호로 검색하는 견적요청서
-
-// app.get("/contracts/pro/:proid", controller.find_from_proid) // 딜러가 [내가 보낸 견적서 보기] 체크하면 여기로 접속 -> 반환되는 견적요청서 리스트 표시
 
 app.get("/contracts/info/:ct_key", controller.contractInfo) // 게시글 들어갈때 견적요청서 정보 다 보내줌  //info -> detail 변경
 
@@ -65,4 +55,4 @@ app.post("/subscribe/payments/unschedule", controller.unschedule);
 // "/iamport-callback/schedule"에 대한 POST 요청을 처리
 app.post("/iamport-callback/schedule", controller.schedule);
 
-app.listen(httpPort,'0.0.0.0', () => console.log('server has been running...'));
+app.listen(httpPort, '0.0.0.0', () => console.log('server has been running...'));
