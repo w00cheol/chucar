@@ -71,7 +71,7 @@ async function a(){
   try{
     const word = encodeURIComponent('rrr')
     const temp = await axios({
-      url: `http://34.64.207.117:3000/contracts?chu=car&proid=2111801212`,
+      url: `http://34.64.207.117:3000/contracts?&proid=2111801212&kind=1`,
       method: "get"
     })
     console.log(temp.data)

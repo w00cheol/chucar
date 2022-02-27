@@ -32,34 +32,13 @@ exports.showContract = (req, res) =>{
     queryString = queryString.concat(` and (ct_brand like '%${keyword}%' or ct_model like '%${keyword}%' or ct_title like '%${keyword}%')`);
   }
   if(req.query.kind){ // 제목 및 내용 검색
-    queryString = queryString.concat(` and ct_kind = '%${req.query.kind}%'`);
+    queryString = queryString.concat(` and ct_kind = '${req.query.kind}'`);
   }
   queryString = queryString.concat(' order by ct_stat desc, ct_dt desc, ct_no desc limit 0, 99'); // 진행상태, 마감상태 순으로 최근 100개 반환
 
   con.query(queryString, (error, rows, fields) => {
       if(error) return res.status(404).json({err: 'Undefined error!'});
       else return res.json(rows);
-  })
-}
-
-exports.find_from_usrid = (req, res) =>{ // 내가 단 견적요청 보기 시에 불러올것 params => 회원번호
-  console.log('find_contract_from_usrid');
-  findId = req.params.usrid;
-  con.query(`SELECT * from contract_send where ct_usrid = ${findId}
-             order by ct_stat desc, ct_dt desc, ct_no desc`, (error, rows, fields) => {
-    if(error) return res.status(404).json({err: 'Undefined error!'});
-    else return res.json(rows);
-  })
-}
-
-exports.find_from_proid = async (req, res) =>{ // 내가 보낸 견적서가 달린 요청글들 띄우기
-  console.log('find_contract_from_proid');
-  findId = req.params.proid;
-  con.query(`select * from contract_send where ct_num  in (
-             SELECT cr_num as num from contract_reply where cr_proid = '${findId}')
-             order by ct_stat desc, ct_dt desc, ct_no desc`, (error, rows, fields) => {
-    if(error) return res.status(404).json({err: 'Undefined error!'});
-    else return res.json(rows);
   })
 }
 
