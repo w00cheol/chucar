@@ -29,7 +29,7 @@ exports.showContract = (req, res) =>{
   }
   if(req.query.keyword){ // 제목 및 내용 검색
     const keyword = decodeURIComponent(req.query.keyword);
-    queryString = queryString.concat(` and ct_brand like '%${keyword}%' or ct_model like '%${keyword}%' or ct_title like '%${keyword}%'`);
+    queryString = queryString.concat(` and (ct_brand like '%${keyword}%' or ct_model like '%${keyword}%' or ct_title like '%${keyword}%')`);
   }
   if(req.query.kind){ // 제목 및 내용 검색
     queryString = queryString.concat(` and ct_kind = '%${req.query.kind}%'`);
