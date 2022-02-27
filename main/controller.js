@@ -141,8 +141,6 @@ exports.sendReply = async (req, res) =>{
   const member = {
     cr_title: req.body.cr_title,
     cr_num: req.body.cr_num, // 견적신청서고유번호
-    cr_brand: req.body.cr_brand,
-    cr_model: req.body.cr_model,
     cr_price: req.body.cr_price,
     cr_distance: req.body.cr_distance,
     cr_option: req.body.cr_option,
@@ -158,10 +156,10 @@ exports.sendReply = async (req, res) =>{
     proid: req.body.proid,
     cr_nickname: req.body.cr_nickname
   }
-  con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_brand}', '${member.cr_model}',
-             '${member.cr_price}', '${member.cr_distance}','${member.cr_option}', '${member.cr_comment}', '${member.img0}',
-             '${member.img1}', '${member.img2}', '${member.img3}', '${member.img4}', '${member.img5}', '${member.img6}',
-             '${member.img7}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
+  con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_price}',
+             '${member.cr_distance}','${member.cr_option}', '${member.cr_comment}', '${member.img0}',
+             '${member.img1}', '${member.img2}', '${member.img3}', '${member.img4}', '${member.img5}',
+             '${member.img6}', '${member.img7}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
     if(error) return res.status(404).json(error);
     else return res.status(201).json({success:true});
   })
@@ -512,7 +510,7 @@ exports.schedule = async (req, res) => {
               merchant_uid: next_merchant_uid, // 주문 번호
               schedule_at: (date.getTime()/1000)+60, // 결제 시도 시각 in Unix Time Stamp. 예: 다음 달 1일
               amount: 107,
-              name: "츄카 1개월 이용권 정기결제",
+              name: "츄카 이용권",
               //   buyer_name: "홍길동",
               //   buyer_tel: "01012345678",
               //   buyer_email: "gildong@gmail.com"
