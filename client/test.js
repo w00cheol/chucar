@@ -69,7 +69,7 @@ const qs = require('qs');
 
 async function a(){
   try{
-    const word = encodeURIComponent('kkkk')
+    const word = encodeURIComponent('')
     const temp = await axios({
       url: `http://34.64.207.117:3000/contracts?chu=car&keyword=${word}`,
       method: "get"
