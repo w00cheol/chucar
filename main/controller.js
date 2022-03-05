@@ -10,12 +10,12 @@ const axios = require('axios');
 const kakao = { //나중에 import로 유출방지
   clientID: '9e7627ff0adc857af4fd5e69de0222e6',
   clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
-  redirectUri: 'http://34.64.207.117:3000/oauth'
+  redirectUri: 'http://34.64.219.199:3000/oauth'
 }
 
 exports.home = (req, res) =>{
   console.log('home');
-  return res.status(200).send('Welcome to CHUCAR!');
+  return res.status(200).json('Welcome to CHUCAR!');
 }
 
 exports.showContract = (req, res) =>{
@@ -141,6 +141,7 @@ exports.sendReply = async (req, res) =>{
   const member = {
     cr_title: req.body.cr_title,
     cr_num: req.body.cr_num, // 견적신청서고유번호
+    cr_year: req.body.cr_year, // 희망연식
     cr_price: req.body.cr_price,
     cr_distance: req.body.cr_distance,
     cr_option: req.body.cr_option,
@@ -153,13 +154,12 @@ exports.sendReply = async (req, res) =>{
     img5: req.body.img5,
     img6: req.body.img6,
     img7: req.body.img7,
-    proid: req.body.proid,
-    cr_nickname: req.body.cr_nickname
+    proid: req.body.proid
   }
-  con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_price}',
+  con.query(`CALL RPY_CONTRACT('${member.cr_title}', '${member.cr_num}', '${member.cr_year}', '${member.cr_price}',
              '${member.cr_distance}','${member.cr_option}', '${member.cr_comment}', '${member.img0}',
              '${member.img1}', '${member.img2}', '${member.img3}', '${member.img4}', '${member.img5}',
-             '${member.img6}', '${member.img7}', '${member.proid}', '${member.cr_nickname}')`, (error, rows, fields) => {
+             '${member.img6}', '${member.img7}', '${member.proid}')`, (error, rows, fields) => {
     if(error) return res.status(404).json(error);
     else return res.status(201).json({success:true});
   })
@@ -187,7 +187,6 @@ exports.refreshToken = async(req,res) => { //토큰 갱신
 //앱 사용자만 접근 가능하게함 +외부 공격 일부 차단
 exports.checkToken = async(token) => {
   try{
-    console.log('check this token...');
     getStatus = await axios({
       method: 'get',
       url: 'https://kapi.kakao.com/v2/user/me',
@@ -196,7 +195,6 @@ exports.checkToken = async(token) => {
         'content-type':'application/x-www-form-urlencoded;utf-8'
       }
     })
-    console.log(getStatus.status);
     return getStatus.status;
   }catch(err){ return 0; }
 }
@@ -225,7 +223,7 @@ exports.showInfo = async(req, res) => {
 }
 
 // 고객 정보 반환 해주는 함수(params : 회원번호)
-exports.get_pro = async(req, res) => {
+exports.getPro = async(req, res) => {
   try{
     console.log('get_pro');
     const getStatus = await this.checkToken(req.headers.authorization);
@@ -368,14 +366,15 @@ exports.contractSend = async (req,res) => { //견적요청 전송
     ct_kind: parseInt(req.body.ct_kind), //신차,중고차,렌트,리스 구분번호
     ct_brand: req.body.ct_brand, //브랜드
     ct_model: req.body.ct_model, //모델
-    ct_title: req.body.ct_title, //세부모델
+    ct_year: req.body.ct_year,   //희망연식
+    ct_title: req.body.ct_title, //제목
     ct_content: req.body.ct_content, //내용
     ct_price: req.body.ct_price, //가격
     ct_distance: req.body.ct_distance, //주행거리
     ct_option: req.body.ct_option,
     ct_usrid: req.body.ct_usrid //작성자아이디
   }
-  con.query(`CALL SND_CONTRACT('${contract.ct_kind}', '${contract.ct_brand}', '${contract.ct_model}',
+  con.query(`CALL SND_CONTRACT('${contract.ct_kind}', '${contract.ct_brand}', '${contract.ct_model}', '${contract.ct_year}',
              '${contract.ct_title}', '${contract.ct_content}', '${contract.ct_price}', '${contract.ct_distance}',
              '${contract.ct_option}', '${contract.ct_usrid}')`, (error, rows, fields) => {
     if(error) return res.status(404).json(error);
@@ -419,7 +418,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
     const {access_token} = getToken.data.response;
     console.log(access_token);
     const getMerchant = await axios({
-      url: "http://34.64.207.117:3000/merchant",
+      url: "http://34.64.219.199:3000/merchant",
       method: "post", // POST method
       headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
       data: {
@@ -476,7 +475,7 @@ exports.schedule = async (req, res) => {
     const paymentData = getPaymentData.data.response; // 조회한 결제 정보
 
     await axios({ //결제결과 저장
-      url: "http://34.64.207.117:3000/payments/save",
+      url: "http://34.64.219.199:3000/payments/save",
       method: "POST",
       data: {
         paymentData:paymentData
@@ -484,7 +483,7 @@ exports.schedule = async (req, res) => {
     }).catch(function(err){console.log(err)})
 
     getMerchant = await axios({ // 다음 주문번호 발급
-        url: "http://34.64.207.117:3000/merchant",
+        url: "http://34.64.219.199:3000/merchant",
         method: "POST",
         data: {
             code: paymentData.merchant_uid.substr(0,1),
@@ -609,7 +608,7 @@ exports.savePayment = async (req, res) => {
     if(error) return res.status(404).json(error);
   })
   var date = new Date();
-  con.query(`update promst set pro_end = '${(date.getTime()/1000)+60}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
+  con.query(`UPDATE promst set PRO_END = '${(date.getTime()/1000)+60}', PRO_USEFLAG = '${goodId}' where pro_id = '${memberNo}'`, (error, rows, fields) => {
     if(error) return res.status(404).json(error);
     else return res.status(200).json();
   })

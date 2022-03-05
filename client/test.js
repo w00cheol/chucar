@@ -67,19 +67,22 @@ const qs = require('qs');
 // console.log(a[0].uid);
 
 
-async function a(){
-  try{
-    const word = encodeURIComponent('rrr')
-    const temp = await axios({
-      url: `http://34.64.207.117:3000/contracts?&proid=2111801212&kind=&`,
-      method: "get"
-    })
-    console.log(temp.data)
-  }catch(err){
-    console.log(err);
-  }
-}
-a();
-// date = new Date();
+// async function a(){
+//   try{
+//     const word = encodeURIComponent('rrr')
+//     const temp = await axios({
+//       url: `http://34.64.207.117:3000/contracts?&proid=2111801212&kind=&`,
+//       method: "get"
+//     })
+//     console.log(temp.data)
+//   }catch(err){
+//     console.log(err);
+//   }
+// }
+// a();
+date = new Date(undefined);
+console.log(date.getFullYear())
+console.log(date.getMonth()+1)
+console.log(date.getDate())
 // const a = 1;
 // console.log({a})
