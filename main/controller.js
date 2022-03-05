@@ -6,13 +6,7 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-
-const kakao = { //나중에 import로 유출방지
-  clientID: '9e7627ff0adc857af4fd5e69de0222e6',
-  clientSecret: '9F00S9wCb8X6cggmdqesUVTYoQeD41P4',
-  redirectUri: 'http://34.64.219.199:3000/oauth'
-}
-
+const homepage = 'http://34.64.219.199:3000';
 exports.home = (req, res) =>{
   console.log('home');
   return res.status(200).json('Welcome to CHUCAR!');
@@ -418,7 +412,7 @@ exports.billings = async (req, res) => { // 빌링키 요청
     const {access_token} = getToken.data.response;
     console.log(access_token);
     const getMerchant = await axios({
-      url: "http://34.64.219.199:3000/merchant",
+      url: `${homepage}/merchant`,
       method: "post", // POST method
       headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
       data: {
@@ -475,7 +469,7 @@ exports.schedule = async (req, res) => {
     const paymentData = getPaymentData.data.response; // 조회한 결제 정보
 
     await axios({ //결제결과 저장
-      url: "http://34.64.219.199:3000/payments/save",
+      url: `${homepage}/payments/save`,
       method: "POST",
       data: {
         paymentData:paymentData
@@ -483,7 +477,7 @@ exports.schedule = async (req, res) => {
     }).catch(function(err){console.log(err)})
 
     getMerchant = await axios({ // 다음 주문번호 발급
-        url: "http://34.64.219.199:3000/merchant",
+        url: `${homepage}/merchant`,
         method: "POST",
         data: {
             code: paymentData.merchant_uid.substr(0,1),
