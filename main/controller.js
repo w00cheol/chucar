@@ -6,15 +6,16 @@ const mod = require('./connection');
 const qs = require('qs');
 const con = mod.init(); //con => 연결객체
 const axios = require('axios');
-const homepage = 'http://34.64.219.199:3000';
+const homepage = 'http://3.39.37.111:3000';
 exports.home = (req, res) =>{
   console.log('home');
   return res.status(200).json('Welcome to CHUCAR!');
 }
+// group by ct_num order by ct_stat desc, ct_dttm desc;
 
 exports.showContract = (req, res) =>{
   console.log('show contract');
-  var queryString = `SELECT * from contract_send where 1=1`; // 기본 쿼리
+  var queryString = `SELECT a.*, count(case when cr_num = ct_num then 1 end) from contract_send as a, contract_reply where 1=1`; // 기본 쿼리
   if(req.query.usrid){ // usrid 로 필터링할경우
     queryString = queryString.concat(` and ct_usrid = '${req.query.usrid}'`);
   }
@@ -28,7 +29,7 @@ exports.showContract = (req, res) =>{
   if(req.query.kind){ // 제목 및 내용 검색
     queryString = queryString.concat(` and ct_kind = '${req.query.kind}'`);
   }
-  queryString = queryString.concat(' order by ct_stat desc, ct_dt desc, ct_no desc limit 0, 99'); // 진행상태, 마감상태 순으로 최근 100개 반환
+  queryString = queryString.concat(' group by ct_num order by ct_stat desc, ct_dt desc, ct_no desc limit 0, 99'); // 진행상태, 마감상태 순으로 최근 100개 반환
 
   con.query(queryString, (error, rows, fields) => {
       if(error) return res.status(404).json({err: 'Undefined error!'});

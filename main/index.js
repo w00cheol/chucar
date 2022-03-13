@@ -58,3 +58,7 @@ app.post("/subscribe/payments/unschedule", controller.unschedule);
 app.post("/iamport-callback/schedule", controller.schedule);
 
 app.listen(httpPort, '0.0.0.0', () => console.log('server has been running...'));
+
+setInterval(() => { //mysql wait_timeout , interative_timeout 갱신
+    con.query('SELECT 1');
+}, 28000000);
