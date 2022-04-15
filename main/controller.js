@@ -342,7 +342,7 @@ exports.getCarInfo = async (req, res) => { // 자동차 브랜드 전송
   }
   else {
     con.query(`select distinct CODENAME as CF_BRAND from basecode where BASECODE = 'CABR'
-               order by(CASE WHEN ASCII(SUBSTRING(CF_BRAND,1)) < 123 THEN 2 ELSE 1 END), CF_BRAND'`, (error, rows, fields) => {
+               order by(CASE WHEN ASCII(SUBSTRING(CF_BRAND,1)) < 123 THEN 2 ELSE 1 END), CF_BRAND`, (error, rows, fields) => {
       if(error) return res.json(error);
       else return res.json(rows);
     })
