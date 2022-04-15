@@ -15,7 +15,7 @@ exports.home = (req, res) =>{
 
 exports.showContract = (req, res) =>{
   console.log('show contract');
-  var queryString = `SELECT a.*, count(case when cr_num = ct_num then 1 end) from contract_send as a, contract_reply where 1=1`; // 기본 쿼리
+  var queryString = `SELECT a.*, count(case when cr_num = ct_num then 1 end) as CT_REPLYCNT from contract_send as a, contract_reply where 1=1`; // 기본 쿼리
   if(req.query.usrid){ // usrid 로 필터링할경우
     queryString = queryString.concat(` and ct_usrid = '${req.query.usrid}'`);
   }
@@ -229,7 +229,7 @@ exports.getPro = async(req, res) => {
   }catch(err){return res.status(401).json({err: 'token fail'});}
   console.log('인증완료');
 
-  pro_id = req.params.pro_id; //작성자아이디
+  pro_id = req.params.pro_id; //작성자 아이디
   con.query(`select * from promst where pro_id = '${pro_id}'`, (error, rows, fields) => {
     if(error) return res.status(404).json(error);
     else return res.json(rows);
@@ -333,13 +333,13 @@ exports.getCarInfo = async (req, res) => { // 자동차 브랜드 전송
 
   if(req.query.brand){
     const cf_brand = decodeURIComponent(req.query.brand);
-    con.query(`select distinct CF_MODEL from car_info_upload where CF_BRAND = '${cf_brand}'`, (error, rows, fields) => {
+    con.query(`select distinct CODENAME as CF_MODEL from basecode where BASECODE in (select CODEVALUE from basecode where CODENAME = '${cf_brand}')`, (error, rows, fields) => {
       if(error) return res.json(error);
       else return res.json(rows);
     })
   }
   else {
-    con.query('select distinct CF_REGION, CF_BRAND from car_info_upload', (error, rows, fields) => {
+    con.query(`select distinct CODENAME as CF_BRAND from basecode where BASECODE = 'CABR'`, (error, rows, fields) => {
       if(error) return res.json(error);
       else return res.json(rows);
     })
