@@ -333,13 +333,16 @@ exports.getCarInfo = async (req, res) => { // 자동차 브랜드 전송
 
   if(req.query.brand){
     const cf_brand = decodeURIComponent(req.query.brand);
-    con.query(`select distinct CODENAME as CF_MODEL from basecode where BASECODE in (select CODEVALUE from basecode where CODENAME = '${cf_brand}')`, (error, rows, fields) => {
+    con.query(`select distinct CODENAME as CF_MODEL from basecode where BASECODE in
+               (select CODEVALUE from basecode where CODENAME = '${cf_brand}')
+               order by CF_MODEL`, (error, rows, fields) => {
       if(error) return res.json(error);
       else return res.json(rows);
     })
   }
   else {
-    con.query(`select distinct CODENAME as CF_BRAND from basecode where BASECODE = 'CABR'`, (error, rows, fields) => {
+    con.query(`select distinct CODENAME as CF_BRAND from basecode where BASECODE = 'CABR'
+               order by(CASE WHEN ASCII(SUBSTRING(CF_BRAND,1)) < 123 THEN 2 ELSE 1 END), CF_BRAND'`, (error, rows, fields) => {
       if(error) return res.json(error);
       else return res.json(rows);
     })
