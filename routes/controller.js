@@ -13,22 +13,20 @@ module.exports = {
 
   searchContract: async (req, res) => {
     try {
-      //  + model 로 변환 로직 구현
       rows = await Contract.search(req.query); //query params 전달
       return res.status(200).json(rows);
     }
-    //status 보내기
-    catch(err){ res.json(err); }
+    catch(err){ res.status(400).json(err); }
   },
 
-  setPro: async (req, res) => {
-    try {
-      rows = await Contract.searchAllContract();
-      //  + model 로 변환 로직 구현
-      return res.json(rows);
-    }
-    catch(err){ return err; }
-  },
+  // setPro: async (req, res) => {
+  //   try {
+  //     rows = await Contract.searchAllContract();
+  //     //  + model 로 변환 로직 구현
+  //     return res.json(rows);
+  //   }
+  //   catch(err){ return err; }
+  // },
 
   // setPro: async (req, res) => { // 딜러 정보 생성, 갱신
   //   console.log('setPro');

@@ -48,7 +48,7 @@ module.exports = {
   },
 
 
-  transactionQuery: (sql, pool) => {
+  transactionQuery: async (sql, pool) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, con) => {
         if(err){
@@ -70,6 +70,6 @@ module.exports = {
           }
         });
       });
-    })
+    }).catch(err => err);
   }
 }
